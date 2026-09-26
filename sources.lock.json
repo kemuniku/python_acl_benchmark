@@ -11,6 +11,15 @@
     "url": "https://github.com/tatyam-prime/acl-cpp-python.git",
     "rev": "b677fa437bdc1b0b7a4512d360de065cdca5778c",
     "install": "pip",
-    "build_dependencies": ["scikit-build-core==0.11.2", "nanobind==2.7.0"]
+    "build_dependencies": [
+      "scikit-build-core==0.11.2",
+      "nanobind==2.7.0"
+    ]
+  },
+  "cffi": {
+    "url": "https://github.com/atcoder/ac-library.git",
+    "rev": "864245a00b00dd008d1abfdc239618fdb7d139da",
+    "install": "cffi",
+    "path": "acl_cffi"
   }
 }

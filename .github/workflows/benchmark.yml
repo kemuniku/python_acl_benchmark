@@ -16,10 +16,10 @@ permissions:
   contents: read
 
 # Keep restoration, measurement and publication ordered on each branch.
-# A running publication must finish before the next workflow starts.
+# Default-branch publication must finish; newer feature-branch runs supersede older ones.
 concurrency:
   group: acl-benchmarks-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.ref != format('refs/heads/{0}', github.event.repository.default_branch) }}
 
 jobs:
   benchmark:
@@ -53,6 +53,8 @@ jobs:
           "$cpython" -m pip install --upgrade 'pip==25.3'
           # PyPy bundles CFFI, whose pycparser dependency is absent in a fresh venv.
           "$pypy" -m pip install --upgrade 'pip==25.3' 'pycparser==2.23'
+          "$cpython" -m pip install -r requirements-cffi.txt
+          "$pypy" -m pip install -r requirements-cffi.txt
           # Import pip again in new processes so installation corruption fails early.
           "$cpython" -m pip --version
           "$pypy" -m pip --version
@@ -64,6 +66,16 @@ jobs:
         env:
           PYTHON: ${{ steps.runtimes.outputs.cpython }}
         run: '"$PYTHON" -m unittest discover -s tests'
+      - name: Build and test CFFI on both runtimes
+        env:
+          CPYTHON: ${{ steps.runtimes.outputs.cpython }}
+          PYPY: ${{ steps.runtimes.outputs.pypy }}
+          ACL_CFFI_REQUIRE_NATIVE: '1'
+        run: |
+          for python in "$CPYTHON" "$PYPY"; do
+            native_path=$("$python" -m benchkit build --source cffi --print-path)
+            PYTHONPATH="$native_path" "$python" -m unittest discover -s tests -p test_acl_cffi.py
+          done
       - name: Restore the last published measurements
         env:
           PYTHON: ${{ steps.runtimes.outputs.cpython }}

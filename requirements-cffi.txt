@@ -1,0 +1,4 @@
+# PyPy supplies a CFFI frontend/backend pair; preserve that matching pair.
+cffi==1.17.1; platform_python_implementation == "CPython"
+pycparser==2.23
+setuptools==80.9.0

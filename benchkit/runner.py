@@ -108,11 +108,19 @@ def fingerprint(root, case, runtime, settings, sources):
     shared = [root / "benchkit" / f for f in ("runner.py", "worker.py", "sources.py", "__init__.py")]
     shared += list((root / ".github" / "workflows").glob("*.yml"))
     files = shared + [p for p in case["path"].rglob("*") if p.is_file() and "__pycache__" not in p.parts and p.suffix not in (".pyc", ".pyo")]
-    for path in sorted(files):
+    from .cffi_build import local_source_files
+    for spec in sources.values():
+        if spec.get("install") == "cffi":
+            files.extend(local_source_files(root, spec))
+            files.extend([root / "benchkit" / "cffi_build.py", root / "requirements-cffi.txt"])
+    for path in sorted(set(files)):
         if path.exists():
             digest.update(str(path.relative_to(root)).encode())
             digest.update(b"\0" + path.read_bytes() + b"\0")
     environment = {k: v for k, v in runtime.items() if k != "executable"}
+    if runtime and any(spec.get("install") == "cffi" for spec in sources.values()):
+        from .cffi_build import build_environment
+        environment["cffi_build"] = build_environment()
     digest.update(json.dumps({"schema": SCHEMA_VERSION, "runtime": environment, "settings": settings, "sources": sources}, sort_keys=True).encode())
     return digest.hexdigest()
 
@@ -241,11 +249,15 @@ def run(results, selected=None, force=False, quick=False, root=ROOT):
                     if peer_checksum is not None and peer_checksum != point["checksum"]:
                         raise RuntimeError("Cross-runtime result mismatch: %s/%s n=%s" %
                                            (case["name"], item["id"], point["size"]))
+        record_runtime = dict(runtime)
+        if any(spec.get("install") == "cffi" for spec in sources.values()):
+            from .cffi_build import build_environment
+            record_runtime["cffi_build"] = build_environment()
         write_json(destination, {
             "schema_version": SCHEMA_VERSION, "case": case["name"],
             "title": case["config"].get("title", case["name"]),
             "description": case["config"].get("description", ""),
-            "runtime": runtime, "fingerprint": key, "workload_fingerprint": workload_fingerprint, "commit": commit,
+            "runtime": record_runtime, "fingerprint": key, "workload_fingerprint": workload_fingerprint, "commit": commit,
             "measured_at": datetime.now(timezone.utc).isoformat(),
             "settings": settings, "sources": sources, "series": series,
         })
