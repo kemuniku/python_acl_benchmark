@@ -162,7 +162,7 @@ GitHub runner の CPU や image が変わったときは、コード変更がな
 ## ローカルで実行する
 
 必要なものは Python 3.10 以上、PyPy、Git です。tatyam 版のビルドには C++ コンパイラ、CMake、Python の開発ヘッダとネットワーク接続が必要です。
-CI では Ubuntu 24.04、CPython 3.11、PyPy 3.11 / 7.3.20 を使用します。それぞれ独立した仮想環境を作り、その中で pip を固定します。
+CI では Ubuntu 24.04、CPython 3.11、PyPy 3.11 / 7.3.20 を使用します。それぞれ独立した仮想環境を作り、その中で pip を固定します。PyPy 同梱 CFFI の依存を満たすため、PyPy 側には `pycparser` も固定してインストールします。
 ランナーとレポート自体は Python 標準ライブラリのみで動作します。
 Ubuntu の OS パッケージ版で `ensurepip is not available` と表示される場合は、`python3-venv` / `pypy3-venv` も必要です。GitHub Actions の Python には含まれています。
 
@@ -171,9 +171,11 @@ Ubuntu の OS パッケージ版で `ensurepip is not available` と表示され
 python3 -m venv .venv-cpython
 pypy3 -m venv .venv-pypy
 .venv-cpython/bin/python -m pip install --upgrade 'pip==25.3'
-.venv-pypy/bin/python -m pip install --upgrade 'pip==25.3'
+.venv-pypy/bin/python -m pip install --upgrade 'pip==25.3' 'pycparser==2.23'
 .venv-cpython/bin/python -m pip --version
 .venv-pypy/bin/python -m pip --version
+.venv-cpython/bin/python -m pip check
+.venv-pypy/bin/python -m pip check
 
 .venv-cpython/bin/python -m benchkit list
 

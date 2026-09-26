@@ -50,7 +50,8 @@ jobs:
           cpython="$RUNNER_TEMP/acl-cpython/bin/python"
           pypy="$RUNNER_TEMP/acl-pypy/bin/python"
           "$cpython" -m pip install --upgrade 'pip==25.3'
-          "$pypy" -m pip install --upgrade 'pip==25.3'
+          # PyPy bundles CFFI, whose pycparser dependency is absent in a fresh venv.
+          "$pypy" -m pip install --upgrade 'pip==25.3' 'pycparser==2.23'
           # Import pip again in new processes so installation corruption fails early.
           "$cpython" -m pip --version
           "$pypy" -m pip --version
