@@ -162,27 +162,32 @@ GitHub runner の CPU や image が変わったときは、コード変更がな
 ## ローカルで実行する
 
 必要なものは Python 3.10 以上、PyPy、Git です。tatyam 版のビルドには C++ コンパイラ、CMake、Python の開発ヘッダとネットワーク接続が必要です。
-CI では Ubuntu 24.04、CPython 3.11、PyPy 3.11 / 7.3.20 を使用します。
+CI では Ubuntu 24.04、CPython 3.11、PyPy 3.11 / 7.3.20 を使用します。それぞれ独立した仮想環境を作り、その中で pip を固定します。
 ランナーとレポート自体は Python 標準ライブラリのみで動作します。
+Ubuntu の OS パッケージ版で `ensurepip is not available` と表示される場合は、`python3-venv` / `pypy3-venv` も必要です。GitHub Actions の Python には含まれています。
 
 ```bash
-# 環境に応じて venv を使ってください。ネイティブビルドには新しい pip が必要です。
-python3 -m pip install --upgrade 'pip==25.3'
-pypy3 -m pip install --upgrade 'pip==25.3'
+# それぞれのランタイム用に独立した環境を作成します。
+python3 -m venv .venv-cpython
+pypy3 -m venv .venv-pypy
+.venv-cpython/bin/python -m pip install --upgrade 'pip==25.3'
+.venv-pypy/bin/python -m pip install --upgrade 'pip==25.3'
+.venv-cpython/bin/python -m pip --version
+.venv-pypy/bin/python -m pip --version
 
-python3 -m benchkit list
+.venv-cpython/bin/python -m benchkit list
 
 # 動作確認: 各比較の最小サイズだけを短時間で測る
-python3 -m benchkit run --quick
-pypy3 -m benchkit run --quick
+.venv-cpython/bin/python -m benchkit run --quick
+.venv-pypy/bin/python -m benchkit run --quick
 
 # 通常の計測: 並列にせず順番に実行する
-python3 -m benchkit run
-pypy3 -m benchkit run
-python3 -m benchkit report --results results --output site
+.venv-cpython/bin/python -m benchkit run
+.venv-pypy/bin/python -m benchkit run
+.venv-cpython/bin/python -m benchkit report --results results --output site
 
 # site/index.html を直接開くか、ローカルサーバーで閲覧
-python3 -m http.server 8000 --directory site
+.venv-cpython/bin/python -m http.server 8000 --directory site
 ```
 
 `--case dsu --case convolution` のように複数指定も可能です。

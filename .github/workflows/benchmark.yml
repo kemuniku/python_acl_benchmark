@@ -37,26 +37,40 @@ jobs:
         id: pypy
         with:
           python-version: 'pypy3.11-v7.3.20'
-      - name: Prepare build tooling
+      - name: Create isolated benchmark environments
+        id: runtimes
         env:
-          CPYTHON: ${{ steps.cpython.outputs.python-path }}
-          PYPY: ${{ steps.pypy.outputs.python-path }}
+          BASE_CPYTHON: ${{ steps.cpython.outputs.python-path }}
+          BASE_PYPY: ${{ steps.pypy.outputs.python-path }}
         run: |
-          "$CPYTHON" -m pip install --upgrade 'pip==25.3'
-          "$PYPY" -m pip install --upgrade 'pip==25.3'
+          # setup-python can leave overlapping pip installations in its PyPy cache.
+          # venv bootstraps pip from ensurepip without importing that base pip.
+          "$BASE_CPYTHON" -m venv "$RUNNER_TEMP/acl-cpython"
+          "$BASE_PYPY" -m venv "$RUNNER_TEMP/acl-pypy"
+          cpython="$RUNNER_TEMP/acl-cpython/bin/python"
+          pypy="$RUNNER_TEMP/acl-pypy/bin/python"
+          "$cpython" -m pip install --upgrade 'pip==25.3'
+          "$pypy" -m pip install --upgrade 'pip==25.3'
+          # Import pip again in new processes so installation corruption fails early.
+          "$cpython" -m pip --version
+          "$pypy" -m pip --version
+          "$cpython" -m pip check
+          "$pypy" -m pip check
+          echo "cpython=$cpython" >> "$GITHUB_OUTPUT"
+          echo "pypy=$pypy" >> "$GITHUB_OUTPUT"
       - name: Test the harness
         env:
-          PYTHON: ${{ steps.cpython.outputs.python-path }}
+          PYTHON: ${{ steps.runtimes.outputs.cpython }}
         run: '"$PYTHON" -m unittest discover -s tests'
       - name: Restore the last published measurements
         env:
-          PYTHON: ${{ steps.cpython.outputs.python-path }}
+          PYTHON: ${{ steps.runtimes.outputs.cpython }}
           GITHUB_TOKEN: ${{ github.token }}
         run: '"$PYTHON" scripts/publish.py restore --results results'
       - name: Measure CPython and PyPy sequentially on the same machine
         env:
-          CPYTHON: ${{ steps.cpython.outputs.python-path }}
-          PYPY: ${{ steps.pypy.outputs.python-path }}
+          CPYTHON: ${{ steps.runtimes.outputs.cpython }}
+          PYPY: ${{ steps.runtimes.outputs.pypy }}
           FULL: ${{ inputs.full || false }}
           PYTHONHASHSEED: '0'
         run: |
