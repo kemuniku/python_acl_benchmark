@@ -1,0 +1,317 @@
+{
+  "schema_version": 1,
+  "case": "fenwicktree",
+  "title": "Fenwick tree",
+  "description": "n 要素・4n 回の一点加算 / 区間和。ゼロ初期化と全クエリを計測。",
+  "runtime": {
+    "id": "pypy",
+    "implementation": "PyPy",
+    "version": "3.11.13",
+    "build": "3.11.13 (413c9b7f57f5, Jul 03 2025, 18:03:56)\n[PyPy 7.3.20 with GCC 10.2.1 20210130 (Red Hat 10.2.1-11)]",
+    "executable": "/home/runner/work/_temp/acl-pypy/bin/python",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "runner_image": "ubuntu24",
+    "runner_image_version": "20260920.314.1"
+  },
+  "fingerprint": "389c59befe9264e81ddcbc944455532bac5b435142d501552a8c8f8180dbd508",
+  "workload_fingerprint": "569e8a445fb967e878ba0748872e3588916f22cc9c07dca115f5fbef9ba49b8f",
+  "commit": "5455c55e646f368af0159b1b3c85572a0af2ade9",
+  "measured_at": "2026-09-26T03:57:32.987311+00:00",
+  "settings": {
+    "sizes": [
+      128,
+      512,
+      2048,
+      8192,
+      32768
+    ],
+    "seed": 42,
+    "repeat": 5,
+    "warmup": 3,
+    "timeout": 120,
+    "warmup_seconds": 0.25,
+    "sample_seconds": 0.025,
+    "quick": false
+  },
+  "sources": {
+    "not522": {
+      "url": "https://github.com/not522/ac-library-python.git",
+      "rev": "27fdbb71cd0d566bdeb12746db59c9d908c6b5d5"
+    },
+    "shakayami": {
+      "url": "https://github.com/shakayami/ACL-for-python.git",
+      "rev": "880ed3fc236c9628d674363768bcf203fbb84a8d"
+    },
+    "tatyam": {
+      "url": "https://github.com/tatyam-prime/acl-cpp-python.git",
+      "rev": "b677fa437bdc1b0b7a4512d360de065cdca5778c",
+      "install": "pip",
+      "build_dependencies": [
+        "scikit-build-core==0.11.2",
+        "nanobind==2.7.0"
+      ]
+    }
+  },
+  "series": [
+    {
+      "id": "not522",
+      "label": "not522/ac-library-python",
+      "points": [
+        {
+          "size": 128,
+          "median": 3.3932414598540144e-05,
+          "min": 3.2447245255474454e-05,
+          "max": 3.66282802919708e-05,
+          "samples": [
+            3.3932414598540144e-05,
+            3.66282802919708e-05,
+            3.4209277372262776e-05,
+            3.3914674452554746e-05,
+            3.2447245255474454e-05
+          ],
+          "checksum": "08cb85290c087ca93bc0159b6b82d60233c9e363c27f45f99c33f05848d2df8a",
+          "loops": 685,
+          "warmup_runs": 2732
+        },
+        {
+          "size": 512,
+          "median": 0.00014225067582417583,
+          "min": 0.00013438861538461538,
+          "max": 0.0001445850934065934,
+          "samples": [
+            0.0001445850934065934,
+            0.00014277033516483517,
+            0.00014225067582417583,
+            0.00013586393956043955,
+            0.00013438861538461538
+          ],
+          "checksum": "9b7ed00b5bc52da786e143436296eeed04cddf4ffba1dbf027a04fe047b5dc62",
+          "loops": 182,
+          "warmup_runs": 760
+        },
+        {
+          "size": 2048,
+          "median": 0.0005645778222222222,
+          "min": 0.0005513990222222223,
+          "max": 0.0005913454666666666,
+          "samples": [
+            0.0005814753999999999,
+            0.0005553917333333333,
+            0.0005513990222222223,
+            0.0005913454666666666,
+            0.0005645778222222222
+          ],
+          "checksum": "3669bc25b277f7e4218295ebce163c1e1fccf1bfd75f2f2953dedcd0c7116ff3",
+          "loops": 45,
+          "warmup_runs": 243
+        },
+        {
+          "size": 8192,
+          "median": 0.002344396,
+          "min": 0.0022849209999999997,
+          "max": 0.0023926757999999998,
+          "samples": [
+            0.0023486949,
+            0.0023359465,
+            0.0023926757999999998,
+            0.0022849209999999997,
+            0.002344396
+          ],
+          "checksum": "ce24a10adc3bbc206622932b1e2b6f801995030b8c839bb2f4446ded9304cf23",
+          "loops": 10,
+          "warmup_runs": 66
+        },
+        {
+          "size": 32768,
+          "median": 0.0123070735,
+          "min": 0.0108421095,
+          "max": 0.013262862,
+          "samples": [
+            0.0123070735,
+            0.013262862,
+            0.0124317845,
+            0.0116328515,
+            0.0108421095
+          ],
+          "checksum": "8badf85033b87d648bacc6bff6732b6906081dcc26c9ccc4f36af8f2ad74490e",
+          "loops": 2,
+          "warmup_runs": 15
+        }
+      ]
+    },
+    {
+      "id": "shakayami",
+      "label": "shakayami/ACL-for-python",
+      "points": [
+        {
+          "size": 128,
+          "median": 3.22261036036036e-05,
+          "min": 3.0605648648648644e-05,
+          "max": 3.762037987987988e-05,
+          "samples": [
+            3.389768918918919e-05,
+            3.762037987987988e-05,
+            3.065465615615616e-05,
+            3.0605648648648644e-05,
+            3.22261036036036e-05
+          ],
+          "checksum": "08cb85290c087ca93bc0159b6b82d60233c9e363c27f45f99c33f05848d2df8a",
+          "loops": 666,
+          "warmup_runs": 2737
+        },
+        {
+          "size": 512,
+          "median": 0.00015504656666666668,
+          "min": 0.00015096436,
+          "max": 0.00018026028666666665,
+          "samples": [
+            0.00016926564666666668,
+            0.00018026028666666665,
+            0.00015504656666666668,
+            0.00015096436,
+            0.00015330071333333333
+          ],
+          "checksum": "9b7ed00b5bc52da786e143436296eeed04cddf4ffba1dbf027a04fe047b5dc62",
+          "loops": 150,
+          "warmup_runs": 777
+        },
+        {
+          "size": 2048,
+          "median": 0.0005886068809523809,
+          "min": 0.0005674982380952381,
+          "max": 0.0006115221666666667,
+          "samples": [
+            0.0005727142142857143,
+            0.0005674982380952381,
+            0.0006102618571428571,
+            0.0006115221666666667,
+            0.0005886068809523809
+          ],
+          "checksum": "3669bc25b277f7e4218295ebce163c1e1fccf1bfd75f2f2953dedcd0c7116ff3",
+          "loops": 42,
+          "warmup_runs": 231
+        },
+        {
+          "size": 8192,
+          "median": 0.0023919025,
+          "min": 0.0023755927,
+          "max": 0.0024110709000000003,
+          "samples": [
+            0.0023919025,
+            0.0023905985,
+            0.0024110709000000003,
+            0.0023755927,
+            0.0024109641000000003
+          ],
+          "checksum": "ce24a10adc3bbc206622932b1e2b6f801995030b8c839bb2f4446ded9304cf23",
+          "loops": 10,
+          "warmup_runs": 62
+        },
+        {
+          "size": 32768,
+          "median": 0.0105573445,
+          "min": 0.0104377495,
+          "max": 0.011135837,
+          "samples": [
+            0.010856595,
+            0.0105145365,
+            0.0104377495,
+            0.011135837,
+            0.0105573445
+          ],
+          "checksum": "8badf85033b87d648bacc6bff6732b6906081dcc26c9ccc4f36af8f2ad74490e",
+          "loops": 2,
+          "warmup_runs": 15
+        }
+      ]
+    },
+    {
+      "id": "tatyam",
+      "label": "tatyam-prime/acl-cpp-python (C++)",
+      "points": [
+        {
+          "size": 128,
+          "median": 0.00047384403999999996,
+          "min": 0.00046867964,
+          "max": 0.00049538812,
+          "samples": [
+            0.00049538812,
+            0.0004939402,
+            0.00047384403999999996,
+            0.00047126178,
+            0.00046867964
+          ],
+          "checksum": "08cb85290c087ca93bc0159b6b82d60233c9e363c27f45f99c33f05848d2df8a",
+          "loops": 50,
+          "warmup_runs": 329
+        },
+        {
+          "size": 512,
+          "median": 0.001877173,
+          "min": 0.0018565812142857141,
+          "max": 0.002096995214285714,
+          "samples": [
+            0.002096995214285714,
+            0.0019328757142857143,
+            0.001877173,
+            0.0018709775714285716,
+            0.0018565812142857141
+          ],
+          "checksum": "9b7ed00b5bc52da786e143436296eeed04cddf4ffba1dbf027a04fe047b5dc62",
+          "loops": 14,
+          "warmup_runs": 88
+        },
+        {
+          "size": 2048,
+          "median": 0.007405199,
+          "min": 0.0073659020000000006,
+          "max": 0.008199489666666667,
+          "samples": [
+            0.008199489666666667,
+            0.007866222,
+            0.0073659020000000006,
+            0.007389744333333333,
+            0.007405199
+          ],
+          "checksum": "3669bc25b277f7e4218295ebce163c1e1fccf1bfd75f2f2953dedcd0c7116ff3",
+          "loops": 3,
+          "warmup_runs": 24
+        },
+        {
+          "size": 8192,
+          "median": 0.029970063,
+          "min": 0.029581399,
+          "max": 0.032206263,
+          "samples": [
+            0.032206263,
+            0.030343708,
+            0.029970063,
+            0.029907757,
+            0.029581399
+          ],
+          "checksum": "ce24a10adc3bbc206622932b1e2b6f801995030b8c839bb2f4446ded9304cf23",
+          "loops": 1,
+          "warmup_runs": 7
+        },
+        {
+          "size": 32768,
+          "median": 0.138812646,
+          "min": 0.13549755,
+          "max": 0.142116105,
+          "samples": [
+            0.142116105,
+            0.138812646,
+            0.137552416,
+            0.13549755,
+            0.140470931
+          ],
+          "checksum": "8badf85033b87d648bacc6bff6732b6906081dcc26c9ccc4f36af8f2ad74490e",
+          "loops": 1,
+          "warmup_runs": 3
+        }
+      ]
+    }
+  ]
+}

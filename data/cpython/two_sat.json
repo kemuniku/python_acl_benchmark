@@ -1,0 +1,317 @@
+{
+  "schema_version": 1,
+  "case": "two_sat",
+  "title": "2-SAT",
+  "description": "n 変数・4n 節。充足可能なランダム式の構築と求解。返り値は充足可能性と解の整合性。",
+  "runtime": {
+    "id": "cpython",
+    "implementation": "CPython",
+    "version": "3.11.16",
+    "build": "3.11.16 (main, Aug 13 2026, 02:46:14) [GCC 13.3.0]",
+    "executable": "/home/runner/work/_temp/acl-cpython/bin/python",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "runner_image": "ubuntu24",
+    "runner_image_version": "20260920.314.1"
+  },
+  "fingerprint": "b2bb7603f8e5db89f519a4792e35ac448b0fc48fa928f0434976958ac8bdb773",
+  "workload_fingerprint": "d3d8a2040f4f962e04bcb9af0cfb17fef01d9471a552ecb69ebdb6f2da490296",
+  "commit": "5455c55e646f368af0159b1b3c85572a0af2ade9",
+  "measured_at": "2026-09-26T03:56:29.601802+00:00",
+  "settings": {
+    "sizes": [
+      128,
+      512,
+      2048,
+      8192,
+      32768
+    ],
+    "seed": 42,
+    "repeat": 5,
+    "warmup": 3,
+    "timeout": 120,
+    "warmup_seconds": 0.25,
+    "sample_seconds": 0.025,
+    "quick": false
+  },
+  "sources": {
+    "not522": {
+      "url": "https://github.com/not522/ac-library-python.git",
+      "rev": "27fdbb71cd0d566bdeb12746db59c9d908c6b5d5"
+    },
+    "shakayami": {
+      "url": "https://github.com/shakayami/ACL-for-python.git",
+      "rev": "880ed3fc236c9628d674363768bcf203fbb84a8d"
+    },
+    "tatyam": {
+      "url": "https://github.com/tatyam-prime/acl-cpp-python.git",
+      "rev": "b677fa437bdc1b0b7a4512d360de065cdca5778c",
+      "install": "pip",
+      "build_dependencies": [
+        "scikit-build-core==0.11.2",
+        "nanobind==2.7.0"
+      ]
+    }
+  },
+  "series": [
+    {
+      "id": "not522",
+      "label": "not522/ac-library-python",
+      "points": [
+        {
+          "size": 128,
+          "median": 0.0004989153636363637,
+          "min": 0.0004956775090909091,
+          "max": 0.0005001666727272728,
+          "samples": [
+            0.0004989153636363637,
+            0.0004956775090909091,
+            0.0005001666727272728,
+            0.0004995547636363636,
+            0.0004962590363636364
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 55,
+          "warmup_runs": 490
+        },
+        {
+          "size": 512,
+          "median": 0.0020654724166666665,
+          "min": 0.002062351333333333,
+          "max": 0.0020910559166666667,
+          "samples": [
+            0.002062351333333333,
+            0.0020630489166666667,
+            0.0020654724166666665,
+            0.0020910559166666667,
+            0.002071987
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 12,
+          "warmup_runs": 120
+        },
+        {
+          "size": 2048,
+          "median": 0.0086448855,
+          "min": 0.008561962,
+          "max": 0.008675413,
+          "samples": [
+            0.008675413,
+            0.0086387425,
+            0.0086448855,
+            0.0086580855,
+            0.008561962
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 2,
+          "warmup_runs": 28
+        },
+        {
+          "size": 8192,
+          "median": 0.036575513,
+          "min": 0.036112947,
+          "max": 0.038962778,
+          "samples": [
+            0.036797879,
+            0.038962778,
+            0.036575513,
+            0.036246173,
+            0.036112947
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 1,
+          "warmup_runs": 7
+        },
+        {
+          "size": 32768,
+          "median": 0.17661914,
+          "min": 0.175769476,
+          "max": 0.177676029,
+          "samples": [
+            0.175769476,
+            0.177676029,
+            0.176902716,
+            0.17661914,
+            0.175843855
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 1,
+          "warmup_runs": 3
+        }
+      ]
+    },
+    {
+      "id": "shakayami",
+      "label": "shakayami/ACL-for-python",
+      "points": [
+        {
+          "size": 128,
+          "median": 0.00045077379629629633,
+          "min": 0.0004489456481481482,
+          "max": 0.0004540145925925926,
+          "samples": [
+            0.0004540145925925926,
+            0.00045077379629629633,
+            0.0004489456481481482,
+            0.00045101383333333333,
+            0.0004502043333333333
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 54,
+          "warmup_runs": 546
+        },
+        {
+          "size": 512,
+          "median": 0.002072802909090909,
+          "min": 0.002066088181818182,
+          "max": 0.002085683909090909,
+          "samples": [
+            0.002085683909090909,
+            0.002066088181818182,
+            0.002072802909090909,
+            0.002084031818181818,
+            0.002070083363636364
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 11,
+          "warmup_runs": 121
+        },
+        {
+          "size": 2048,
+          "median": 0.0088703895,
+          "min": 0.008837498,
+          "max": 0.0089784255,
+          "samples": [
+            0.008837498,
+            0.008903492,
+            0.0088622165,
+            0.0088703895,
+            0.0089784255
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 2,
+          "warmup_runs": 28
+        },
+        {
+          "size": 8192,
+          "median": 0.039503701,
+          "min": 0.039313886,
+          "max": 0.039728406,
+          "samples": [
+            0.039728406,
+            0.039503701,
+            0.039381131,
+            0.039313886,
+            0.039529228
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 1,
+          "warmup_runs": 7
+        },
+        {
+          "size": 32768,
+          "median": 0.180319054,
+          "min": 0.179551826,
+          "max": 0.183206076,
+          "samples": [
+            0.179551826,
+            0.179846983,
+            0.180560558,
+            0.180319054,
+            0.183206076
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 1,
+          "warmup_runs": 3
+        }
+      ]
+    },
+    {
+      "id": "tatyam",
+      "label": "tatyam-prime/acl-cpp-python (C++)",
+      "points": [
+        {
+          "size": 128,
+          "median": 5.464922666666666e-05,
+          "min": 5.4447844444444446e-05,
+          "max": 5.4865135555555554e-05,
+          "samples": [
+            5.464922666666666e-05,
+            5.4865135555555554e-05,
+            5.4447844444444446e-05,
+            5.4752564444444445e-05,
+            5.459811111111112e-05
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 450,
+          "warmup_runs": 4353
+        },
+        {
+          "size": 512,
+          "median": 0.00021510214655172415,
+          "min": 0.00021444131034482758,
+          "max": 0.0002165915,
+          "samples": [
+            0.00021519521551724137,
+            0.00021494800000000002,
+            0.00021444131034482758,
+            0.00021510214655172415,
+            0.0002165915
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 116,
+          "warmup_runs": 1145
+        },
+        {
+          "size": 2048,
+          "median": 0.0009401262307692308,
+          "min": 0.0009395855769230769,
+          "max": 0.0009462781153846153,
+          "samples": [
+            0.0009462781153846153,
+            0.0009401262307692308,
+            0.0009395855769230769,
+            0.0009398119230769231,
+            0.0009404366538461538
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 26,
+          "warmup_runs": 264
+        },
+        {
+          "size": 8192,
+          "median": 0.003997478,
+          "min": 0.0039923971666666665,
+          "max": 0.003998320833333333,
+          "samples": [
+            0.003997889,
+            0.0039923971666666665,
+            0.003998320833333333,
+            0.003994672,
+            0.003997478
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 6,
+          "warmup_runs": 63
+        },
+        {
+          "size": 32768,
+          "median": 0.016706357,
+          "min": 0.016669535,
+          "max": 0.016773886,
+          "samples": [
+            0.016679569,
+            0.016669535,
+            0.016731029,
+            0.016773886,
+            0.016706357
+          ],
+          "checksum": "496428035f129afe53b21f8d653caebae7c186b624d4bd69ad5e1ba52bbe4067",
+          "loops": 1,
+          "warmup_runs": 15
+        }
+      ]
+    }
+  ]
+}

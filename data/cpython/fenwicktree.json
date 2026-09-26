@@ -1,0 +1,317 @@
+{
+  "schema_version": 1,
+  "case": "fenwicktree",
+  "title": "Fenwick tree",
+  "description": "n 要素・4n 回の一点加算 / 区間和。ゼロ初期化と全クエリを計測。",
+  "runtime": {
+    "id": "cpython",
+    "implementation": "CPython",
+    "version": "3.11.16",
+    "build": "3.11.16 (main, Aug 13 2026, 02:46:14) [GCC 13.3.0]",
+    "executable": "/home/runner/work/_temp/acl-cpython/bin/python",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "runner_image": "ubuntu24",
+    "runner_image_version": "20260920.314.1"
+  },
+  "fingerprint": "44930b44ed1a98b6e48992233c3437277e96e7cbd97e63be1b17ed44eaf79cb0",
+  "workload_fingerprint": "569e8a445fb967e878ba0748872e3588916f22cc9c07dca115f5fbef9ba49b8f",
+  "commit": "5455c55e646f368af0159b1b3c85572a0af2ade9",
+  "measured_at": "2026-09-26T03:54:31.628116+00:00",
+  "settings": {
+    "sizes": [
+      128,
+      512,
+      2048,
+      8192,
+      32768
+    ],
+    "seed": 42,
+    "repeat": 5,
+    "warmup": 3,
+    "timeout": 120,
+    "warmup_seconds": 0.25,
+    "sample_seconds": 0.025,
+    "quick": false
+  },
+  "sources": {
+    "not522": {
+      "url": "https://github.com/not522/ac-library-python.git",
+      "rev": "27fdbb71cd0d566bdeb12746db59c9d908c6b5d5"
+    },
+    "shakayami": {
+      "url": "https://github.com/shakayami/ACL-for-python.git",
+      "rev": "880ed3fc236c9628d674363768bcf203fbb84a8d"
+    },
+    "tatyam": {
+      "url": "https://github.com/tatyam-prime/acl-cpp-python.git",
+      "rev": "b677fa437bdc1b0b7a4512d360de065cdca5778c",
+      "install": "pip",
+      "build_dependencies": [
+        "scikit-build-core==0.11.2",
+        "nanobind==2.7.0"
+      ]
+    }
+  },
+  "series": [
+    {
+      "id": "not522",
+      "label": "not522/ac-library-python",
+      "points": [
+        {
+          "size": 128,
+          "median": 0.00026734736170212764,
+          "min": 0.00026602571276595745,
+          "max": 0.0002698601808510638,
+          "samples": [
+            0.00026879518085106384,
+            0.00026734736170212764,
+            0.0002666153085106383,
+            0.0002698601808510638,
+            0.00026602571276595745
+          ],
+          "checksum": "08cb85290c087ca93bc0159b6b82d60233c9e363c27f45f99c33f05848d2df8a",
+          "loops": 94,
+          "warmup_runs": 885
+        },
+        {
+          "size": 512,
+          "median": 0.001472746588235294,
+          "min": 0.0014703264117647058,
+          "max": 0.0014797931176470588,
+          "samples": [
+            0.0014719278235294118,
+            0.0014773679411764706,
+            0.0014703264117647058,
+            0.0014797931176470588,
+            0.001472746588235294
+          ],
+          "checksum": "9b7ed00b5bc52da786e143436296eeed04cddf4ffba1dbf027a04fe047b5dc62",
+          "loops": 17,
+          "warmup_runs": 163
+        },
+        {
+          "size": 2048,
+          "median": 0.007268433666666667,
+          "min": 0.007252117,
+          "max": 0.007291588333333334,
+          "samples": [
+            0.007261,
+            0.007279755666666666,
+            0.007268433666666667,
+            0.007291588333333334,
+            0.007252117
+          ],
+          "checksum": "3669bc25b277f7e4218295ebce163c1e1fccf1bfd75f2f2953dedcd0c7116ff3",
+          "loops": 3,
+          "warmup_runs": 34
+        },
+        {
+          "size": 8192,
+          "median": 0.03320482,
+          "min": 0.033132416,
+          "max": 0.033365078,
+          "samples": [
+            0.03320482,
+            0.033204431,
+            0.033331627,
+            0.033132416,
+            0.033365078
+          ],
+          "checksum": "ce24a10adc3bbc206622932b1e2b6f801995030b8c839bb2f4446ded9304cf23",
+          "loops": 1,
+          "warmup_runs": 8
+        },
+        {
+          "size": 32768,
+          "median": 0.170805958,
+          "min": 0.170753655,
+          "max": 0.171939977,
+          "samples": [
+            0.171939977,
+            0.170805958,
+            0.170753655,
+            0.170760704,
+            0.170873601
+          ],
+          "checksum": "8badf85033b87d648bacc6bff6732b6906081dcc26c9ccc4f36af8f2ad74490e",
+          "loops": 1,
+          "warmup_runs": 3
+        }
+      ]
+    },
+    {
+      "id": "shakayami",
+      "label": "shakayami/ACL-for-python",
+      "points": [
+        {
+          "size": 128,
+          "median": 0.00026006515625,
+          "min": 0.000258790375,
+          "max": 0.0002609478229166667,
+          "samples": [
+            0.00026006515625,
+            0.0002609478229166667,
+            0.0002592714791666667,
+            0.00026012845833333335,
+            0.000258790375
+          ],
+          "checksum": "08cb85290c087ca93bc0159b6b82d60233c9e363c27f45f99c33f05848d2df8a",
+          "loops": 96,
+          "warmup_runs": 903
+        },
+        {
+          "size": 512,
+          "median": 0.0014390427647058824,
+          "min": 0.0014356867058823528,
+          "max": 0.001439653823529412,
+          "samples": [
+            0.0014396340588235296,
+            0.001439653823529412,
+            0.0014356867058823528,
+            0.0014367497647058824,
+            0.0014390427647058824
+          ],
+          "checksum": "9b7ed00b5bc52da786e143436296eeed04cddf4ffba1dbf027a04fe047b5dc62",
+          "loops": 17,
+          "warmup_runs": 168
+        },
+        {
+          "size": 2048,
+          "median": 0.007146923,
+          "min": 0.007142423,
+          "max": 0.0076610415,
+          "samples": [
+            0.0076610415,
+            0.0071441595,
+            0.007146923,
+            0.007142423,
+            0.007217664
+          ],
+          "checksum": "3669bc25b277f7e4218295ebce163c1e1fccf1bfd75f2f2953dedcd0c7116ff3",
+          "loops": 2,
+          "warmup_runs": 30
+        },
+        {
+          "size": 8192,
+          "median": 0.038495981,
+          "min": 0.038311607,
+          "max": 0.038592148,
+          "samples": [
+            0.038495981,
+            0.038347377,
+            0.038311607,
+            0.038536648,
+            0.038592148
+          ],
+          "checksum": "ce24a10adc3bbc206622932b1e2b6f801995030b8c839bb2f4446ded9304cf23",
+          "loops": 1,
+          "warmup_runs": 7
+        },
+        {
+          "size": 32768,
+          "median": 0.170991934,
+          "min": 0.169846552,
+          "max": 0.172754161,
+          "samples": [
+            0.171060728,
+            0.172754161,
+            0.169965833,
+            0.169846552,
+            0.170991934
+          ],
+          "checksum": "8badf85033b87d648bacc6bff6732b6906081dcc26c9ccc4f36af8f2ad74490e",
+          "loops": 1,
+          "warmup_runs": 3
+        }
+      ]
+    },
+    {
+      "id": "tatyam",
+      "label": "tatyam-prime/acl-cpp-python (C++)",
+      "points": [
+        {
+          "size": 128,
+          "median": 2.918187039239001e-05,
+          "min": 2.8919640903686088e-05,
+          "max": 2.9762321046373365e-05,
+          "samples": [
+            2.918187039239001e-05,
+            2.9762321046373365e-05,
+            2.918347086801427e-05,
+            2.8919640903686088e-05,
+            2.896110820451843e-05
+          ],
+          "checksum": "08cb85290c087ca93bc0159b6b82d60233c9e363c27f45f99c33f05848d2df8a",
+          "loops": 841,
+          "warmup_runs": 5368
+        },
+        {
+          "size": 512,
+          "median": 0.00013072386315789476,
+          "min": 0.00012982256315789473,
+          "max": 0.00013265315789473685,
+          "samples": [
+            0.0001299883894736842,
+            0.0001312780894736842,
+            0.00013265315789473685,
+            0.00012982256315789473,
+            0.00013072386315789476
+          ],
+          "checksum": "9b7ed00b5bc52da786e143436296eeed04cddf4ffba1dbf027a04fe047b5dc62",
+          "loops": 190,
+          "warmup_runs": 1261
+        },
+        {
+          "size": 2048,
+          "median": 0.0005465586222222223,
+          "min": 0.0005461162,
+          "max": 0.000547184,
+          "samples": [
+            0.0005465586222222223,
+            0.0005461162,
+            0.0005469375777777777,
+            0.000547184,
+            0.0005463718
+          ],
+          "checksum": "3669bc25b277f7e4218295ebce163c1e1fccf1bfd75f2f2953dedcd0c7116ff3",
+          "loops": 45,
+          "warmup_runs": 316
+        },
+        {
+          "size": 8192,
+          "median": 0.0022705659,
+          "min": 0.0022653374,
+          "max": 0.0023030168,
+          "samples": [
+            0.0022746469,
+            0.0023030168,
+            0.0022688763,
+            0.0022653374,
+            0.0022705659
+          ],
+          "checksum": "ce24a10adc3bbc206622932b1e2b6f801995030b8c839bb2f4446ded9304cf23",
+          "loops": 10,
+          "warmup_runs": 77
+        },
+        {
+          "size": 32768,
+          "median": 0.0092974295,
+          "min": 0.0092744015,
+          "max": 0.00932707,
+          "samples": [
+            0.0092744015,
+            0.009282401,
+            0.0092974295,
+            0.00932707,
+            0.0093102705
+          ],
+          "checksum": "8badf85033b87d648bacc6bff6732b6906081dcc26c9ccc4f36af8f2ad74490e",
+          "loops": 2,
+          "warmup_runs": 20
+        }
+      ]
+    }
+  ]
+}

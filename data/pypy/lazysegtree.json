@@ -1,0 +1,222 @@
+{
+  "schema_version": 1,
+  "case": "lazysegtree",
+  "title": "Lazy segment tree",
+  "description": "n 要素・2n 回の区間加算 / 区間和。(合計, 要素数) を保持し構築も計測。C++ 版には公開 API がないため Python 2 実装を比較。",
+  "runtime": {
+    "id": "pypy",
+    "implementation": "PyPy",
+    "version": "3.11.13",
+    "build": "3.11.13 (413c9b7f57f5, Jul 03 2025, 18:03:56)\n[PyPy 7.3.20 with GCC 10.2.1 20210130 (Red Hat 10.2.1-11)]",
+    "executable": "/home/runner/work/_temp/acl-pypy/bin/python",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "runner_image": "ubuntu24",
+    "runner_image_version": "20260920.314.1"
+  },
+  "fingerprint": "506a8c7177fe8c52edd0a7fc62cbf4b22f55313e3339bca492ecdd7377fb8617",
+  "workload_fingerprint": "23a80d06ce9de3704a898739bb8431c1cef7b59e74e21102ef0118d1351621a2",
+  "commit": "5455c55e646f368af0159b1b3c85572a0af2ade9",
+  "measured_at": "2026-09-26T03:57:48.685267+00:00",
+  "settings": {
+    "sizes": [
+      128,
+      512,
+      2048,
+      8192,
+      32768
+    ],
+    "seed": 42,
+    "repeat": 5,
+    "warmup": 3,
+    "timeout": 300,
+    "warmup_seconds": 0.25,
+    "sample_seconds": 0.025,
+    "quick": false
+  },
+  "sources": {
+    "not522": {
+      "url": "https://github.com/not522/ac-library-python.git",
+      "rev": "27fdbb71cd0d566bdeb12746db59c9d908c6b5d5"
+    },
+    "shakayami": {
+      "url": "https://github.com/shakayami/ACL-for-python.git",
+      "rev": "880ed3fc236c9628d674363768bcf203fbb84a8d"
+    }
+  },
+  "series": [
+    {
+      "id": "not522",
+      "label": "not522/ac-library-python",
+      "points": [
+        {
+          "size": 128,
+          "median": 6.813108256880733e-05,
+          "min": 6.678551987767584e-05,
+          "max": 7.184318960244648e-05,
+          "samples": [
+            7.184318960244648e-05,
+            6.813108256880733e-05,
+            6.682255351681958e-05,
+            6.968774923547401e-05,
+            6.678551987767584e-05
+          ],
+          "checksum": "55986a25d82c0949dc4cb3e162c91eda8291bfb484fab9121609f7c08f326239",
+          "loops": 327,
+          "warmup_runs": 1100
+        },
+        {
+          "size": 512,
+          "median": 0.00038804806666666665,
+          "min": 0.0003873905333333334,
+          "max": 0.00042412995000000003,
+          "samples": [
+            0.00042412995000000003,
+            0.0004063864666666667,
+            0.0003873905333333334,
+            0.0003879123,
+            0.00038804806666666665
+          ],
+          "checksum": "358a444635ca7706ebed07e5d9409fa8ef077fb2afcf22020ba7e60d3e01ae1f",
+          "loops": 60,
+          "warmup_runs": 302
+        },
+        {
+          "size": 2048,
+          "median": 0.0021734157272727274,
+          "min": 0.0020763537272727273,
+          "max": 0.002599544909090909,
+          "samples": [
+            0.002318486909090909,
+            0.002599544909090909,
+            0.0021734157272727274,
+            0.002096936909090909,
+            0.0020763537272727273
+          ],
+          "checksum": "522297e8102d65025313ef69955b04969385f5bd7c617435857dc928fbbaff45",
+          "loops": 11,
+          "warmup_runs": 91
+        },
+        {
+          "size": 8192,
+          "median": 0.010902503,
+          "min": 0.010410833,
+          "max": 0.011808214,
+          "samples": [
+            0.011808214,
+            0.010847884,
+            0.010902503,
+            0.010410833,
+            0.0114216045
+          ],
+          "checksum": "b3d083b0a6803f413217670b24d9f30d115dc6fe69725b95b15c901d89e48114",
+          "loops": 2,
+          "warmup_runs": 20
+        },
+        {
+          "size": 32768,
+          "median": 0.066876383,
+          "min": 0.066796464,
+          "max": 0.075570463,
+          "samples": [
+            0.075570463,
+            0.070455567,
+            0.066876383,
+            0.066835904,
+            0.066796464
+          ],
+          "checksum": "af1ac19dfe599b0779be2a0df1d80c4b57ac23281044c4f44fb021ff0380a3b6",
+          "loops": 1,
+          "warmup_runs": 4
+        }
+      ]
+    },
+    {
+      "id": "shakayami",
+      "label": "shakayami/ACL-for-python",
+      "points": [
+        {
+          "size": 128,
+          "median": 6.389793650793651e-05,
+          "min": 6.335811904761905e-05,
+          "max": 6.594768518518518e-05,
+          "samples": [
+            6.594768518518518e-05,
+            6.389793650793651e-05,
+            6.56331402116402e-05,
+            6.374371957671958e-05,
+            6.335811904761905e-05
+          ],
+          "checksum": "55986a25d82c0949dc4cb3e162c91eda8291bfb484fab9121609f7c08f326239",
+          "loops": 378,
+          "warmup_runs": 1188
+        },
+        {
+          "size": 512,
+          "median": 0.000369065393939394,
+          "min": 0.00036454886363636367,
+          "max": 0.0003734377878787879,
+          "samples": [
+            0.0003721775606060606,
+            0.000369065393939394,
+            0.0003658426212121212,
+            0.0003734377878787879,
+            0.00036454886363636367
+          ],
+          "checksum": "358a444635ca7706ebed07e5d9409fa8ef077fb2afcf22020ba7e60d3e01ae1f",
+          "loops": 66,
+          "warmup_runs": 358
+        },
+        {
+          "size": 2048,
+          "median": 0.0020515885,
+          "min": 0.0020198874166666666,
+          "max": 0.0023323990833333335,
+          "samples": [
+            0.0023323990833333335,
+            0.0020515885,
+            0.00208163175,
+            0.0020198874166666666,
+            0.0020201308333333335
+          ],
+          "checksum": "522297e8102d65025313ef69955b04969385f5bd7c617435857dc928fbbaff45",
+          "loops": 12,
+          "warmup_runs": 98
+        },
+        {
+          "size": 8192,
+          "median": 0.0092938565,
+          "min": 0.0091888175,
+          "max": 0.009660023,
+          "samples": [
+            0.009660023,
+            0.009432371,
+            0.0092938565,
+            0.0092607805,
+            0.0091888175
+          ],
+          "checksum": "b3d083b0a6803f413217670b24d9f30d115dc6fe69725b95b15c901d89e48114",
+          "loops": 2,
+          "warmup_runs": 22
+        },
+        {
+          "size": 32768,
+          "median": 0.065670902,
+          "min": 0.061542791,
+          "max": 0.067170647,
+          "samples": [
+            0.067170647,
+            0.066501788,
+            0.065670902,
+            0.064028811,
+            0.061542791
+          ],
+          "checksum": "af1ac19dfe599b0779be2a0df1d80c4b57ac23281044c4f44fb021ff0380a3b6",
+          "loops": 1,
+          "warmup_runs": 4
+        }
+      ]
+    }
+  ]
+}

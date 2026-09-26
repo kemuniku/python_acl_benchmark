@@ -1,0 +1,317 @@
+{
+  "schema_version": 1,
+  "case": "scc",
+  "title": "Strongly connected components",
+  "description": "n 頂点・4n 辺。小さいブロック内の辺と前方への辺を混在。グラフ構築と結果の正規化も計測。",
+  "runtime": {
+    "id": "cpython",
+    "implementation": "CPython",
+    "version": "3.11.16",
+    "build": "3.11.16 (main, Aug 13 2026, 02:46:14) [GCC 13.3.0]",
+    "executable": "/home/runner/work/_temp/acl-cpython/bin/python",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "runner_image": "ubuntu24",
+    "runner_image_version": "20260920.314.1"
+  },
+  "fingerprint": "ed22c766d0fdb75680ef19192e65d3fd0b4ceea7e8c50d2733bdf025e098d142",
+  "workload_fingerprint": "e581ec81218426dd388c0405fb0f07ca6e0779ae4cb42023a081cd7ae6e603cf",
+  "commit": "5455c55e646f368af0159b1b3c85572a0af2ade9",
+  "measured_at": "2026-09-26T03:56:02.393165+00:00",
+  "settings": {
+    "sizes": [
+      128,
+      512,
+      2048,
+      8192,
+      32768
+    ],
+    "seed": 42,
+    "repeat": 5,
+    "warmup": 3,
+    "timeout": 120,
+    "warmup_seconds": 0.25,
+    "sample_seconds": 0.025,
+    "quick": false
+  },
+  "sources": {
+    "not522": {
+      "url": "https://github.com/not522/ac-library-python.git",
+      "rev": "27fdbb71cd0d566bdeb12746db59c9d908c6b5d5"
+    },
+    "shakayami": {
+      "url": "https://github.com/shakayami/ACL-for-python.git",
+      "rev": "880ed3fc236c9628d674363768bcf203fbb84a8d"
+    },
+    "tatyam": {
+      "url": "https://github.com/tatyam-prime/acl-cpp-python.git",
+      "rev": "b677fa437bdc1b0b7a4512d360de065cdca5778c",
+      "install": "pip",
+      "build_dependencies": [
+        "scikit-build-core==0.11.2",
+        "nanobind==2.7.0"
+      ]
+    }
+  },
+  "series": [
+    {
+      "id": "not522",
+      "label": "not522/ac-library-python",
+      "points": [
+        {
+          "size": 128,
+          "median": 0.0002608485901639344,
+          "min": 0.0002596601639344262,
+          "max": 0.0002620385081967213,
+          "samples": [
+            0.00026052973770491805,
+            0.0002610858524590164,
+            0.0002596601639344262,
+            0.0002608485901639344,
+            0.0002620385081967213
+          ],
+          "checksum": "d1c50ed74938fd035859685053cfb75ee555eae37984d117c6367f3b342059a1",
+          "loops": 61,
+          "warmup_runs": 904
+        },
+        {
+          "size": 512,
+          "median": 0.0010332830869565217,
+          "min": 0.0010314915652173914,
+          "max": 0.0010606398695652173,
+          "samples": [
+            0.0010546957391304348,
+            0.0010606398695652173,
+            0.0010332830869565217,
+            0.0010314915652173914,
+            0.0010320160869565218
+          ],
+          "checksum": "dfa96e17b01d0716f46aeeef5858b3f4f02f3c17fd2e31c9bedd84a37ebf2026",
+          "loops": 23,
+          "warmup_runs": 230
+        },
+        {
+          "size": 2048,
+          "median": 0.0043896132,
+          "min": 0.0043482212,
+          "max": 0.0045146654,
+          "samples": [
+            0.0043482212,
+            0.0043700944,
+            0.0045146654,
+            0.0044593726,
+            0.0043896132
+          ],
+          "checksum": "55e24983f4e4c571364e26741aa76dec8be3f48bc60a8e5bcf1bdc9cda92d1f8",
+          "loops": 5,
+          "warmup_runs": 55
+        },
+        {
+          "size": 8192,
+          "median": 0.018868981,
+          "min": 0.01856497,
+          "max": 0.019101862,
+          "samples": [
+            0.018868981,
+            0.01856497,
+            0.018637505,
+            0.019101862,
+            0.01895487
+          ],
+          "checksum": "d02849fd9abcdd1855114a77d081002973b673f408e8cff97ba116fe3e607a87",
+          "loops": 1,
+          "warmup_runs": 13
+        },
+        {
+          "size": 32768,
+          "median": 0.08449207,
+          "min": 0.084160291,
+          "max": 0.084765085,
+          "samples": [
+            0.08449207,
+            0.084765085,
+            0.084160291,
+            0.084654284,
+            0.08437274
+          ],
+          "checksum": "8e6f872827b71971fe881b615cc7ef13c4a3efb66994afd3d9d6248cd4a7efc4",
+          "loops": 1,
+          "warmup_runs": 3
+        }
+      ]
+    },
+    {
+      "id": "shakayami",
+      "label": "shakayami/ACL-for-python",
+      "points": [
+        {
+          "size": 128,
+          "median": 0.0001342666440677966,
+          "min": 0.00013407979096045198,
+          "max": 0.00013612868926553672,
+          "samples": [
+            0.00013407979096045198,
+            0.00013612868926553672,
+            0.00013427386440677966,
+            0.0001342666440677966,
+            0.00013417607344632767
+          ],
+          "checksum": "d1c50ed74938fd035859685053cfb75ee555eae37984d117c6367f3b342059a1",
+          "loops": 177,
+          "warmup_runs": 1706
+        },
+        {
+          "size": 512,
+          "median": 0.0005760975813953489,
+          "min": 0.0005728475348837209,
+          "max": 0.000585317023255814,
+          "samples": [
+            0.0005765534651162791,
+            0.0005760975813953489,
+            0.0005734223488372093,
+            0.0005728475348837209,
+            0.000585317023255814
+          ],
+          "checksum": "dfa96e17b01d0716f46aeeef5858b3f4f02f3c17fd2e31c9bedd84a37ebf2026",
+          "loops": 43,
+          "warmup_runs": 363
+        },
+        {
+          "size": 2048,
+          "median": 0.0024337791,
+          "min": 0.0024022417,
+          "max": 0.0025424377,
+          "samples": [
+            0.0024022417,
+            0.0025424377,
+            0.0024337791,
+            0.0024877755,
+            0.002427093
+          ],
+          "checksum": "55e24983f4e4c571364e26741aa76dec8be3f48bc60a8e5bcf1bdc9cda92d1f8",
+          "loops": 10,
+          "warmup_runs": 99
+        },
+        {
+          "size": 8192,
+          "median": 0.0109797635,
+          "min": 0.0109453685,
+          "max": 0.0110408225,
+          "samples": [
+            0.010953133,
+            0.0109797635,
+            0.0109453685,
+            0.0110408225,
+            0.010993136
+          ],
+          "checksum": "d02849fd9abcdd1855114a77d081002973b673f408e8cff97ba116fe3e607a87",
+          "loops": 2,
+          "warmup_runs": 22
+        },
+        {
+          "size": 32768,
+          "median": 0.052201594,
+          "min": 0.05204363,
+          "max": 0.052313017,
+          "samples": [
+            0.052139234,
+            0.052313017,
+            0.052208535,
+            0.05204363,
+            0.052201594
+          ],
+          "checksum": "8e6f872827b71971fe881b615cc7ef13c4a3efb66994afd3d9d6248cd4a7efc4",
+          "loops": 1,
+          "warmup_runs": 5
+        }
+      ]
+    },
+    {
+      "id": "tatyam",
+      "label": "tatyam-prime/acl-cpp-python (C++)",
+      "points": [
+        {
+          "size": 128,
+          "median": 2.605774734607219e-05,
+          "min": 2.5960209129511677e-05,
+          "max": 3.2284321656050954e-05,
+          "samples": [
+            2.5960209129511677e-05,
+            3.2284321656050954e-05,
+            3.1241207006369424e-05,
+            2.600090552016985e-05,
+            2.605774734607219e-05
+          ],
+          "checksum": "d1c50ed74938fd035859685053cfb75ee555eae37984d117c6367f3b342059a1",
+          "loops": 942,
+          "warmup_runs": 5950
+        },
+        {
+          "size": 512,
+          "median": 0.00011231188888888889,
+          "min": 0.00011198168253968254,
+          "max": 0.00012130700000000001,
+          "samples": [
+            0.00012130700000000001,
+            0.00011285016931216932,
+            0.00011198168253968254,
+            0.00011231188888888889,
+            0.00011225596825396826
+          ],
+          "checksum": "dfa96e17b01d0716f46aeeef5858b3f4f02f3c17fd2e31c9bedd84a37ebf2026",
+          "loops": 189,
+          "warmup_runs": 1639
+        },
+        {
+          "size": 2048,
+          "median": 0.0004881946346153846,
+          "min": 0.0004806854423076923,
+          "max": 0.0004948561923076923,
+          "samples": [
+            0.0004917936153846154,
+            0.0004948561923076923,
+            0.0004881946346153846,
+            0.0004806854423076923,
+            0.00048429524999999996
+          ],
+          "checksum": "55e24983f4e4c571364e26741aa76dec8be3f48bc60a8e5bcf1bdc9cda92d1f8",
+          "loops": 52,
+          "warmup_runs": 399
+        },
+        {
+          "size": 8192,
+          "median": 0.0023486351,
+          "min": 0.0023345524,
+          "max": 0.0024679443,
+          "samples": [
+            0.0023349438,
+            0.0023345524,
+            0.0024679443,
+            0.0023486351,
+            0.0023562387
+          ],
+          "checksum": "d02849fd9abcdd1855114a77d081002973b673f408e8cff97ba116fe3e607a87",
+          "loops": 10,
+          "warmup_runs": 85
+        },
+        {
+          "size": 32768,
+          "median": 0.0101605585,
+          "min": 0.010106482,
+          "max": 0.010198672,
+          "samples": [
+            0.010198672,
+            0.0101605585,
+            0.010106482,
+            0.0101095705,
+            0.0101725385
+          ],
+          "checksum": "8e6f872827b71971fe881b615cc7ef13c4a3efb66994afd3d9d6248cd4a7efc4",
+          "loops": 2,
+          "warmup_runs": 20
+        }
+      ]
+    }
+  ]
+}
