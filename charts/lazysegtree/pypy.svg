@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="534" viewBox="0 0 1040 534" role="img" aria-labelledby="title desc">
+<title id="title">Lazy segment tree / PyPy 3.11.13 benchmark</title>
+<desc id="desc">Median elapsed time versus input size. Bands and whiskers show the observed minimum and maximum. X axis: log. Y axis: log. Lower is faster.</desc>
+<rect width="100%" height="100%" rx="12" fill="white"/>
+<g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" fill="#0f172a">
+<text x="40" y="36" font-size="23" font-weight="700">Lazy segment tree / PyPy 3.11.13</text>
+<text x="40" y="61" font-size="13" fill="#64748b">Lower is faster · median line · observed min–max range</text>
+<line x1="112.41" y1="94" x2="112.41" y2="406" stroke="#e2e8f0"/>
+<text x="112.41" y="431" font-size="12" text-anchor="middle" fill="#475569">100</text>
+<line x1="212.64" y1="94" x2="212.64" y2="406" stroke="#e2e8f0"/>
+<text x="212.64" y="431" font-size="12" text-anchor="middle" fill="#475569">200</text>
+<line x1="345.12" y1="94" x2="345.12" y2="406" stroke="#e2e8f0"/>
+<text x="345.12" y="431" font-size="12" text-anchor="middle" fill="#475569">500</text>
+<line x1="445.35" y1="94" x2="445.35" y2="406" stroke="#e2e8f0"/>
+<text x="445.35" y="431" font-size="12" text-anchor="middle" fill="#475569">1,000</text>
+<line x1="545.57" y1="94" x2="545.57" y2="406" stroke="#e2e8f0"/>
+<text x="545.57" y="431" font-size="12" text-anchor="middle" fill="#475569">2,000</text>
+<line x1="678.06" y1="94" x2="678.06" y2="406" stroke="#e2e8f0"/>
+<text x="678.06" y="431" font-size="12" text-anchor="middle" fill="#475569">5,000</text>
+<line x1="778.28" y1="94" x2="778.28" y2="406" stroke="#e2e8f0"/>
+<text x="778.28" y="431" font-size="12" text-anchor="middle" fill="#475569">10,000</text>
+<line x1="878.51" y1="94" x2="878.51" y2="406" stroke="#e2e8f0"/>
+<text x="878.51" y="431" font-size="12" text-anchor="middle" fill="#475569">20,000</text>
+<line x1="100" y1="385.40" x2="998" y2="385.40" stroke="#e2e8f0"/>
+<text x="87" y="389.40" font-size="12" text-anchor="end" fill="#475569">0.1</text>
+<line x1="100" y1="358.09" x2="998" y2="358.09" stroke="#e2e8f0"/>
+<text x="87" y="362.09" font-size="12" text-anchor="end" fill="#475569">0.2</text>
+<line x1="100" y1="321.99" x2="998" y2="321.99" stroke="#e2e8f0"/>
+<text x="87" y="325.99" font-size="12" text-anchor="end" fill="#475569">0.5</text>
+<line x1="100" y1="294.69" x2="998" y2="294.69" stroke="#e2e8f0"/>
+<text x="87" y="298.69" font-size="12" text-anchor="end" fill="#475569">1</text>
+<line x1="100" y1="267.38" x2="998" y2="267.38" stroke="#e2e8f0"/>
+<text x="87" y="271.38" font-size="12" text-anchor="end" fill="#475569">2</text>
+<line x1="100" y1="231.28" x2="998" y2="231.28" stroke="#e2e8f0"/>
+<text x="87" y="235.28" font-size="12" text-anchor="end" fill="#475569">5</text>
+<line x1="100" y1="203.98" x2="998" y2="203.98" stroke="#e2e8f0"/>
+<text x="87" y="207.98" font-size="12" text-anchor="end" fill="#475569">10</text>
+<line x1="100" y1="176.67" x2="998" y2="176.67" stroke="#e2e8f0"/>
+<text x="87" y="180.67" font-size="12" text-anchor="end" fill="#475569">20</text>
+<line x1="100" y1="140.57" x2="998" y2="140.57" stroke="#e2e8f0"/>
+<text x="87" y="144.57" font-size="12" text-anchor="end" fill="#475569">50</text>
+<line x1="100" y1="113.27" x2="998" y2="113.27" stroke="#e2e8f0"/>
+<text x="87" y="117.27" font-size="12" text-anchor="end" fill="#475569">100</text>
+<path d="M100 94 V406 H998" fill="none" stroke="#94a3b8"/>
+<text x="549" y="461" font-size="14" text-anchor="middle">Input size n (log scale)</text>
+<text transform="translate(25 250) rotate(-90)" font-size="14" text-anchor="middle">Elapsed time [ms] (log scale)</text>
+<polygon points="148.11,371.22 348.55,318.51 549.00,254.89 749.45,188.22 949.89,110.71 949.89,112.57 749.45,191.53 549.00,255.96 348.55,319.85 148.11,387.36" fill="#2563eb" fill-opacity="0.09"/>
+<path d="M148.11,371.22 V387.36 M145.11,371.22 H151.11 M145.11,387.36 H151.11" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
+<path d="M348.55,318.51 V319.85 M345.55,318.51 H351.55 M345.55,319.85 H351.55" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
+<path d="M549.00,254.89 V255.96 M546.00,254.89 H552.00 M546.00,255.96 H552.00" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
+<path d="M749.45,188.22 V191.53 M746.45,188.22 H752.45 M746.45,191.53 H752.45" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
+<path d="M949.89,110.71 V112.57 M946.89,110.71 H952.89 M946.89,112.57 H952.89" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
+<polyline points="148.11,385.15 348.55,319.10 549.00,255.74 749.45,190.83 949.89,112.08" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+<circle cx="148.11" cy="385.15" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
+<circle cx="348.55" cy="319.10" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
+<circle cx="549.00" cy="255.74" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
+<circle cx="749.45" cy="190.83" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
+<circle cx="949.89" cy="112.08" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
+<polygon points="148.11,386.09 348.55,318.85 549.00,254.30 749.45,196.06 949.89,117.45 949.89,119.41 749.45,197.17 549.00,261.14 348.55,327.17 148.11,389.29" fill="#dc2626" fill-opacity="0.09"/>
+<path d="M148.11,386.09 V389.29 M145.11,386.09 H151.11 M145.11,389.29 H151.11" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
+<path d="M348.55,318.85 V327.17 M345.55,318.85 H351.55 M345.55,327.17 H351.55" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
+<path d="M549.00,254.30 V261.14 M546.00,254.30 H552.00 M546.00,261.14 H552.00" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
+<path d="M749.45,196.06 V197.17 M746.45,196.06 H752.45 M746.45,197.17 H752.45" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
+<path d="M949.89,117.45 V119.41 M946.89,117.45 H952.89 M946.89,119.41 H952.89" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
+<polyline points="148.11,388.91 348.55,326.19 549.00,259.03 749.45,196.41 949.89,118.41" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+<circle cx="148.11" cy="388.91" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
+<circle cx="348.55" cy="326.19" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
+<circle cx="549.00" cy="259.03" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
+<circle cx="749.45" cy="196.41" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
+<circle cx="949.89" cy="118.41" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
+<line x1="42" y1="489" x2="73" y2="489" stroke="#2563eb" stroke-width="2.5"/>
+<circle cx="57.00" cy="489.00" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
+<text x="83" y="493" font-size="12">not522/ac-library-python / PyPy 3.11.13</text>
+<line x1="552" y1="489" x2="583" y2="489" stroke="#dc2626" stroke-width="2.5"/>
+<circle cx="567.00" cy="489.00" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
+<text x="593" y="493" font-size="12">shakayami/ACL-for-python / PyPy 3.11.13</text>
+</g></svg>
