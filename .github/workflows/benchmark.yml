@@ -24,7 +24,8 @@ concurrency:
 jobs:
   benchmark:
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    # Large CPython cases include warmups and five samples at n=500000.
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v7
         with:
