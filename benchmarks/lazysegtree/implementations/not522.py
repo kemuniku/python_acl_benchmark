@@ -1,0 +1,24 @@
+SOURCE = 'not522'
+LABEL = 'not522/ac-library-python'
+
+from atcoder.lazysegtree import LazySegTree
+
+def op(a, b):
+    return a[0] + b[0], a[1] + b[1]
+
+def mapping(f, value):
+    return value[0] + f * value[1], value[1]
+
+def composition(f, g):
+    return f + g
+
+def run(data):
+    initial, operations = data
+    tree = LazySegTree(op, (0, 0), mapping, composition, 0, initial)
+    result = []
+    for kind, left, right, amount in operations:
+        if kind == 0:
+            tree.apply(left, right, amount)
+        else:
+            result.append(tree.prod(left, right)[0])
+    return result

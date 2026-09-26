@@ -1,0 +1,154 @@
+name: ACL benchmarks
+
+on:
+  push:
+    branches-ignore: [gh-pages]
+    tags-ignore: ['**']
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: Re-measure every implementation, ignoring saved fingerprints
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+# Keep restoration, measurement and publication ordered on each branch.
+# A running publication must finish before the next workflow starts.
+concurrency:
+  group: acl-benchmarks-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        id: cpython
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-python@v7
+        id: pypy
+        with:
+          python-version: 'pypy3.11-v7.3.20'
+      - name: Prepare build tooling
+        env:
+          CPYTHON: ${{ steps.cpython.outputs.python-path }}
+          PYPY: ${{ steps.pypy.outputs.python-path }}
+        run: |
+          "$CPYTHON" -m pip install --upgrade 'pip==25.3'
+          "$PYPY" -m pip install --upgrade 'pip==25.3'
+      - name: Test the harness
+        env:
+          PYTHON: ${{ steps.cpython.outputs.python-path }}
+        run: '"$PYTHON" -m unittest discover -s tests'
+      - name: Restore the last published measurements
+        env:
+          PYTHON: ${{ steps.cpython.outputs.python-path }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: '"$PYTHON" scripts/publish.py restore --results results'
+      - name: Measure CPython and PyPy sequentially on the same machine
+        env:
+          CPYTHON: ${{ steps.cpython.outputs.python-path }}
+          PYPY: ${{ steps.pypy.outputs.python-path }}
+          FULL: ${{ inputs.full || false }}
+          PYTHONHASHSEED: '0'
+        run: |
+          args=()
+          if [[ "$FULL" == "true" ]]; then
+            args+=(--force)
+          fi
+          "$CPYTHON" -m benchkit run --results results "${args[@]}"
+          "$PYPY" -m benchkit run --results results "${args[@]}"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: benchmark-results
+          path: results/
+          if-no-files-found: error
+          retention-days: 14
+
+  report:
+    needs: benchmark
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v8
+        with:
+          name: benchmark-results
+          path: results
+      - name: Rebuild the graphs and report
+        run: python -m benchkit report --results results --output site
+      - uses: actions/upload-artifact@v7
+        with:
+          name: benchmark-site
+          path: site/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+      - uses: actions/upload-pages-artifact@v5
+        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        with:
+          path: site
+
+  persist:
+    needs: report
+    if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    outputs:
+      published: ${{ steps.publish.outputs.published }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v8
+        with:
+          name: benchmark-site
+          path: site
+      - uses: actions/download-artifact@v8
+        with:
+          name: benchmark-results
+          path: results
+      - name: Save measurements and SVGs to gh-pages
+        id: publish
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          SOURCE_REF: refs/heads/${{ github.event.repository.default_branch }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: >-
+          python scripts/publish.py publish --site site --results results
+          --source-ref "$SOURCE_REF" --source-sha "$SOURCE_SHA"
+
+  deploy:
+    needs: [report, persist]
+    if: needs.persist.outputs.published == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy the report to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

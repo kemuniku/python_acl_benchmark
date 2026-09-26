@@ -1,0 +1,15 @@
+{
+  "title": "Strongly connected components",
+  "description": "n 頂点・4n 辺。小さいブロック内の辺と前方への辺を混在。グラフ構築と結果の正規化も計測。",
+  "sizes": [
+    128,
+    512,
+    2048,
+    8192,
+    32768
+  ],
+  "seed": 42,
+  "repeat": 5,
+  "warmup": 3,
+  "timeout": 120
+}

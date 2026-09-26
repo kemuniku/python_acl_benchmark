@@ -1,0 +1,15 @@
+{
+  "title": "Floor sum",
+  "description": "n 回の floor_sum 呼び出し。引数 n,m は 1..999999、a,b は 0..999999。結果は符号付き 64 bit 以内。",
+  "sizes": [
+    128,
+    512,
+    2048,
+    8192,
+    32768
+  ],
+  "seed": 42,
+  "repeat": 5,
+  "warmup": 3,
+  "timeout": 120
+}

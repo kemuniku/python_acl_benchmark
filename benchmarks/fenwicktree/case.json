@@ -1,0 +1,15 @@
+{
+  "title": "Fenwick tree",
+  "description": "n 要素・4n 回の一点加算 / 区間和。ゼロ初期化と全クエリを計測。",
+  "sizes": [
+    128,
+    512,
+    2048,
+    8192,
+    32768
+  ],
+  "seed": 42,
+  "repeat": 5,
+  "warmup": 3,
+  "timeout": 120
+}

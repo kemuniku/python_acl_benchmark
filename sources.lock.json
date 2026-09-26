@@ -1,0 +1,16 @@
+{
+  "not522": {
+    "url": "https://github.com/not522/ac-library-python.git",
+    "rev": "27fdbb71cd0d566bdeb12746db59c9d908c6b5d5"
+  },
+  "shakayami": {
+    "url": "https://github.com/shakayami/ACL-for-python.git",
+    "rev": "880ed3fc236c9628d674363768bcf203fbb84a8d"
+  },
+  "tatyam": {
+    "url": "https://github.com/tatyam-prime/acl-cpp-python.git",
+    "rev": "b677fa437bdc1b0b7a4512d360de065cdca5778c",
+    "install": "pip",
+    "build_dependencies": ["scikit-build-core==0.11.2", "nanobind==2.7.0"]
+  }
+}

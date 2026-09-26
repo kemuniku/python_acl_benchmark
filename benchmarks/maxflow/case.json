@@ -1,0 +1,15 @@
+{
+  "title": "Maximum flow",
+  "description": "左右 n 頂点ずつの疎な二部グラフ。各左頂点から 4 辺。ネットワーク構築と最大流を計測。",
+  "sizes": [
+    8,
+    32,
+    128,
+    512,
+    2048
+  ],
+  "seed": 42,
+  "repeat": 5,
+  "warmup": 3,
+  "timeout": 300
+}

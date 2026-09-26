@@ -1,0 +1,11 @@
+{
+  "title": "Prefix sums (example)",
+  "description": "n 個の整数から長さ n の累積和を生成します。入力生成は計測の対象外です。",
+  "sizes": [1000, 10000, 100000],
+  "repeat": 5,
+  "warmup": 3,
+  "warmup_seconds": 0.25,
+  "sample_seconds": 0.025,
+  "seed": 42,
+  "timeout": 120
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Chinese remainder theorem",
+  "description": "n 組の合同式を処理。各組は 4 個の法、最小公倍数を 64 bit 以内に固定。",
+  "sizes": [
+    128,
+    512,
+    2048,
+    8192,
+    32768
+  ],
+  "seed": 42,
+  "repeat": 5,
+  "warmup": 3,
+  "timeout": 120
+}

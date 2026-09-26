@@ -1,0 +1,15 @@
+{
+  "title": "Lazy segment tree",
+  "description": "n 要素・2n 回の区間加算 / 区間和。(合計, 要素数) を保持し構築も計測。C++ 版には公開 API がないため Python 2 実装を比較。",
+  "sizes": [
+    128,
+    512,
+    2048,
+    8192,
+    32768
+  ],
+  "seed": 42,
+  "repeat": 5,
+  "warmup": 3,
+  "timeout": 300
+}

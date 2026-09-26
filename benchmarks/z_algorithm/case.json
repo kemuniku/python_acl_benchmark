@@ -1,0 +1,15 @@
+{
+  "title": "Z algorithm",
+  "description": "長さ n の ASCII 文字列の Z 配列。Python/C++ 間の変換も含む。",
+  "sizes": [
+    128,
+    512,
+    2048,
+    8192,
+    32768
+  ],
+  "seed": 42,
+  "repeat": 5,
+  "warmup": 3,
+  "timeout": 120
+}

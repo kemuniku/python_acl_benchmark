@@ -1,0 +1,15 @@
+{
+  "title": "Convolution (mod 998244353)",
+  "description": "長さ n の 2 配列の畳み込み。FFT インスタンスの初期化・Python/C++ 間の変換も含む。",
+  "sizes": [
+    64,
+    256,
+    1024,
+    4096,
+    16384
+  ],
+  "seed": 42,
+  "repeat": 5,
+  "warmup": 3,
+  "timeout": 120
+}

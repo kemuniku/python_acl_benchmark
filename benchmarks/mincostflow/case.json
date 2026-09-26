@@ -1,0 +1,15 @@
+{
+  "title": "Minimum-cost flow",
+  "description": "左右 n 頂点ずつの二部グラフ。各左頂点から 3 辺、非負コスト。構築と最小費用最大流を計測。",
+  "sizes": [
+    8,
+    16,
+    32,
+    64,
+    128
+  ],
+  "seed": 42,
+  "repeat": 5,
+  "warmup": 3,
+  "timeout": 120
+}
