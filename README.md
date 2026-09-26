@@ -24,20 +24,22 @@
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| CPython 3.11.16 | 2026-09-26T11:45:32.391614+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/convolution.json) |
-| PyPy 3.11.13 | 2026-09-26T12:32:01.464970+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/convolution.json) |
+| CPython 3.11.16 | 2026-09-26T16:07:57.104742+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/convolution.json) |
+| PyPy 3.11.13 | 2026-09-26T16:52:15.680891+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/convolution.json) |
 
-- CPython 3.11.16: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- CPython 3.11.16: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[64, 256, 1024, 4096, 16384, 65536, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.16 \(main, Aug 13 2026, 02:46:14\) \[GCC 13.3.0\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
-- PyPy 3.11.13: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[64, 256, 1024, 4096, 16384, 65536, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
@@ -62,20 +64,22 @@ n 組の合同式を処理。各組は 4 個の法、最小公倍数を 64 bit �
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| CPython 3.11.16 | 2026-09-26T11:46:45.587652+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/crt.json) |
-| PyPy 3.11.13 | 2026-09-26T12:33:51.982373+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/crt.json) |
+| CPython 3.11.16 | 2026-09-26T16:09:27.587552+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/crt.json) |
+| PyPy 3.11.13 | 2026-09-26T16:54:14.938537+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/crt.json) |
 
-- CPython 3.11.16: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- CPython 3.11.16: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.16 \(main, Aug 13 2026, 02:46:14\) \[GCC 13.3.0\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
-- PyPy 3.11.13: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
@@ -100,20 +104,22 @@ n 頂点・4n 回の merge / same。初期化と全クエリを計測。
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| CPython 3.11.16 | 2026-09-26T11:47:54.258557+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/dsu.json) |
-| PyPy 3.11.13 | 2026-09-26T12:35:26.989693+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/dsu.json) |
+| CPython 3.11.16 | 2026-09-26T16:10:43.811163+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/dsu.json) |
+| PyPy 3.11.13 | 2026-09-26T16:56:00.700871+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/dsu.json) |
 
-- CPython 3.11.16: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- CPython 3.11.16: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.16 \(main, Aug 13 2026, 02:46:14\) \[GCC 13.3.0\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
-- PyPy 3.11.13: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
@@ -138,20 +144,22 @@ n 要素・4n 回の一点加算 / 区間和。ゼロ初期化と全クエリを
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| CPython 3.11.16 | 2026-09-26T11:50:59.219785+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/fenwicktree.json) |
-| PyPy 3.11.13 | 2026-09-26T12:37:11.357414+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/fenwicktree.json) |
+| CPython 3.11.16 | 2026-09-26T16:13:51.800440+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/fenwicktree.json) |
+| PyPy 3.11.13 | 2026-09-26T16:57:51.469071+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/fenwicktree.json) |
 
-- CPython 3.11.16: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- CPython 3.11.16: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.16 \(main, Aug 13 2026, 02:46:14\) \[GCC 13.3.0\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
-- PyPy 3.11.13: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
@@ -176,20 +184,22 @@ n 回の floor\_sum 呼び出し。引数 n,m は 1..999999、a,b は 0..999999�
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| CPython 3.11.16 | 2026-09-26T11:52:26.511968+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/floor_sum.json) |
-| PyPy 3.11.13 | 2026-09-26T12:37:54.354455+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/floor_sum.json) |
+| CPython 3.11.16 | 2026-09-26T16:15:27.890988+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/floor_sum.json) |
+| PyPy 3.11.13 | 2026-09-26T16:58:42.841577+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/floor_sum.json) |
 
-- CPython 3.11.16: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- CPython 3.11.16: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.16 \(main, Aug 13 2026, 02:46:14\) \[GCC 13.3.0\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
-- PyPy 3.11.13: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
@@ -214,15 +224,15 @@ n 要素・2n 回の区間加算 / 区間和。\(合計, 要素数\) を保持�
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| CPython 3.11.16 | 2026-09-26T12:16:12.145401+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/lazysegtree.json) |
-| PyPy 3.11.13 | 2026-09-26T12:39:52.902126+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/lazysegtree.json) |
+| CPython 3.11.16 | 2026-09-26T16:36:58.272893+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/lazysegtree.json) |
+| PyPy 3.11.13 | 2026-09-26T17:00:14.677915+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/lazysegtree.json) |
 
-- CPython 3.11.16: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- CPython 3.11.16: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.16 \(main, Aug 13 2026, 02:46:14\) \[GCC 13.3.0\]
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
-- PyPy 3.11.13: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
@@ -248,20 +258,22 @@ n 要素・2n 回の区間加算 / 区間和。\(合計, 要素数\) を保持�
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| CPython 3.11.16 | 2026-09-26T12:16:48.610811+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/lcp_array.json) |
-| PyPy 3.11.13 | 2026-09-26T12:40:25.990810+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/lcp_array.json) |
+| CPython 3.11.16 | 2026-09-26T16:37:45.411940+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/lcp_array.json) |
+| PyPy 3.11.13 | 2026-09-26T17:00:58.521496+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/lcp_array.json) |
 
-- CPython 3.11.16: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- CPython 3.11.16: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.16 \(main, Aug 13 2026, 02:46:14\) \[GCC 13.3.0\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
-- PyPy 3.11.13: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
@@ -286,20 +298,22 @@ n 要素・2n 回の区間加算 / 区間和。\(合計, 要素数\) を保持�
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| CPython 3.11.16 | 2026-09-26T12:17:24.773848+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/maxflow.json) |
-| PyPy 3.11.13 | 2026-09-26T12:40:42.444246+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/maxflow.json) |
+| CPython 3.11.16 | 2026-09-26T16:38:22.186899+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/maxflow.json) |
+| PyPy 3.11.13 | 2026-09-26T17:01:19.669293+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/maxflow.json) |
 
-- CPython 3.11.16: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- CPython 3.11.16: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[8, 32, 128, 512, 2048\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.16 \(main, Aug 13 2026, 02:46:14\) \[GCC 13.3.0\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
-- PyPy 3.11.13: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[8, 32, 128, 512, 2048\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
@@ -324,20 +338,22 @@ n 要素・2n 回の区間加算 / 区間和。\(合計, 要素数\) を保持�
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| CPython 3.11.16 | 2026-09-26T12:17:33.765340+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/mincostflow.json) |
-| PyPy 3.11.13 | 2026-09-26T12:40:54.178848+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/mincostflow.json) |
+| CPython 3.11.16 | 2026-09-26T16:38:35.115547+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/mincostflow.json) |
+| PyPy 3.11.13 | 2026-09-26T17:01:36.538782+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/mincostflow.json) |
 
-- CPython 3.11.16: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- CPython 3.11.16: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[8, 16, 32, 64, 128\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.16 \(main, Aug 13 2026, 02:46:14\) \[GCC 13.3.0\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
-- PyPy 3.11.13: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[8, 16, 32, 64, 128\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
@@ -362,20 +378,22 @@ n 頂点・4n 辺。小さいブロック内の辺と前方への辺を混在。
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| CPython 3.11.16 | 2026-09-26T12:19:32.215023+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/scc.json) |
-| PyPy 3.11.13 | 2026-09-26T12:42:27.811435+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/scc.json) |
+| CPython 3.11.16 | 2026-09-26T16:40:37.185116+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/scc.json) |
+| PyPy 3.11.13 | 2026-09-26T17:03:27.083459+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/scc.json) |
 
-- CPython 3.11.16: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- CPython 3.11.16: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.16 \(main, Aug 13 2026, 02:46:14\) \[GCC 13.3.0\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
-- PyPy 3.11.13: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
@@ -400,15 +418,15 @@ n 要素・4n 回の一点更新 / 区間和。構築も計測。C++ 版には�
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| CPython 3.11.16 | 2026-09-26T12:24:47.036774+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/segtree.json) |
-| PyPy 3.11.13 | 2026-09-26T12:43:09.319376+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/segtree.json) |
+| CPython 3.11.16 | 2026-09-26T16:45:07.999912+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/segtree.json) |
+| PyPy 3.11.13 | 2026-09-26T17:04:04.086514+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/segtree.json) |
 
-- CPython 3.11.16: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- CPython 3.11.16: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.16 \(main, Aug 13 2026, 02:46:14\) \[GCC 13.3.0\]
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
-- PyPy 3.11.13: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
@@ -434,20 +452,22 @@ n 要素・4n 回の一点更新 / 区間和。構築も計測。C++ 版には�
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| CPython 3.11.16 | 2026-09-26T12:25:38.072832+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/suffix_array.json) |
-| PyPy 3.11.13 | 2026-09-26T12:43:33.878156+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/suffix_array.json) |
+| CPython 3.11.16 | 2026-09-26T16:45:54.559864+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/suffix_array.json) |
+| PyPy 3.11.13 | 2026-09-26T17:04:38.980166+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/suffix_array.json) |
 
-- CPython 3.11.16: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- CPython 3.11.16: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.16 \(main, Aug 13 2026, 02:46:14\) \[GCC 13.3.0\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
-- PyPy 3.11.13: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
@@ -472,20 +492,22 @@ n 変数・4n 節。充足可能なランダム式の構築と求解。返り値
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| CPython 3.11.16 | 2026-09-26T12:29:16.405212+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/two_sat.json) |
-| PyPy 3.11.13 | 2026-09-26T12:45:38.350903+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/two_sat.json) |
+| CPython 3.11.16 | 2026-09-26T16:49:26.019296+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/two_sat.json) |
+| PyPy 3.11.13 | 2026-09-26T17:06:58.349045+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/two_sat.json) |
 
-- CPython 3.11.16: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- CPython 3.11.16: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.16 \(main, Aug 13 2026, 02:46:14\) \[GCC 13.3.0\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
-- PyPy 3.11.13: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
@@ -510,20 +532,22 @@ n 変数・4n 節。充足可能なランダム式の構築と求解。返り値
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| CPython 3.11.16 | 2026-09-26T12:29:32.662634+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/z_algorithm.json) |
-| PyPy 3.11.13 | 2026-09-26T12:45:57.712540+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/z_algorithm.json) |
+| CPython 3.11.16 | 2026-09-26T16:49:47.972942+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/cpython/z_algorithm.json) |
+| PyPy 3.11.13 | 2026-09-26T17:07:27.839829+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/z_algorithm.json) |
 
-- CPython 3.11.16: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- CPython 3.11.16: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.16 \(main, Aug 13 2026, 02:46:14\) \[GCC 13.3.0\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
-- PyPy 3.11.13: commit `cd98a0d9ada98f47b8f84b11e6fe0010dba69be3`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `3306c73d2e3fec5767b1a7116effe121efd1a734`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
+  - hpy: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
   - not522: https://github.com/not522/ac-library-python.git @ `27fdbb71cd0d566bdeb12746db59c9d908c6b5d5`
   - shakayami: https://github.com/shakayami/ACL-for-python.git @ `880ed3fc236c9628d674363768bcf203fbb84a8d`
   - tatyam: https://github.com/tatyam-prime/acl-cpp-python.git @ `b677fa437bdc1b0b7a4512d360de065cdca5778c`
