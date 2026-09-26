@@ -204,9 +204,10 @@ header p{color:#cbd5e1;max-width:800px}.eyebrow{letter-spacing:.15em;font-size:1
 main{max-width:1208px;margin:auto;padding:28px 24px 48px}.stats{display:flex;gap:28px;flex-wrap:wrap;margin-top:24px}.stat strong{font-size:26px;display:block}.stat span{font-size:12px;color:#cbd5e1}
 nav{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 28px}nav a{background:white;border:1px solid var(--line);padding:6px 15px;border-radius:100px;color:#334155}
 .card{background:white;border:1px solid var(--line);border-radius:16px;margin-bottom:26px;overflow:hidden;box-shadow:0 4px 18px #0f172a04;scroll-margin-top:20px}.card-head{padding:24px 28px 8px}.description,.muted{color:var(--muted)}.chart{display:block;width:100%;height:auto}.downloads{display:flex;gap:16px;flex-wrap:wrap;padding:0 28px 20px;font-size:13px}
+.runtime-chart h3{margin:0;padding:16px 28px 0;font-size:18px}.runtime-chart+.runtime-chart{border-top:1px solid var(--line)}
 details{border-top:1px solid var(--line);padding:16px 28px}summary{cursor:pointer;font-size:13px;font-weight:600}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:12px;margin-top:14px}th,td{text-align:left;padding:10px 12px;vertical-align:top;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:600}code{font-family:ui-monospace,monospace;font-size:11px;overflow-wrap:anywhere}td{min-width:130px}footer{font-size:12px;color:var(--muted);padding:4px 2px}.empty{padding:32px}
 .badge{display:inline-block;border-radius:5px;background:#fef3c7;color:#92400e;padding:2px 7px;font-size:12px;font-weight:600}
-@media(max-width:640px){header{padding:32px 20px}main{padding:20px 10px}.card-head{padding:20px 16px 8px}.downloads,details{padding-left:16px;padding-right:16px}.chart{min-width:720px}.chart-wrap{overflow-x:auto}.stats{gap:22px}}
+@media(max-width:640px){header{padding:32px 20px}main{padding:20px 10px}.card-head{padding:20px 16px 8px}.downloads,details,.runtime-chart h3{padding-left:16px;padding-right:16px}.chart{min-width:720px}.chart-wrap{overflow-x:auto}.stats{gap:22px}}
 """
 
 
@@ -246,7 +247,7 @@ def render(results_dir: Path, output_dir: Path) -> None:
             shutil.copy2(entry["source"], target)
 
     sections, navigation = [], []
-    markdown = ["# Python ACL ベンチマーク", "", "各実装を CPython / PyPy で比較します。グラフは小さいほど高速です。線は中央値、帯・ひげは観測された最小値から最大値です。正の値には対数軸を使い、0 を含む軸には線形軸を使います。", "", "[HTML レポート](index.html) · [生データ](data/)", ""]
+    markdown = ["# Python ACL ベンチマーク", "", "各実装を CPython / PyPy で比較します。グラフはランタイムごとに分け、軸の範囲を個別に調整します。グラフは小さいほど高速です。線は中央値、帯・ひげは観測された最小値から最大値です。正の値には対数軸を使い、0 を含む軸には線形軸を使います。", "", "[HTML レポート](index.html) · [生データ](data/)", ""]
     for case, entries in sorted(grouped.items()):
         case_records = [entry["record"] for entry in entries]
         title = str(case_records[0].get("title", case))
@@ -254,19 +255,33 @@ def render(results_dir: Path, output_dir: Path) -> None:
         quick = any(record.get("settings", {}).get("quick") for record in case_records)
         quick_notice = '<p><span class="badge">動作確認用 (--quick) の結果を含みます</span></p>' if quick else ""
         slug = _slug(case)
-        chart_href = f"charts/{slug}.svg"
-        (output_dir / chart_href).write_text(_chart(case_records, title), encoding="utf-8")
-        downloads = [f'<a href="{chart_href}" download>SVG を保存</a>']
+        runtime_groups = defaultdict(list)
         for entry in entries:
-            downloads.append(f'<a href="{_escape(entry["href"])}" download>{_escape(_runtime_name(entry["record"]))} JSON</a>')
+            runtime = entry["record"].get("runtime", {})
+            runtime_id = str(runtime.get("id") or runtime.get("implementation") or "unknown")
+            runtime_groups[runtime_id].append(entry)
+        (output_dir / "charts" / slug).mkdir()
+        runtime_charts = []
+        markdown.extend([f"## {_markdown(title)}", "", _markdown(description), ""])
+        for runtime_id, runtime_entries in sorted(runtime_groups.items()):
+            runtime_records = [entry["record"] for entry in runtime_entries]
+            runtime_label = ", ".join(sorted({_runtime_name(record) for record in runtime_records}))
+            chart_title = f"{title} / {runtime_label}"
+            chart_href = f"charts/{slug}/{_slug(runtime_id)}.svg"
+            (output_dir / chart_href).write_text(_chart(runtime_records, chart_title), encoding="utf-8")
+            downloads = [f'<a href="{chart_href}" download>SVG を保存</a>']
+            for entry in runtime_entries:
+                downloads.append(f'<a href="{_escape(entry["href"])}" download>{_escape(_runtime_name(entry["record"]))} JSON</a>')
+            runtime_charts.append(f'<div class="runtime-chart"><h3>{_escape(runtime_label)}</h3>'
+                                  f'<div class="chart-wrap"><img class="chart" src="{chart_href}" alt="{_escape(chart_title)} の入力サイズ別実行時間" loading="lazy"></div>'
+                                  f'<div class="downloads">{"".join(downloads)}</div></div>')
+            markdown.extend([f"### {_markdown(runtime_label)}", "", f"![{_markdown(chart_title)}]({chart_href})", "", f"[SVG を保存]({chart_href})", ""])
         sections.append(f'<section class="card" id="{slug}"><div class="card-head"><h2>{_escape(title)}</h2><p class="description">{_escape(description)}</p>{quick_notice}</div>'
-                        f'<div class="chart-wrap"><img class="chart" src="{chart_href}" alt="{_escape(title)} の入力サイズ別実行時間" loading="lazy"></div>'
-                        f'<div class="downloads">{"".join(downloads)}</div><details><summary>計測環境・ソース・計測日時</summary><div class="table-wrap">'
+                        + "".join(runtime_charts) + '<details><summary>計測環境・ソース・計測日時</summary><div class="table-wrap">'
                         '<table><thead><tr><th>ランタイム</th><th>計測日時 / commit</th><th>CPU / OS</th><th>設定</th><th>ソース / revision</th></tr></thead><tbody>'
                         + "".join(_provenance_html(record) for record in case_records) + '</tbody></table></div></details></section>')
         navigation.append(f'<a href="#{slug}">{_escape(title)}</a>')
-        markdown.extend([f"## {_markdown(title)}", "", _markdown(description), "", f"![{_markdown(title)}]({chart_href})", "", f"[SVG を保存]({chart_href})", "",
-                         "| ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |", "| --- | --- | --- | --- | --- |"])
+        markdown.extend(["### 計測情報", "", "| ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |", "| --- | --- | --- | --- | --- |"])
         for entry in entries:
             record = entry["record"]
             settings = record.get("settings", {})
@@ -296,7 +311,7 @@ def render(results_dir: Path, output_dir: Path) -> None:
     caution = "CI の CPU・負荷・ランタイムのバージョンによって実行時間は変動します。増分計測ではケースやランタイムごとに計測日時が異なります。各グラフの計測情報と JSON を併せて確認してください。"
     page = ('<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>Python ACL ベンチマーク</title><style>{CSS}</style></head><body><header><div class="eyebrow">PYTHON ACL BENCHMARKS</div>'
-            '<h1>実装とランタイムの性能を、入力サイズで比較。</h1><p>CPython と PyPy による AtCoder Library の実行時間。線は中央値、帯・ひげは最小値から最大値を示します。グラフは小さいほど高速です。</p>'
+            '<h1>実装とランタイムの性能を、入力サイズで比較。</h1><p>CPython と PyPy による AtCoder Library の実行時間。グラフはランタイムごとに分け、軸の範囲を個別に調整します。線は中央値、帯・ひげは最小値から最大値を示します。グラフは小さいほど高速です。</p>'
             f'<div class="stats"><div class="stat"><strong>{len(grouped)}</strong><span>比較ケース</span></div><div class="stat"><strong>{runtime_count}</strong><span>ランタイム</span></div>'
             f'<div class="stat"><strong>{point_count}</strong><span>計測ポイント</span></div></div></header><main><nav aria-label="比較ケース">{"".join(navigation)}</nav>'
             + "".join(sections) + f'<footer><p>{caution}</p><p>最新の計測: {_escape(last_updated)} · <a href="README.md">Markdown</a> · 外部サービス不要の静的レポート</p></footer></main></body></html>\n')
