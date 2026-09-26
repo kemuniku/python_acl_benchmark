@@ -9,6 +9,7 @@ Python 向け AtCoder Library を **CPython / PyPy × 入力サイズ** で比�
 - [shakayami/ACL-for-python](https://github.com/shakayami/ACL-for-python)
 - [tatyam-prime/acl-cpp-python](https://github.com/tatyam-prime/acl-cpp-python)
 - [ローカル CFFI 実装](acl_cffi/README.md)（公式 C++ ACL のバインディング）
+- [ローカル HPy 実装](acl_hpy/README.md)（公式 C++ ACL、HPy Universal ABI）
 - 各フォルダに追加した自作実装
 
 外部ライブラリの取得先と commit SHA は [sources.lock.json](sources.lock.json) に固定しています。
@@ -39,24 +40,26 @@ CI が `gh-pages` に書き込めるよう、組織のポリシーでも workflo
 
 ## 比較する内容
 
-| フォルダ | 処理 | not522 | shakayami | tatyam | CFFI |
-| --- | --- | :---: | :---: | :---: | :---: |
-| `dsu` | Union-Find の merge / same | ✓ | ✓ | ✓ | ✓ |
-| `fenwicktree` | 点加算 / 区間和 | ✓ | ✓ | ✓ | ✓ |
-| `segtree` | 点更新 / 区間和 | ✓ | ✓ | — | — |
-| `lazysegtree` | 区間加算 / 区間和 | ✓ | ✓ | — | — |
-| `convolution` | mod 998244353 の畳み込み | ✓ | ✓ | ✓ | ✓ |
-| `suffix_array` | 接尾辞配列 | ✓ | ✓ | ✓ | ✓ |
-| `lcp_array` | LCP 配列 | ✓ | ✓ | ✓ | ✓ |
-| `z_algorithm` | Z-algorithm | ✓ | ✓ | ✓ | ✓ |
-| `scc` | 強連結成分分解 | ✓ | ✓ | ✓ | ✓ |
-| `two_sat` | 2-SAT | ✓ | ✓ | ✓ | ✓ |
-| `maxflow` | 最大流 | ✓ | ✓ | ✓ | ✓ |
-| `mincostflow` | 最小費用流 | ✓ | ✓ | ✓ | ✓ |
-| `floor_sum` | floor_sum の反復 | ✓ | ✓ | ✓ | ✓ |
-| `crt` | 中国剰余定理の反復 | ✓ | ✓ | ✓ | ✓ |
+| フォルダ | 処理 | not522 | shakayami | tatyam | CFFI | HPy |
+| --- | --- | :---: | :---: | :---: | :---: | :---: |
+| `dsu` | Union-Find の merge / same | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `fenwicktree` | 点加算 / 区間和 | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `segtree` | 点更新 / 区間和 | ✓ | ✓ | — | — | — |
+| `lazysegtree` | 区間加算 / 区間和 | ✓ | ✓ | — | — | — |
+| `convolution` | mod 998244353 の畳み込み | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `suffix_array` | 接尾辞配列 | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `lcp_array` | LCP 配列 | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `z_algorithm` | Z-algorithm | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `scc` | 強連結成分分解 | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `two_sat` | 2-SAT | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `maxflow` | 最大流 | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `mincostflow` | 最小費用流 | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `floor_sum` | floor_sum の反復 | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `crt` | 中国剰余定理の反復 | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 CFFI 版は公式 ACL v1.6 を CFFI の API モードで呼び出します。DSU・グラフなどは Python 側から操作ごとに呼び出し、既存実装と同じループを計測します。Segment Tree / Lazy Segment Tree は対象外です。
+
+HPy 版も同じ12ケースを対象に、同じリビジョン・入力検査・数値型の C++ 処理を使います。Python / HPy 間の呼び出しと値変換を含めて計測し、CPython / PyPy ともに Universal ABI を使用します。
 
 固定した tatyam 版には Segment Tree / Lazy Segment Tree の Python API がないため、この 2 ケースは 2 実装で比較します。
 グラフの `n` の意味、操作回数、計測に含める処理は各 `case.json` の `description` と `workload.py` に記載しています。
@@ -156,7 +159,9 @@ def run(data):
 | 実装の追加・修正・削除 | その比較の全実装・全サイズ |
 | `case.json` / `workload.py` / 比較内の補助ファイル | その比較 |
 | `sources.lock.json` の revision / ビルド設定 | そのソースを利用する比較 |
-| `acl_cffi/` の Python / C++ / ヘッダ | CFFI 版を利用する比較（ネイティブ拡張も再ビルド） |
+| `acl_cffi/` の Python | CFFI 版を利用する比較 |
+| `acl_cffi/native.cpp` / `cdef.h` | CFFI / HPy 版を利用する比較（共通の C++ 処理） |
+| `acl_hpy/` の Python / C++ | HPy 版を利用する比較（ネイティブ拡張も再ビルド） |
 | 計測基盤、workflow、Python / PyPy、CPU、runner image | 影響する全比較 |
 | `benchkit/report.py` / ルート README | 計測を再利用してレポートを生成 |
 | 比較フォルダの削除 | 保存結果とグラフを削除 |
@@ -170,9 +175,9 @@ GitHub runner の CPU や image が変わったときは、コード変更がな
 
 ## ローカルで実行する
 
-必要なものは Python 3.10 以上、PyPy、Git です。C++ 版のビルドには C++17 コンパイラ、Python の開発ヘッダとネットワーク接続が必要です。tatyam 版には CMake、CFFI 版には `requirements-cffi.txt` の依存も必要です。
+必要なものは Python 3.10 以上、PyPy、Git です。C++ 版のビルドには C++17 コンパイラ、Python の開発ヘッダとネットワーク接続が必要です。tatyam 版には CMake、CFFI 版には `requirements-cffi.txt`、HPy 版には `requirements-hpy.txt` の依存も必要です。HPy 版には HPy 0.9 対応の PyPy 7.3.14 以上が必要です（CI は 7.3.20 固定）。
 CI では Ubuntu 24.04、CPython 3.11、PyPy 3.11 / 7.3.20 を使用します。それぞれ独立した仮想環境を作り、その中で pip を固定します。PyPy 同梱 CFFI の依存を満たすため、PyPy 側には `pycparser` も固定してインストールします。
-ランナーとレポート自体は Python 標準ライブラリのみで動作します。CFFI 版のビルドは測定前に行い、実行時間には含めません。PyPy では同梱 CFFI を使い、フロントエンドとバックエンドの組を維持します。
+ランナーとレポート自体は Python 標準ライブラリのみで動作します。CFFI / HPy 版のビルドは測定前に行い、実行時間には含めません。PyPy では同梱 CFFI を使い、フロントエンドとバックエンドの組を維持します。HPy も PyPy 同梱のヘッダとランタイムを使います。
 Ubuntu の OS パッケージ版で `ensurepip is not available` と表示される場合は、`python3-venv` / `pypy3-venv` も必要です。GitHub Actions の Python には含まれています。
 
 ```bash
@@ -183,6 +188,8 @@ pypy3 -m venv .venv-pypy
 .venv-pypy/bin/python -m pip install --upgrade 'pip==25.3' 'pycparser==2.23'
 .venv-cpython/bin/python -m pip install -r requirements-cffi.txt
 .venv-pypy/bin/python -m pip install -r requirements-cffi.txt
+.venv-cpython/bin/python -m pip install -r requirements-hpy.txt
+.venv-pypy/bin/python -m pip install -r requirements-hpy.txt
 .venv-cpython/bin/python -m pip --version
 .venv-pypy/bin/python -m pip --version
 .venv-cpython/bin/python -m pip check

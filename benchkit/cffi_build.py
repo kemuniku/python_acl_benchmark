@@ -41,6 +41,14 @@ def build_environment():
         import pycparser
     except ImportError as error:
         raise RuntimeError("Install CFFI build dependencies: python -m pip install -r requirements-cffi.txt") from error
+    return dict(toolchain_environment(), packages={
+        "cffi": cffi.__version__, "setuptools": setuptools.__version__,
+        "pycparser": pycparser.__version__,
+    })
+
+
+def toolchain_environment():
+    """Compiler identity and flags, shared by native backends without imports."""
     configured = {name: sysconfig.get_config_var(name) for name in _BUILD_VARIABLES}
     environment = {name: os.environ.get(name) for name in _BUILD_VARIABLES}
     compilers = {}
@@ -54,8 +62,6 @@ def build_environment():
         version = subprocess.check_output(command + ["--version"], text=True, stderr=subprocess.STDOUT)
         compilers[name] = {"command": command, "executable": str(Path(executable).resolve()), "version": version}
     return {
-        "packages": {"cffi": cffi.__version__, "setuptools": setuptools.__version__,
-                     "pycparser": pycparser.__version__},
         "compilers": compilers, "environment": environment, "sysconfig": configured,
     }
 

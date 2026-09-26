@@ -113,6 +113,11 @@ def fingerprint(root, case, runtime, settings, sources):
         if spec.get("install") == "cffi":
             files.extend(local_source_files(root, spec))
             files.extend([root / "benchkit" / "cffi_build.py", root / "requirements-cffi.txt"])
+        elif spec.get("install") == "hpy":
+            from .hpy_build import local_source_files as hpy_source_files
+            files.extend(hpy_source_files(root, spec))
+            files.extend([root / "benchkit" / "hpy_build.py",
+                          root / "benchkit" / "cffi_build.py", root / "requirements-hpy.txt"])
     for path in sorted(set(files)):
         if path.exists():
             digest.update(str(path.relative_to(root)).encode())
@@ -121,6 +126,9 @@ def fingerprint(root, case, runtime, settings, sources):
     if runtime and any(spec.get("install") == "cffi" for spec in sources.values()):
         from .cffi_build import build_environment
         environment["cffi_build"] = build_environment()
+    if runtime and any(spec.get("install") == "hpy" for spec in sources.values()):
+        from .hpy_build import build_environment
+        environment["hpy_build"] = build_environment()
     digest.update(json.dumps({"schema": SCHEMA_VERSION, "runtime": environment, "settings": settings, "sources": sources}, sort_keys=True).encode())
     return digest.hexdigest()
 
@@ -253,6 +261,9 @@ def run(results, selected=None, force=False, quick=False, root=ROOT):
         if any(spec.get("install") == "cffi" for spec in sources.values()):
             from .cffi_build import build_environment
             record_runtime["cffi_build"] = build_environment()
+        if any(spec.get("install") == "hpy" for spec in sources.values()):
+            from .hpy_build import build_environment
+            record_runtime["hpy_build"] = build_environment()
         write_json(destination, {
             "schema_version": SCHEMA_VERSION, "case": case["name"],
             "title": case["config"].get("title", case["name"]),

@@ -55,6 +55,8 @@ jobs:
           "$pypy" -m pip install --upgrade 'pip==25.3' 'pycparser==2.23'
           "$cpython" -m pip install -r requirements-cffi.txt
           "$pypy" -m pip install -r requirements-cffi.txt
+          "$cpython" -m pip install -r requirements-hpy.txt
+          "$pypy" -m pip install -r requirements-hpy.txt
           # Import pip again in new processes so installation corruption fails early.
           "$cpython" -m pip --version
           "$pypy" -m pip --version
@@ -75,6 +77,17 @@ jobs:
           for python in "$CPYTHON" "$PYPY"; do
             native_path=$("$python" -m benchkit build --source cffi --print-path)
             PYTHONPATH="$native_path" "$python" -m unittest discover -s tests -p test_acl_cffi.py
+          done
+      - name: Build and test HPy Universal on both runtimes
+        env:
+          CPYTHON: ${{ steps.runtimes.outputs.cpython }}
+          PYPY: ${{ steps.runtimes.outputs.pypy }}
+          ACL_HPY_REQUIRE_NATIVE: '1'
+        run: |
+          for python in "$CPYTHON" "$PYPY"; do
+            native_path=$("$python" -m benchkit build --source hpy --print-path)
+            PYTHONPATH="$native_path" "$python" -m unittest discover -s tests -p test_acl_hpy.py
+            HPY=debug PYTHONPATH="$native_path" "$python" -m unittest discover -s tests -p test_acl_hpy.py
           done
       - name: Restore the last published measurements
         env:

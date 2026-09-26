@@ -16,6 +16,12 @@
       "nanobind==2.7.0"
     ]
   },
+  "hpy": {
+    "url": "https://github.com/atcoder/ac-library.git",
+    "rev": "864245a00b00dd008d1abfdc239618fdb7d139da",
+    "install": "hpy",
+    "path": "acl_hpy"
+  },
   "cffi": {
     "url": "https://github.com/atcoder/ac-library.git",
     "rev": "864245a00b00dd008d1abfdc239618fdb7d139da",

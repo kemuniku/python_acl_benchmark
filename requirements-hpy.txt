@@ -1,0 +1,3 @@
+# PyPy bundles matching HPy headers and runtime; do not replace them via pip.
+hpy==0.9.0; platform_python_implementation == "CPython"
+setuptools==80.9.0
