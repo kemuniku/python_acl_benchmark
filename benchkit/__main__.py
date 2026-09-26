@@ -13,6 +13,9 @@ def main():
     benchmark.add_argument("--case", action="append", help="Case directory name (repeatable)")
     benchmark.add_argument("--force", action="store_true", help="Re-measure unchanged cases")
     benchmark.add_argument("--quick", action="store_true", help="Smoke test: smallest size, two samples")
+    build = commands.add_parser("build", help="Prepare pinned sources and native libraries without measuring")
+    build.add_argument("--source", action="append", required=True, help="Source ID (repeatable)")
+    build.add_argument("--print-path", action="store_true", help="Only print PYTHONPATH entries")
     report = commands.add_parser("report", help="Render saved results without running benchmarks")
     report.add_argument("--results", type=Path, default=ROOT / "results")
     report.add_argument("--output", type=Path, default=ROOT / "site")
@@ -20,6 +23,16 @@ def main():
     if args.command == "list":
         for name, case in discover().items():
             print("%s: %s" % (name, ", ".join(a["id"] for a in case["adapters"])))
+    elif args.command == "build":
+        import os
+        from .sources import prepare
+        paths = prepare(ROOT, args.source)
+        if args.print_path:
+            print(os.pathsep.join(str(path) for path in paths.values()))
+        else:
+            for name, path in paths.items():
+                print("%s: %s" % (name, path))
+            print("Use these directories in PYTHONPATH when importing a native library directly.")
     elif args.command == "run":
         count = run(args.results, args.case, args.force, args.quick)
         print("Measured %d case(s)." % count)

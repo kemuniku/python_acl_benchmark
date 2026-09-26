@@ -20,8 +20,13 @@ def source_specs(root):
             raise ValueError("Invalid source name: " + name)
         if not re.fullmatch(r"[0-9a-f]{40}", spec.get("rev", "")):
             raise ValueError("Source revisions must be full commit SHAs: " + name)
-        if spec.get("install") not in (None, "pip"):
+        if spec.get("install") not in (None, "pip", "cffi"):
             raise ValueError("Unknown source install mode: " + name)
+        if spec.get("install") == "cffi":
+            from .cffi_build import local_source_files
+            if not spec.get("path"):
+                raise ValueError("CFFI sources require a local path: " + name)
+            local_source_files(root, spec)
     return specs
 
 
@@ -78,6 +83,10 @@ def prepare(root, source_ids):
                 if checkout.exists():
                     shutil.rmtree(checkout)
                 staged.rename(checkout)
+        if spec.get("install") == "cffi":
+            from .cffi_build import build
+            paths[source_id] = build(root, checkout, spec, _native_key(spec))
+            continue
         if spec.get("install") != "pip":
             paths[source_id] = checkout
             continue
