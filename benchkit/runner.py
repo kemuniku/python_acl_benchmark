@@ -143,9 +143,14 @@ def reusable(path, expected_fingerprint, case, settings):
         if [s["id"] for s in previous["series"]] != [a["id"] for a in case["adapters"]]:
             return False
         for series in previous["series"]:
-            if [p["size"] for p in series["points"]] != settings["sizes"]:
+            points = series["points"]
+            timeouts = series.get("timeouts", [])
+            if ([p["size"] for p in points] != sorted({p["size"] for p in points})
+                    or [p["size"] for p in timeouts] != sorted({p["size"] for p in timeouts})
+                    or sorted([p["size"] for p in points] + [p["size"] for p in timeouts]) != settings["sizes"]
+                    or any(p.get("timeout_seconds") != settings["timeout"] for p in timeouts)):
                 return False
-            for point in series["points"]:
+            for point in points:
                 samples = point["samples"]
                 if len(samples) != settings["repeat"] or not point["checksum"]:
                     return False
@@ -176,8 +181,8 @@ def run_worker(case, adapter, size, settings, source_paths):
             [sys.executable, "-m", "benchkit.worker"], input=json.dumps(request), text=True,
             capture_output=True, timeout=settings["timeout"], cwd=str(ROOT), env=environment,
         )
-    except subprocess.TimeoutExpired as error:
-        raise RuntimeError("%s/%s n=%s timed out after %ss" % (case["name"], adapter["id"], size, settings["timeout"])) from error
+    except subprocess.TimeoutExpired:
+        return None
     if process.returncode:
         raise RuntimeError("%s/%s n=%s failed:\n%s" % (case["name"], adapter["id"], size, process.stderr[-12000:]))
     try:
@@ -227,14 +232,19 @@ def run(results, selected=None, force=False, quick=False, root=ROOT):
         expected_checksums = {}
         for adapter in case["adapters"]:
             points = []
+            timeouts = []
             for size in settings["sizes"]:
                 print("RUN %s/%s/%s n=%s" % (runtime["id"], case["name"], adapter["id"], size), flush=True)
                 point = run_worker(case, adapter, size, settings, source_paths)
+                if point is None:
+                    timeouts.append({"size": size, "timeout_seconds": settings["timeout"]})
+                    print("TIMEOUT %s/%s/%s n=%s" % (runtime["id"], case["name"], adapter["id"], size), flush=True)
+                    continue
                 reference = expected_checksums.setdefault(size, point["checksum"])
                 if point["checksum"] != reference:
                     raise RuntimeError("Result mismatch: %s/%s n=%s" % (case["name"], adapter["id"], size))
                 points.append(point)
-            series.append({"id": adapter["id"], "label": adapter["label"], "points": points})
+            series.append({"id": adapter["id"], "label": adapter["label"], "points": points, "timeouts": timeouts})
         # Compare runtimes only when all workload, source and measurement settings
         # agree; an older result must not be mistaken for this version's oracle.
         workload_fingerprint = fingerprint(root, case, {}, settings, sources)

@@ -83,13 +83,28 @@ class RunnerTests(unittest.TestCase):
     def test_worker_timeout(self):
         config = self.root / "benchmarks/one/case.json"
         settings = json.loads(config.read_text())
-        settings["timeout"] = 0.01
+        settings["timeout"] = 0.3
         config.write_text(json.dumps(settings))
         (self.root / "benchmarks/one/implementations/first.py").write_text(
-            "import time\ndef run(data):\n    time.sleep(1)\n    return sum(data)\n"
+            "import time\ndef run(data):\n    if len(data) > 2: time.sleep(1)\n    return sum(data)\n"
         )
-        with self.assertRaisesRegex(RuntimeError, "timed out"):
-            self.execute(selected=["one"])
+        (self.root / "benchmarks/one/implementations/second.py").write_text(
+            "def run(data):\n    return sum(data)\n"
+        )
+        self.assertEqual(self.execute(selected=["one"]), 1)
+        record = read_json(self.result("one"))
+        first, second = record["series"]
+        self.assertEqual([p["size"] for p in first["points"]], [2])
+        self.assertEqual(first["timeouts"], [{"size": 8, "timeout_seconds": 0.3}])
+        self.assertEqual([p["size"] for p in second["points"]], [2, 8])
+        case = discover(self.root)["one"]
+        self.assertTrue(reusable(self.result("one"), record["fingerprint"], case, settings_for(case)))
+        self.assertEqual(self.execute(selected=["one"]), 0)
+
+        broken = copy.deepcopy(record)
+        broken["series"][0]["timeouts"][0]["size"] = 2
+        self.result("one").write_text(json.dumps(broken))
+        self.assertFalse(reusable(self.result("one"), record["fingerprint"], case, settings_for(case)))
 
     def test_input_mutation_is_rejected(self):
         (self.root / "benchmarks/one/implementations/first.py").write_text(
