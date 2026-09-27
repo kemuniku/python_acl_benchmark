@@ -15,10 +15,10 @@
     "runner_image": "ubuntu24",
     "runner_image_version": "20260920.314.1"
   },
-  "fingerprint": "acd1029e19efdeb49abb690c864d6849ea5824271cd432007dfa41c7cd30394a",
-  "workload_fingerprint": "6b0c3188cc514a6c6f569434149f41076a16b818da18f84b15f3db6bc0ab4ad3",
-  "commit": "3306c73d2e3fec5767b1a7116effe121efd1a734",
-  "measured_at": "2026-09-26T17:00:14.677915+00:00",
+  "fingerprint": "865b1fde661be6fd2937b5fb4c8a13566b5bec1c062e95e975663049799377ef",
+  "workload_fingerprint": "57366cfa0d5f9b46fd706c7fb1ec3b8defa1abf5d064b1bd6e1d42278d0058f3",
+  "commit": "ba4c9fde1991ed96f526d42396ff2a003d0a7a73",
+  "measured_at": "2026-09-27T21:59:49.266810+00:00",
   "settings": {
     "sizes": [
       128,
@@ -32,12 +32,16 @@
     "seed": 42,
     "repeat": 5,
     "warmup": 3,
-    "timeout": 2400,
+    "timeout": 4,
     "warmup_seconds": 0.25,
     "sample_seconds": 0.025,
     "quick": false
   },
   "sources": {
+    "harurun": {
+      "url": "https://github.com/lif4635/harurun-s-library.git",
+      "rev": "7c94b7bb0c9d4f6ed0ffa44853febee1e7971ff9"
+    },
     "not522": {
       "url": "https://github.com/not522/ac-library-python.git",
       "rev": "27fdbb71cd0d566bdeb12746db59c9d908c6b5d5"
@@ -49,120 +53,194 @@
   },
   "series": [
     {
+      "id": "harurun",
+      "label": "lif4635/harurun-s-library (library_codex)",
+      "points": [
+        {
+          "size": 128,
+          "median": 0.001292922375,
+          "min": 0.000537121,
+          "max": 0.001589195,
+          "samples": [
+            0.001292922375,
+            0.00077599025,
+            0.001589195,
+            0.00142586275,
+            0.000537121
+          ],
+          "checksum": "55986a25d82c0949dc4cb3e162c91eda8291bfb484fab9121609f7c08f326239",
+          "loops": 8,
+          "warmup_runs": 52
+        },
+        {
+          "size": 512,
+          "median": 0.0009584104444444444,
+          "min": 0.0008895829999999999,
+          "max": 0.0018742958888888887,
+          "samples": [
+            0.0018742958888888887,
+            0.0009409288888888889,
+            0.0011562884444444445,
+            0.0009584104444444444,
+            0.0008895829999999999
+          ],
+          "checksum": "358a444635ca7706ebed07e5d9409fa8ef077fb2afcf22020ba7e60d3e01ae1f",
+          "loops": 9,
+          "warmup_runs": 15
+        },
+        {
+          "size": 2048,
+          "median": 0.0037671586666666664,
+          "min": 0.0035055656666666667,
+          "max": 0.0038223416666666667,
+          "samples": [
+            0.0038223416666666667,
+            0.0037807206666666663,
+            0.0035055656666666667,
+            0.0037671586666666664,
+            0.003512839166666667
+          ],
+          "checksum": "522297e8102d65025313ef69955b04969385f5bd7c617435857dc928fbbaff45",
+          "loops": 6,
+          "warmup_runs": 33
+        },
+        {
+          "size": 8192,
+          "median": 0.022523243,
+          "min": 0.020362832,
+          "max": 0.026287467,
+          "samples": [
+            0.022523243,
+            0.026287467,
+            0.025133584,
+            0.02218956,
+            0.020362832
+          ],
+          "checksum": "b3d083b0a6803f413217670b24d9f30d115dc6fe69725b95b15c901d89e48114",
+          "loops": 1,
+          "warmup_runs": 10
+        },
+        {
+          "size": 32768,
+          "median": 0.141167786,
+          "min": 0.140148174,
+          "max": 0.143167698,
+          "samples": [
+            0.143167698,
+            0.141167786,
+            0.140148174,
+            0.14115387,
+            0.14148063
+          ],
+          "checksum": "af1ac19dfe599b0779be2a0df1d80c4b57ac23281044c4f44fb021ff0380a3b6",
+          "loops": 1,
+          "warmup_runs": 3
+        }
+      ],
+      "timeouts": [
+        {
+          "size": 131072,
+          "timeout_seconds": 4
+        },
+        {
+          "size": 500000,
+          "timeout_seconds": 4
+        }
+      ]
+    },
+    {
       "id": "not522",
       "label": "not522/ac-library-python",
       "points": [
         {
           "size": 128,
-          "median": 9.620645019920319e-05,
-          "min": 9.579987649402391e-05,
-          "max": 0.0001395949043824701,
+          "median": 9.50354453125e-05,
+          "min": 9.458491796875e-05,
+          "max": 0.0001369235625,
           "samples": [
-            9.706885657370518e-05,
-            9.605473705179283e-05,
-            9.620645019920319e-05,
-            9.579987649402391e-05,
-            0.0001395949043824701
+            9.616869140625e-05,
+            9.478751953125e-05,
+            9.50354453125e-05,
+            9.458491796875e-05,
+            0.0001369235625
           ],
           "checksum": "55986a25d82c0949dc4cb3e162c91eda8291bfb484fab9121609f7c08f326239",
-          "loops": 251,
-          "warmup_runs": 777
+          "loops": 256,
+          "warmup_runs": 769
         },
         {
           "size": 512,
-          "median": 0.0005310514390243902,
-          "min": 0.0005261188048780488,
-          "max": 0.0005484074634146341,
+          "median": 0.0005264108666666667,
+          "min": 0.0005231274,
+          "max": 0.0005445458000000001,
           "samples": [
-            0.0005363767073170732,
-            0.0005484074634146341,
-            0.0005310514390243902,
-            0.0005282075609756098,
-            0.0005261188048780488
+            0.0005330405555555556,
+            0.0005445458000000001,
+            0.0005264108666666667,
+            0.0005248147777777777,
+            0.0005231274
           ],
           "checksum": "358a444635ca7706ebed07e5d9409fa8ef077fb2afcf22020ba7e60d3e01ae1f",
-          "loops": 41,
-          "warmup_runs": 257
+          "loops": 45,
+          "warmup_runs": 259
         },
         {
           "size": 2048,
-          "median": 0.0027031496666666665,
-          "min": 0.0026957424444444445,
-          "max": 0.0027710062222222223,
+          "median": 0.002704196777777778,
+          "min": 0.0026877192222222223,
+          "max": 0.0027726934444444445,
           "samples": [
-            0.002701265,
-            0.0027031496666666665,
-            0.0026957424444444445,
-            0.002746565,
-            0.0027710062222222223
+            0.002704196777777778,
+            0.0027107945555555554,
+            0.002697844777777778,
+            0.0026877192222222223,
+            0.0027726934444444445
           ],
           "checksum": "522297e8102d65025313ef69955b04969385f5bd7c617435857dc928fbbaff45",
           "loops": 9,
-          "warmup_runs": 73
+          "warmup_runs": 72
         },
         {
           "size": 8192,
-          "median": 0.013648648,
-          "min": 0.013449637,
-          "max": 0.013828834,
+          "median": 0.014098435,
+          "min": 0.01402058,
+          "max": 0.014484737,
           "samples": [
-            0.013828834,
-            0.013648648,
-            0.013671281,
-            0.013449637,
-            0.013475846
+            0.014484737,
+            0.014098435,
+            0.014118182,
+            0.014071695,
+            0.01402058
           ],
           "checksum": "b3d083b0a6803f413217670b24d9f30d115dc6fe69725b95b15c901d89e48114",
           "loops": 1,
-          "warmup_runs": 15
+          "warmup_runs": 14
         },
         {
           "size": 32768,
-          "median": 0.094773867,
-          "min": 0.092631799,
-          "max": 0.097752044,
+          "median": 0.101068256,
+          "min": 0.100520374,
+          "max": 0.101228515,
           "samples": [
-            0.095378085,
-            0.097752044,
-            0.094773867,
-            0.092703374,
-            0.092631799
+            0.101104835,
+            0.100520374,
+            0.101228515,
+            0.101068256,
+            0.100664974
           ],
           "checksum": "af1ac19dfe599b0779be2a0df1d80c4b57ac23281044c4f44fb021ff0380a3b6",
           "loops": 1,
           "warmup_runs": 3
-        },
+        }
+      ],
+      "timeouts": [
         {
           "size": 131072,
-          "median": 0.55950637,
-          "min": 0.549682806,
-          "max": 0.571582306,
-          "samples": [
-            0.552273408,
-            0.55950637,
-            0.57018523,
-            0.571582306,
-            0.549682806
-          ],
-          "checksum": "e73e64d9f2689ec1dc79f9145ad6b7bba2c43fd6f81a08d2bba04ae1b7bb988e",
-          "loops": 1,
-          "warmup_runs": 3
+          "timeout_seconds": 4
         },
         {
           "size": 500000,
-          "median": 3.313169999,
-          "min": 3.173989142,
-          "max": 3.609962681,
-          "samples": [
-            3.173989142,
-            3.377242047,
-            3.185512482,
-            3.609962681,
-            3.313169999
-          ],
-          "checksum": "3d416652012338ffbcbb822eaddf93226dc0eccde243f9074fb67d5b1aef2a76",
-          "loops": 1,
-          "warmup_runs": 3
+          "timeout_seconds": 4
         }
       ]
     },
@@ -172,117 +250,341 @@
       "points": [
         {
           "size": 128,
-          "median": 9.446801158301159e-05,
-          "min": 9.043593436293437e-05,
-          "max": 0.00013321582625482625,
+          "median": 8.96596887159533e-05,
+          "min": 8.961918287937744e-05,
+          "max": 0.00014558874319066148,
           "samples": [
-            9.455562162162161e-05,
-            9.446801158301159e-05,
-            9.04831274131274e-05,
-            9.043593436293437e-05,
-            0.00013321582625482625
+            9.811721789883268e-05,
+            8.96596887159533e-05,
+            8.961918287937744e-05,
+            8.963481712062256e-05,
+            0.00014558874319066148
           ],
           "checksum": "55986a25d82c0949dc4cb3e162c91eda8291bfb484fab9121609f7c08f326239",
-          "loops": 259,
-          "warmup_runs": 842
+          "loops": 257,
+          "warmup_runs": 871
         },
         {
           "size": 512,
-          "median": 0.00043436507017543857,
-          "min": 0.00043312712280701754,
-          "max": 0.0004365772456140351,
+          "median": 0.00043618235714285714,
+          "min": 0.00043070392857142857,
+          "max": 0.00044301133928571426,
           "samples": [
-            0.0004362039298245614,
-            0.0004365772456140351,
-            0.00043312712280701754,
-            0.00043341468421052637,
-            0.00043436507017543857
+            0.00044301133928571426,
+            0.00043744275,
+            0.00043298853571428574,
+            0.00043070392857142857,
+            0.00043618235714285714
           ],
           "checksum": "358a444635ca7706ebed07e5d9409fa8ef077fb2afcf22020ba7e60d3e01ae1f",
-          "loops": 57,
+          "loops": 56,
           "warmup_runs": 308
         },
         {
           "size": 2048,
-          "median": 0.0022869736,
-          "min": 0.0022616043,
-          "max": 0.0024956937,
+          "median": 0.002314381,
+          "min": 0.0022948595,
+          "max": 0.0027687587,
           "samples": [
-            0.0022869736,
-            0.0022616043,
-            0.0022740184,
-            0.0024956937,
-            0.0024658341
+            0.002328346,
+            0.002314381,
+            0.0022948595,
+            0.0023126857,
+            0.0027687587
           ],
           "checksum": "522297e8102d65025313ef69955b04969385f5bd7c617435857dc928fbbaff45",
           "loops": 10,
-          "warmup_runs": 85
+          "warmup_runs": 83
         },
         {
           "size": 8192,
-          "median": 0.01170469,
-          "min": 0.011646321,
-          "max": 0.012059437,
+          "median": 0.011983577,
+          "min": 0.011940728,
+          "max": 0.012455088,
           "samples": [
-            0.0117800205,
-            0.011646321,
-            0.01170469,
-            0.0116486205,
-            0.012059437
+            0.012455088,
+            0.011983096,
+            0.011940728,
+            0.011983577,
+            0.01239226
           ],
           "checksum": "b3d083b0a6803f413217670b24d9f30d115dc6fe69725b95b15c901d89e48114",
-          "loops": 2,
-          "warmup_runs": 17
+          "loops": 1,
+          "warmup_runs": 16
         },
         {
           "size": 32768,
-          "median": 0.08064724,
-          "min": 0.080517829,
-          "max": 0.084835524,
+          "median": 0.086550699,
+          "min": 0.085996995,
+          "max": 0.088549638,
           "samples": [
-            0.080552473,
-            0.08064724,
-            0.081837288,
-            0.080517829,
-            0.084835524
+            0.087226008,
+            0.086550699,
+            0.086405708,
+            0.085996995,
+            0.088549638
           ],
           "checksum": "af1ac19dfe599b0779be2a0df1d80c4b57ac23281044c4f44fb021ff0380a3b6",
           "loops": 1,
           "warmup_runs": 3
-        },
+        }
+      ],
+      "timeouts": [
         {
           "size": 131072,
-          "median": 0.482996908,
-          "min": 0.47861231,
-          "max": 0.483736498,
-          "samples": [
-            0.483527698,
-            0.483736498,
-            0.482003885,
-            0.482996908,
-            0.47861231
-          ],
-          "checksum": "e73e64d9f2689ec1dc79f9145ad6b7bba2c43fd6f81a08d2bba04ae1b7bb988e",
-          "loops": 1,
-          "warmup_runs": 3
+          "timeout_seconds": 4
         },
         {
           "size": 500000,
-          "median": 2.758410498,
-          "min": 2.72048063,
-          "max": 2.771699705,
-          "samples": [
-            2.756683141,
-            2.758410498,
-            2.771699705,
-            2.72048063,
-            2.759345928
-          ],
-          "checksum": "3d416652012338ffbcbb822eaddf93226dc0eccde243f9074fb67d5b1aef2a76",
-          "loops": 1,
-          "warmup_runs": 3
+          "timeout_seconds": 4
         }
       ]
+    }
+  ],
+  "references": [
+    {
+      "id": "cpp_acl",
+      "label": "C++ ACL（参考用）",
+      "reference": true,
+      "note": "参考用：C++内で初期化・操作ループ・結果作成を計測。Pythonとの値変換・プロセス起動・入出力は計測値に含みません。",
+      "runtime": {
+        "id": "cpp",
+        "implementation": "C++",
+        "version": "17",
+        "build": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0 | -std=c++17 -O3 -DNDEBUG -march=native",
+        "executable": "/home/runner/work/python_acl_benchmark/python_acl_benchmark/.cache/cpp-reference/5b9a616b7c2d322b01b2/acl-reference",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+        "machine": "x86_64",
+        "cpu": "AMD EPYC 7763 64-Core Processor",
+        "runner_image": "ubuntu24",
+        "runner_image_version": "20260920.314.1",
+        "cpp_build": {
+          "source": {
+            "url": "https://github.com/atcoder/ac-library.git",
+            "rev": "864245a00b00dd008d1abfdc239618fdb7d139da"
+          },
+          "environment": {
+            "compilers": {
+              "CC": {
+                "command": [
+                  "gcc"
+                ],
+                "executable": "/usr/bin/x86_64-linux-gnu-gcc-13",
+                "version": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+              },
+              "CXX": {
+                "command": [
+                  "g++"
+                ],
+                "executable": "/usr/bin/x86_64-linux-gnu-g++-13",
+                "version": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+              }
+            },
+            "environment": {
+              "CC": null,
+              "CXX": null,
+              "CPP": null,
+              "CFLAGS": null,
+              "CXXFLAGS": null,
+              "CPPFLAGS": null,
+              "LDFLAGS": null,
+              "LDSHARED": null,
+              "LDCXXSHARED": null,
+              "AR": null,
+              "ARFLAGS": null,
+              "RANLIB": null,
+              "CPATH": null,
+              "C_INCLUDE_PATH": null,
+              "CPLUS_INCLUDE_PATH": null,
+              "LIBRARY_PATH": null,
+              "LD_LIBRARY_PATH": "/opt/hostedtoolcache/Python/3.11.16/x64/lib",
+              "SDKROOT": null,
+              "MACOSX_DEPLOYMENT_TARGET": null,
+              "ARCHFLAGS": null
+            },
+            "sysconfig": {
+              "CC": "gcc",
+              "CXX": "g++",
+              "CPP": null,
+              "CFLAGS": "-Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall",
+              "CXXFLAGS": null,
+              "CPPFLAGS": "-I. -I./Include",
+              "LDFLAGS": "-Wl,--rpath=/opt/hostedtoolcache/Python/3.11.16/x64/lib -Wl,--rpath=/opt/hostedtoolcache/Python/3.11.16/x64/lib",
+              "LDSHARED": "gcc -shared -Wl,--rpath=/opt/hostedtoolcache/Python/3.11.16/x64/lib -Wl,--rpath=/opt/hostedtoolcache/Python/3.11.16/x64/lib",
+              "LDCXXSHARED": "g++ -shared",
+              "AR": "ar",
+              "ARFLAGS": "rcs",
+              "RANLIB": null,
+              "CPATH": null,
+              "C_INCLUDE_PATH": null,
+              "CPLUS_INCLUDE_PATH": null,
+              "LIBRARY_PATH": null,
+              "LD_LIBRARY_PATH": null,
+              "SDKROOT": null,
+              "MACOSX_DEPLOYMENT_TARGET": "",
+              "ARCHFLAGS": null
+            }
+          },
+          "flags": [
+            "-std=c++17",
+            "-O3",
+            "-DNDEBUG",
+            "-march=native"
+          ],
+          "link_flags": [],
+          "native_key": "6ddbaada62aa3deee85c",
+          "binary_key": "5b9a616b7c2d322b01b2a3daad7f44891c8a64371b1a91bb3d7a4da630c26b6a"
+        }
+      },
+      "settings": {
+        "sizes": [
+          128,
+          512,
+          2048,
+          8192,
+          32768,
+          131072,
+          500000
+        ],
+        "seed": 42,
+        "repeat": 5,
+        "warmup": 3,
+        "timeout": 4,
+        "warmup_seconds": 0.25,
+        "sample_seconds": 0.025,
+        "quick": false
+      },
+      "sources": {
+        "cpp": {
+          "url": "https://github.com/atcoder/ac-library.git",
+          "rev": "864245a00b00dd008d1abfdc239618fdb7d139da"
+        }
+      },
+      "commit": "ba4c9fde1991ed96f526d42396ff2a003d0a7a73",
+      "fingerprint": "1ca6bca8ecf5645a320241e97afb0ce8f9d016a6fbb688bd762eb091fdb87eed",
+      "points": [
+        {
+          "size": 128,
+          "samples": [
+            1.5887313725490196e-05,
+            1.5856433902593294e-05,
+            1.582853889943074e-05,
+            1.5885981657179e-05,
+            1.581940670461733e-05
+          ],
+          "median": 1.5856433902593294e-05,
+          "min": 1.581940670461733e-05,
+          "max": 1.5887313725490196e-05,
+          "loops": 1581,
+          "warmup_runs": 15699,
+          "checksum": "55986a25d82c0949dc4cb3e162c91eda8291bfb484fab9121609f7c08f326239",
+          "input_checksum": "ca09b6dade24ce471dc133186263436ff9db16fffee53c64f27a64f9489e06d0"
+        },
+        {
+          "size": 512,
+          "samples": [
+            9.121243272727272e-05,
+            9.10401090909091e-05,
+            9.127090181818183e-05,
+            9.094870181818181e-05,
+            9.08256e-05
+          ],
+          "median": 9.10401090909091e-05,
+          "min": 9.08256e-05,
+          "max": 9.127090181818183e-05,
+          "loops": 275,
+          "warmup_runs": 2730,
+          "checksum": "358a444635ca7706ebed07e5d9409fa8ef077fb2afcf22020ba7e60d3e01ae1f",
+          "input_checksum": "5b2a0a9922840cb87e2d4712a24ed1793596b5a13c6b1807e4a85fa3b2c03c54"
+        },
+        {
+          "size": 2048,
+          "samples": [
+            0.0005937229047619048,
+            0.0005929178333333333,
+            0.000591797880952381,
+            0.0005930168333333334,
+            0.0005925690714285714
+          ],
+          "median": 0.0005929178333333333,
+          "min": 0.000591797880952381,
+          "max": 0.0005937229047619048,
+          "loops": 42,
+          "warmup_runs": 423,
+          "checksum": "522297e8102d65025313ef69955b04969385f5bd7c617435857dc928fbbaff45",
+          "input_checksum": "d8c1fbcc7923c4ffe8fea1b92e5c0f62b22ffa1181fd63c203a0297d3aeca6ac"
+        },
+        {
+          "size": 8192,
+          "samples": [
+            0.00297195825,
+            0.002966079875,
+            0.0029660735,
+            0.002968597,
+            0.00296483875
+          ],
+          "median": 0.002966079875,
+          "min": 0.00296483875,
+          "max": 0.00297195825,
+          "loops": 8,
+          "warmup_runs": 85,
+          "checksum": "b3d083b0a6803f413217670b24d9f30d115dc6fe69725b95b15c901d89e48114",
+          "input_checksum": "90129c87d056573033ce9602e87db7c1c45188022220f07f47421c9d9050c1a7"
+        },
+        {
+          "size": 32768,
+          "samples": [
+            0.014582516,
+            0.014605559,
+            0.014506113,
+            0.014384356,
+            0.014480645
+          ],
+          "median": 0.014506113,
+          "min": 0.014384356,
+          "max": 0.014605559,
+          "loops": 1,
+          "warmup_runs": 18,
+          "checksum": "af1ac19dfe599b0779be2a0df1d80c4b57ac23281044c4f44fb021ff0380a3b6",
+          "input_checksum": "d5d8b6510c4c56f92b391bdb44f855b1268097cf92c484b305132e97ac107871"
+        },
+        {
+          "size": 131072,
+          "samples": [
+            0.070795568,
+            0.070683949,
+            0.070145525,
+            0.070283352,
+            0.070726229
+          ],
+          "median": 0.070683949,
+          "min": 0.070145525,
+          "max": 0.070795568,
+          "loops": 1,
+          "warmup_runs": 4,
+          "checksum": "e73e64d9f2689ec1dc79f9145ad6b7bba2c43fd6f81a08d2bba04ae1b7bb988e",
+          "input_checksum": "6f98b4dac36a045f72799c8763bf8db73fcaf81c86920e86b09e056a5374e373"
+        },
+        {
+          "size": 500000,
+          "samples": [
+            0.312380082,
+            0.313520661,
+            0.316162639,
+            0.309882893,
+            0.310290244
+          ],
+          "median": 0.312380082,
+          "min": 0.309882893,
+          "max": 0.316162639,
+          "loops": 1,
+          "warmup_runs": 3,
+          "checksum": "3d416652012338ffbcbb822eaddf93226dc0eccde243f9074fb67d5b1aef2a76",
+          "input_checksum": "7a55bd9087c14fe7e40bd1cabd933c3765afb34edf3bbf50d5aceb0a4aa8ee66"
+        }
+      ],
+      "timeouts": [],
+      "measured_at": "2026-09-27T22:06:04.507733+00:00"
     }
   ]
 }

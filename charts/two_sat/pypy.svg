@@ -1,10 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="602" viewBox="0 0 1040 602" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="654" viewBox="0 0 1040 654" role="img" aria-labelledby="title desc">
 <title id="title">2-SAT / PyPy 3.11.13 benchmark</title>
 <desc id="desc">Median elapsed time versus input size. Bands and whiskers show the observed minimum and maximum. X axis: log. Y axis: log. Lower is faster.</desc>
 <rect width="100%" height="100%" rx="12" fill="white"/>
 <g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" fill="#0f172a">
 <text x="40" y="36" font-size="23" font-weight="700">2-SAT / PyPy 3.11.13</text>
 <text x="40" y="61" font-size="13" fill="#64748b">Lower is faster · median line · observed min–max range</text>
+<text x="40" y="81" font-size="11" fill="#475569">参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。</text>
 <line x1="124.17" y1="94" x2="124.17" y2="406" stroke="#e2e8f0"/>
 <text x="124.17" y="431" font-size="12" text-anchor="middle" fill="#475569">100</text>
 <line x1="191.37" y1="94" x2="191.37" y2="406" stroke="#e2e8f0"/>
@@ -29,112 +30,131 @@
 <text x="861.06" y="431" font-size="12" text-anchor="middle" fill="#475569">200,000</text>
 <line x1="949.89" y1="94" x2="949.89" y2="406" stroke="#e2e8f0"/>
 <text x="949.89" y="431" font-size="12" text-anchor="middle" fill="#475569">500,000</text>
-<line x1="100" y1="357.71" x2="998" y2="357.71" stroke="#e2e8f0"/>
-<text x="87" y="361.71" font-size="12" text-anchor="end" fill="#475569">0.0001</text>
-<line x1="100" y1="301.99" x2="998" y2="301.99" stroke="#e2e8f0"/>
-<text x="87" y="305.99" font-size="12" text-anchor="end" fill="#475569">0.001</text>
-<line x1="100" y1="246.28" x2="998" y2="246.28" stroke="#e2e8f0"/>
-<text x="87" y="250.28" font-size="12" text-anchor="end" fill="#475569">0.01</text>
-<line x1="100" y1="190.56" x2="998" y2="190.56" stroke="#e2e8f0"/>
-<text x="87" y="194.56" font-size="12" text-anchor="end" fill="#475569">0.1</text>
-<line x1="100" y1="134.85" x2="998" y2="134.85" stroke="#e2e8f0"/>
-<text x="87" y="138.85" font-size="12" text-anchor="end" fill="#475569">1</text>
+<line x1="100" y1="400.92" x2="998" y2="400.92" stroke="#e2e8f0"/>
+<text x="87" y="404.92" font-size="12" text-anchor="end" fill="#475569">0.01</text>
+<line x1="100" y1="331.42" x2="998" y2="331.42" stroke="#e2e8f0"/>
+<text x="87" y="335.42" font-size="12" text-anchor="end" fill="#475569">0.1</text>
+<line x1="100" y1="261.91" x2="998" y2="261.91" stroke="#e2e8f0"/>
+<text x="87" y="265.91" font-size="12" text-anchor="end" fill="#475569">1</text>
+<line x1="100" y1="192.41" x2="998" y2="192.41" stroke="#e2e8f0"/>
+<text x="87" y="196.41" font-size="12" text-anchor="end" fill="#475569">10</text>
+<line x1="100" y1="122.90" x2="998" y2="122.90" stroke="#e2e8f0"/>
+<text x="87" y="126.90" font-size="12" text-anchor="end" fill="#475569">100</text>
 <path d="M100 94 V406 H998" fill="none" stroke="#94a3b8"/>
 <text x="549" y="461" font-size="14" text-anchor="middle">Input size n (log scale)</text>
-<text transform="translate(25 250) rotate(-90)" font-size="14" text-anchor="middle">Elapsed time [s] (log scale)</text>
-<polygon points="148.11,385.07 282.50,353.37 416.90,318.72 551.30,280.69 685.70,242.70 820.09,210.14 949.89,174.52 949.89,177.49 820.09,211.98 685.70,243.19 551.30,281.05 416.90,319.05 282.50,356.05 148.11,389.29" fill="#2563eb" fill-opacity="0.09"/>
-<path d="M148.11,385.07 V389.29 M145.11,385.07 H151.11 M145.11,389.29 H151.11" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
-<path d="M282.50,353.37 V356.05 M279.50,353.37 H285.50 M279.50,356.05 H285.50" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
-<path d="M416.90,318.72 V319.05 M413.90,318.72 H419.90 M413.90,319.05 H419.90" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
-<path d="M551.30,280.69 V281.05 M548.30,280.69 H554.30 M548.30,281.05 H554.30" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
-<path d="M685.70,242.70 V243.19 M682.70,242.70 H688.70 M682.70,243.19 H688.70" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
-<path d="M820.09,210.14 V211.98 M817.09,210.14 H823.09 M817.09,211.98 H823.09" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
-<path d="M949.89,174.52 V177.49 M946.89,174.52 H952.89 M946.89,177.49 H952.89" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
-<polyline points="148.11,389.26 282.50,354.97 416.90,318.89 551.30,280.89 685.70,242.92 820.09,211.23 949.89,176.45" fill="none" stroke="#2563eb" stroke-width="2.5"/>
-<circle cx="148.11" cy="389.26" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
-<circle cx="282.50" cy="354.97" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
-<circle cx="416.90" cy="318.89" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
-<circle cx="551.30" cy="280.89" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
-<circle cx="685.70" cy="242.92" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
-<circle cx="820.09" cy="211.23" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
-<circle cx="949.89" cy="176.45" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
-<polygon points="148.11,350.78 282.50,319.55 416.90,286.55 551.30,253.06 685.70,218.33 820.09,183.55 949.89,152.74 949.89,152.92 820.09,184.18 685.70,219.26 551.30,253.48 416.90,287.30 282.50,322.11 148.11,355.67" fill="#dc2626" fill-opacity="0.09"/>
-<path d="M148.11,350.78 V355.67 M145.11,350.78 H151.11 M145.11,355.67 H151.11" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
-<path d="M282.50,319.55 V322.11 M279.50,319.55 H285.50 M279.50,322.11 H285.50" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
-<path d="M416.90,286.55 V287.30 M413.90,286.55 H419.90 M413.90,287.30 H419.90" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
-<path d="M551.30,253.06 V253.48 M548.30,253.06 H554.30 M548.30,253.48 H554.30" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
-<path d="M685.70,218.33 V219.26 M682.70,218.33 H688.70 M682.70,219.26 H688.70" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
-<path d="M820.09,183.55 V184.18 M817.09,183.55 H823.09 M817.09,184.18 H823.09" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
-<path d="M949.89,152.74 V152.92 M946.89,152.74 H952.89 M946.89,152.92 H952.89" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
-<polyline points="148.11,354.83 282.50,321.96 416.90,287.18 551.30,253.40 685.70,218.88 820.09,183.91 949.89,152.85" fill="none" stroke="#dc2626" stroke-width="2.5"/>
-<circle cx="148.11" cy="354.83" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
-<circle cx="282.50" cy="321.96" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
-<circle cx="416.90" cy="287.18" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
-<circle cx="551.30" cy="253.40" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
-<circle cx="685.70" cy="218.88" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
-<circle cx="820.09" cy="183.91" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
-<circle cx="949.89" cy="152.85" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
-<polygon points="148.11,358.63 282.50,295.63 416.90,259.95 551.30,229.47 685.70,207.04 820.09,174.15 949.89,147.14 949.89,147.62 820.09,176.33 685.70,218.07 551.30,245.02 416.90,277.84 282.50,312.44 148.11,370.67" fill="#059669" fill-opacity="0.09"/>
-<path d="M148.11,358.63 V370.67 M145.11,358.63 H151.11 M145.11,370.67 H151.11" stroke="#059669" stroke-opacity="0.5" fill="none"/>
-<path d="M282.50,295.63 V312.44 M279.50,295.63 H285.50 M279.50,312.44 H285.50" stroke="#059669" stroke-opacity="0.5" fill="none"/>
-<path d="M416.90,259.95 V277.84 M413.90,259.95 H419.90 M413.90,277.84 H419.90" stroke="#059669" stroke-opacity="0.5" fill="none"/>
-<path d="M551.30,229.47 V245.02 M548.30,229.47 H554.30 M548.30,245.02 H554.30" stroke="#059669" stroke-opacity="0.5" fill="none"/>
-<path d="M685.70,207.04 V218.07 M682.70,207.04 H688.70 M682.70,218.07 H688.70" stroke="#059669" stroke-opacity="0.5" fill="none"/>
-<path d="M820.09,174.15 V176.33 M817.09,174.15 H823.09 M817.09,176.33 H823.09" stroke="#059669" stroke-opacity="0.5" fill="none"/>
-<path d="M949.89,147.14 V147.62 M946.89,147.14 H952.89 M946.89,147.62 H952.89" stroke="#059669" stroke-opacity="0.5" fill="none"/>
-<polyline points="148.11,370.46 282.50,302.61 416.90,268.65 551.30,239.00 685.70,214.59 820.09,175.13 949.89,147.47" fill="none" stroke="#059669" stroke-width="2.5"/>
-<circle cx="148.11" cy="370.46" r="3.8" fill="white" stroke="#059669" stroke-width="2"/>
-<circle cx="282.50" cy="302.61" r="3.8" fill="white" stroke="#059669" stroke-width="2"/>
-<circle cx="416.90" cy="268.65" r="3.8" fill="white" stroke="#059669" stroke-width="2"/>
-<circle cx="551.30" cy="239.00" r="3.8" fill="white" stroke="#059669" stroke-width="2"/>
-<circle cx="685.70" cy="214.59" r="3.8" fill="white" stroke="#059669" stroke-width="2"/>
-<circle cx="820.09" cy="175.13" r="3.8" fill="white" stroke="#059669" stroke-width="2"/>
-<circle cx="949.89" cy="147.47" r="3.8" fill="white" stroke="#059669" stroke-width="2"/>
-<polygon points="148.11,369.02 282.50,336.13 416.90,294.46 551.30,261.53 685.70,224.61 820.09,182.59 949.89,145.22 949.89,145.85 820.09,183.18 685.70,226.24 551.30,261.73 416.90,294.79 282.50,337.04 148.11,374.21" fill="#9333ea" fill-opacity="0.09"/>
-<path d="M148.11,369.02 V374.21 M145.11,369.02 H151.11 M145.11,374.21 H151.11" stroke="#9333ea" stroke-opacity="0.5" fill="none"/>
-<path d="M282.50,336.13 V337.04 M279.50,336.13 H285.50 M279.50,337.04 H285.50" stroke="#9333ea" stroke-opacity="0.5" fill="none"/>
-<path d="M416.90,294.46 V294.79 M413.90,294.46 H419.90 M413.90,294.79 H419.90" stroke="#9333ea" stroke-opacity="0.5" fill="none"/>
-<path d="M551.30,261.53 V261.73 M548.30,261.53 H554.30 M548.30,261.73 H554.30" stroke="#9333ea" stroke-opacity="0.5" fill="none"/>
-<path d="M685.70,224.61 V226.24 M682.70,224.61 H688.70 M682.70,226.24 H688.70" stroke="#9333ea" stroke-opacity="0.5" fill="none"/>
-<path d="M820.09,182.59 V183.18 M817.09,182.59 H823.09 M817.09,183.18 H823.09" stroke="#9333ea" stroke-opacity="0.5" fill="none"/>
-<path d="M949.89,145.22 V145.85 M946.89,145.22 H952.89 M946.89,145.85 H952.89" stroke="#9333ea" stroke-opacity="0.5" fill="none"/>
-<polyline points="148.11,373.95 282.50,336.84 416.90,294.72 551.30,261.64 685.70,226.09 820.09,183.11 949.89,145.62" fill="none" stroke="#9333ea" stroke-width="2.5"/>
-<circle cx="148.11" cy="373.95" r="3.8" fill="white" stroke="#9333ea" stroke-width="2"/>
-<circle cx="282.50" cy="336.84" r="3.8" fill="white" stroke="#9333ea" stroke-width="2"/>
-<circle cx="416.90" cy="294.72" r="3.8" fill="white" stroke="#9333ea" stroke-width="2"/>
-<circle cx="551.30" cy="261.64" r="3.8" fill="white" stroke="#9333ea" stroke-width="2"/>
-<circle cx="685.70" cy="226.09" r="3.8" fill="white" stroke="#9333ea" stroke-width="2"/>
-<circle cx="820.09" cy="183.11" r="3.8" fill="white" stroke="#9333ea" stroke-width="2"/>
-<circle cx="949.89" cy="145.62" r="3.8" fill="white" stroke="#9333ea" stroke-width="2"/>
-<polygon points="148.11,316.11 282.50,283.14 416.90,249.44 551.30,214.88 685.70,178.71 820.09,142.56 949.89,110.71 949.89,111.02 820.09,142.95 685.70,180.67 551.30,217.11 416.90,249.75 282.50,283.62 148.11,316.63" fill="#d97706" fill-opacity="0.09"/>
-<path d="M148.11,316.11 V316.63 M145.11,316.11 H151.11 M145.11,316.63 H151.11" stroke="#d97706" stroke-opacity="0.5" fill="none"/>
-<path d="M282.50,283.14 V283.62 M279.50,283.14 H285.50 M279.50,283.62 H285.50" stroke="#d97706" stroke-opacity="0.5" fill="none"/>
-<path d="M416.90,249.44 V249.75 M413.90,249.44 H419.90 M413.90,249.75 H419.90" stroke="#d97706" stroke-opacity="0.5" fill="none"/>
-<path d="M551.30,214.88 V217.11 M548.30,214.88 H554.30 M548.30,217.11 H554.30" stroke="#d97706" stroke-opacity="0.5" fill="none"/>
-<path d="M685.70,178.71 V180.67 M682.70,178.71 H688.70 M682.70,180.67 H688.70" stroke="#d97706" stroke-opacity="0.5" fill="none"/>
-<path d="M820.09,142.56 V142.95 M817.09,142.56 H823.09 M817.09,142.95 H823.09" stroke="#d97706" stroke-opacity="0.5" fill="none"/>
-<path d="M949.89,110.71 V111.02 M946.89,110.71 H952.89 M946.89,111.02 H952.89" stroke="#d97706" stroke-opacity="0.5" fill="none"/>
-<polyline points="148.11,316.31 282.50,283.27 416.90,249.57 551.30,216.89 685.70,179.61 820.09,142.75 949.89,110.82" fill="none" stroke="#d97706" stroke-width="2.5"/>
-<circle cx="148.11" cy="316.31" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
-<circle cx="282.50" cy="283.27" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
-<circle cx="416.90" cy="249.57" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
-<circle cx="551.30" cy="216.89" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
-<circle cx="685.70" cy="179.61" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
-<circle cx="820.09" cy="142.75" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
-<circle cx="949.89" cy="110.82" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
+<text transform="translate(25 250) rotate(-90)" font-size="14" text-anchor="middle">Elapsed time [ms] (log scale)</text>
+<polygon points="148.11,366.44 282.50,325.35 416.90,283.74 551.30,235.88 685.70,189.65 820.09,142.31 820.09,145.02 685.70,190.75 551.30,236.18 416.90,285.13 282.50,329.70 148.11,371.05" fill="#2563eb" fill-opacity="0.09"/>
+<path d="M148.11,366.44 V371.05 M145.11,366.44 H151.11 M145.11,371.05 H151.11" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
+<path d="M282.50,325.35 V329.70 M279.50,325.35 H285.50 M279.50,329.70 H285.50" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
+<path d="M416.90,283.74 V285.13 M413.90,283.74 H419.90 M413.90,285.13 H419.90" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
+<path d="M551.30,235.88 V236.18 M548.30,235.88 H554.30 M548.30,236.18 H554.30" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
+<path d="M685.70,189.65 V190.75 M682.70,189.65 H688.70 M682.70,190.75 H688.70" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
+<path d="M820.09,142.31 V145.02 M817.09,142.31 H823.09 M817.09,145.02 H823.09" stroke="#2563eb" stroke-opacity="0.5" fill="none"/>
+<polyline points="148.11,370.91 282.50,328.45 416.90,284.99 551.30,236.04 685.70,190.55 820.09,144.94" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+<circle cx="148.11" cy="370.91" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
+<circle cx="282.50" cy="328.45" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
+<circle cx="416.90" cy="284.99" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
+<circle cx="551.30" cy="236.04" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
+<circle cx="685.70" cy="190.55" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
+<circle cx="820.09" cy="144.94" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
+<polygon points="148.11,333.85 282.50,281.41 416.90,227.41 551.30,183.87 685.70,123.65 685.70,125.70 551.30,185.67 416.90,228.22 282.50,283.41 148.11,338.26" fill="#dc2626" fill-opacity="0.09"/>
+<path d="M148.11,333.85 V338.26 M145.11,333.85 H151.11 M145.11,338.26 H151.11" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
+<path d="M282.50,281.41 V283.41 M279.50,281.41 H285.50 M279.50,283.41 H285.50" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
+<path d="M416.90,227.41 V228.22 M413.90,227.41 H419.90 M413.90,228.22 H419.90" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
+<path d="M551.30,183.87 V185.67 M548.30,183.87 H554.30 M548.30,185.67 H554.30" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
+<path d="M685.70,123.65 V125.70 M682.70,123.65 H688.70 M682.70,125.70 H688.70" stroke="#dc2626" stroke-opacity="0.5" fill="none"/>
+<polyline points="148.11,337.09 282.50,283.06 416.90,228.07 551.30,184.90 685.70,125.18" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+<circle cx="148.11" cy="337.09" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
+<circle cx="282.50" cy="283.06" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
+<circle cx="416.90" cy="228.07" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
+<circle cx="551.30" cy="184.90" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
+<circle cx="685.70" cy="125.18" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
+<polygon points="148.11,323.16 282.50,286.70 416.90,243.60 551.30,201.44 685.70,158.14 685.70,158.74 551.30,201.66 416.90,243.81 282.50,287.00 148.11,328.48" fill="#059669" fill-opacity="0.09"/>
+<path d="M148.11,323.16 V328.48 M145.11,323.16 H151.11 M145.11,328.48 H151.11" stroke="#059669" stroke-opacity="0.5" fill="none"/>
+<path d="M282.50,286.70 V287.00 M279.50,286.70 H285.50 M279.50,287.00 H285.50" stroke="#059669" stroke-opacity="0.5" fill="none"/>
+<path d="M416.90,243.60 V243.81 M413.90,243.60 H419.90 M413.90,243.81 H419.90" stroke="#059669" stroke-opacity="0.5" fill="none"/>
+<path d="M551.30,201.44 V201.66 M548.30,201.44 H554.30 M548.30,201.66 H554.30" stroke="#059669" stroke-opacity="0.5" fill="none"/>
+<path d="M685.70,158.14 V158.74 M682.70,158.14 H688.70 M682.70,158.74 H688.70" stroke="#059669" stroke-opacity="0.5" fill="none"/>
+<polyline points="148.11,327.87 282.50,286.83 416.90,243.74 551.30,201.61 685.70,158.59" fill="none" stroke="#059669" stroke-width="2.5"/>
+<circle cx="148.11" cy="327.87" r="3.8" fill="white" stroke="#059669" stroke-width="2"/>
+<circle cx="282.50" cy="286.83" r="3.8" fill="white" stroke="#059669" stroke-width="2"/>
+<circle cx="416.90" cy="243.74" r="3.8" fill="white" stroke="#059669" stroke-width="2"/>
+<circle cx="551.30" cy="201.61" r="3.8" fill="white" stroke="#059669" stroke-width="2"/>
+<circle cx="685.70" cy="158.59" r="3.8" fill="white" stroke="#059669" stroke-width="2"/>
+<polygon points="148.11,335.51 282.50,263.24 416.90,211.87 551.30,176.78 685.70,144.36 685.70,158.70 551.30,191.15 416.90,232.17 282.50,302.77 148.11,350.57" fill="#9333ea" fill-opacity="0.09"/>
+<path d="M148.11,335.51 V350.57 M145.11,335.51 H151.11 M145.11,350.57 H151.11" stroke="#9333ea" stroke-opacity="0.5" fill="none"/>
+<path d="M282.50,263.24 V302.77 M279.50,263.24 H285.50 M279.50,302.77 H285.50" stroke="#9333ea" stroke-opacity="0.5" fill="none"/>
+<path d="M416.90,211.87 V232.17 M413.90,211.87 H419.90 M413.90,232.17 H419.90" stroke="#9333ea" stroke-opacity="0.5" fill="none"/>
+<path d="M551.30,176.78 V191.15 M548.30,176.78 H554.30 M548.30,191.15 H554.30" stroke="#9333ea" stroke-opacity="0.5" fill="none"/>
+<path d="M685.70,144.36 V158.70 M682.70,144.36 H688.70 M682.70,158.70 H688.70" stroke="#9333ea" stroke-opacity="0.5" fill="none"/>
+<polyline points="148.11,349.54 282.50,298.81 416.90,220.71 551.30,183.70 685.70,155.75" fill="none" stroke="#9333ea" stroke-width="2.5"/>
+<circle cx="148.11" cy="349.54" r="3.8" fill="white" stroke="#9333ea" stroke-width="2"/>
+<circle cx="282.50" cy="298.81" r="3.8" fill="white" stroke="#9333ea" stroke-width="2"/>
+<circle cx="416.90" cy="220.71" r="3.8" fill="white" stroke="#9333ea" stroke-width="2"/>
+<circle cx="551.30" cy="183.70" r="3.8" fill="white" stroke="#9333ea" stroke-width="2"/>
+<circle cx="685.70" cy="155.75" r="3.8" fill="white" stroke="#9333ea" stroke-width="2"/>
+<polygon points="148.11,341.08 282.50,304.31 416.90,252.67 551.30,211.33 685.70,165.19 820.09,113.36 820.09,113.68 685.70,167.30 551.30,211.65 416.90,252.97 282.50,305.18 148.11,351.49" fill="#d97706" fill-opacity="0.09"/>
+<path d="M148.11,341.08 V351.49 M145.11,341.08 H151.11 M145.11,351.49 H151.11" stroke="#d97706" stroke-opacity="0.5" fill="none"/>
+<path d="M282.50,304.31 V305.18 M279.50,304.31 H285.50 M279.50,305.18 H285.50" stroke="#d97706" stroke-opacity="0.5" fill="none"/>
+<path d="M416.90,252.67 V252.97 M413.90,252.67 H419.90 M413.90,252.97 H419.90" stroke="#d97706" stroke-opacity="0.5" fill="none"/>
+<path d="M551.30,211.33 V211.65 M548.30,211.33 H554.30 M548.30,211.65 H554.30" stroke="#d97706" stroke-opacity="0.5" fill="none"/>
+<path d="M685.70,165.19 V167.30 M682.70,165.19 H688.70 M682.70,167.30 H688.70" stroke="#d97706" stroke-opacity="0.5" fill="none"/>
+<path d="M820.09,113.36 V113.68 M817.09,113.36 H823.09 M817.09,113.68 H823.09" stroke="#d97706" stroke-opacity="0.5" fill="none"/>
+<polyline points="148.11,349.56 282.50,304.86 416.90,252.92 551.30,211.43 685.70,167.02 820.09,113.60" fill="none" stroke="#d97706" stroke-width="2.5"/>
+<circle cx="148.11" cy="349.56" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
+<circle cx="282.50" cy="304.86" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
+<circle cx="416.90" cy="252.92" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
+<circle cx="551.30" cy="211.43" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
+<circle cx="685.70" cy="167.02" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
+<circle cx="820.09" cy="113.60" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
+<polygon points="148.11,279.53 282.50,238.68 416.90,195.44 551.30,155.13 685.70,110.71 685.70,111.90 551.30,155.27 416.90,196.90 282.50,239.32 148.11,280.73" fill="#0891b2" fill-opacity="0.09"/>
+<path d="M148.11,279.53 V280.73 M145.11,279.53 H151.11 M145.11,280.73 H151.11" stroke="#0891b2" stroke-opacity="0.5" fill="none"/>
+<path d="M282.50,238.68 V239.32 M279.50,238.68 H285.50 M279.50,239.32 H285.50" stroke="#0891b2" stroke-opacity="0.5" fill="none"/>
+<path d="M416.90,195.44 V196.90 M413.90,195.44 H419.90 M413.90,196.90 H419.90" stroke="#0891b2" stroke-opacity="0.5" fill="none"/>
+<path d="M551.30,155.13 V155.27 M548.30,155.13 H554.30 M548.30,155.27 H554.30" stroke="#0891b2" stroke-opacity="0.5" fill="none"/>
+<path d="M685.70,110.71 V111.90 M682.70,110.71 H688.70 M682.70,111.90 H688.70" stroke="#0891b2" stroke-opacity="0.5" fill="none"/>
+<polyline points="148.11,280.16 282.50,238.90 416.90,196.58 551.30,155.20 685.70,111.48" fill="none" stroke="#0891b2" stroke-width="2.5"/>
+<circle cx="148.11" cy="280.16" r="3.8" fill="white" stroke="#0891b2" stroke-width="2"/>
+<circle cx="282.50" cy="238.90" r="3.8" fill="white" stroke="#0891b2" stroke-width="2"/>
+<circle cx="416.90" cy="196.58" r="3.8" fill="white" stroke="#0891b2" stroke-width="2"/>
+<circle cx="551.30" cy="155.20" r="3.8" fill="white" stroke="#0891b2" stroke-width="2"/>
+<circle cx="685.70" cy="111.48" r="3.8" fill="white" stroke="#0891b2" stroke-width="2"/>
+<polygon points="148.11,386.18 282.50,347.33 416.90,294.41 551.30,244.54 685.70,204.46 820.09,160.45 949.89,119.97 949.89,120.75 820.09,160.82 685.70,204.52 551.30,244.81 416.90,294.72 282.50,347.43 148.11,389.29" fill="#475569" fill-opacity="0.09"/>
+<path d="M148.11,386.18 V389.29 M145.11,386.18 H151.11 M145.11,389.29 H151.11" stroke="#475569" stroke-opacity="0.5" fill="none"/>
+<path d="M282.50,347.33 V347.43 M279.50,347.33 H285.50 M279.50,347.43 H285.50" stroke="#475569" stroke-opacity="0.5" fill="none"/>
+<path d="M416.90,294.41 V294.72 M413.90,294.41 H419.90 M413.90,294.72 H419.90" stroke="#475569" stroke-opacity="0.5" fill="none"/>
+<path d="M551.30,244.54 V244.81 M548.30,244.54 H554.30 M548.30,244.81 H554.30" stroke="#475569" stroke-opacity="0.5" fill="none"/>
+<path d="M685.70,204.46 V204.52 M682.70,204.46 H688.70 M682.70,204.52 H688.70" stroke="#475569" stroke-opacity="0.5" fill="none"/>
+<path d="M820.09,160.45 V160.82 M817.09,160.45 H823.09 M817.09,160.82 H823.09" stroke="#475569" stroke-opacity="0.5" fill="none"/>
+<path d="M949.89,119.97 V120.75 M946.89,119.97 H952.89 M946.89,120.75 H952.89" stroke="#475569" stroke-opacity="0.5" fill="none"/>
+<polyline points="148.11,389.24 282.50,347.41 416.90,294.54 551.30,244.76 685.70,204.49 820.09,160.58 949.89,120.48" fill="none" stroke="#475569" stroke-width="2.5" stroke-dasharray="7 5"/>
+<rect x="144.31" y="385.44" width="7.6" height="7.6" fill="white" stroke="#475569" stroke-width="2"/>
+<rect x="278.70" y="343.61" width="7.6" height="7.6" fill="white" stroke="#475569" stroke-width="2"/>
+<rect x="413.10" y="290.74" width="7.6" height="7.6" fill="white" stroke="#475569" stroke-width="2"/>
+<rect x="547.50" y="240.96" width="7.6" height="7.6" fill="white" stroke="#475569" stroke-width="2"/>
+<rect x="681.90" y="200.69" width="7.6" height="7.6" fill="white" stroke="#475569" stroke-width="2"/>
+<rect x="816.29" y="156.78" width="7.6" height="7.6" fill="white" stroke="#475569" stroke-width="2"/>
+<rect x="946.09" y="116.68" width="7.6" height="7.6" fill="white" stroke="#475569" stroke-width="2"/>
 <line x1="42" y1="489" x2="73" y2="489" stroke="#2563eb" stroke-width="2.5"/>
 <circle cx="57.00" cy="489.00" r="3.8" fill="white" stroke="#2563eb" stroke-width="2"/>
 <text x="83" y="493" font-size="12">local/acl-cffi (CFFI + C++) / PyPy 3.11.13</text>
 <line x1="552" y1="489" x2="583" y2="489" stroke="#dc2626" stroke-width="2.5"/>
 <circle cx="567.00" cy="489.00" r="3.8" fill="white" stroke="#dc2626" stroke-width="2"/>
-<text x="593" y="493" font-size="12">local/acl-hpy (HPy Universal + C++) / PyPy 3.11.13</text>
-<line x1="42" y1="523" x2="73" y2="523" stroke="#059669" stroke-width="2.5"/>
-<circle cx="57.00" cy="523.00" r="3.8" fill="white" stroke="#059669" stroke-width="2"/>
-<text x="83" y="527" font-size="12">not522/ac-library-python / PyPy 3.11.13</text>
-<line x1="552" y1="523" x2="583" y2="523" stroke="#9333ea" stroke-width="2.5"/>
-<circle cx="567.00" cy="523.00" r="3.8" fill="white" stroke="#9333ea" stroke-width="2"/>
-<text x="593" y="527" font-size="12">shakayami/ACL-for-python / PyPy 3.11.13</text>
-<line x1="42" y1="557" x2="73" y2="557" stroke="#d97706" stroke-width="2.5"/>
-<circle cx="57.00" cy="557.00" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
-<text x="83" y="561" font-size="12">tatyam-prime/acl-cpp-python (C++) / PyPy 3.11.13</text>
+<text x="593" y="493" font-size="12">lif4635/harurun-s-library (library_codex) / PyPy</text>
+<text x="593" y="511" font-size="12">3.11.13</text>
+<line x1="42" y1="541" x2="73" y2="541" stroke="#059669" stroke-width="2.5"/>
+<circle cx="57.00" cy="541.00" r="3.8" fill="white" stroke="#059669" stroke-width="2"/>
+<text x="83" y="545" font-size="12">local/acl-hpy (HPy Universal + C++) / PyPy 3.11.13</text>
+<line x1="552" y1="541" x2="583" y2="541" stroke="#9333ea" stroke-width="2.5"/>
+<circle cx="567.00" cy="541.00" r="3.8" fill="white" stroke="#9333ea" stroke-width="2"/>
+<text x="593" y="545" font-size="12">not522/ac-library-python / PyPy 3.11.13</text>
+<line x1="42" y1="575" x2="73" y2="575" stroke="#d97706" stroke-width="2.5"/>
+<circle cx="57.00" cy="575.00" r="3.8" fill="white" stroke="#d97706" stroke-width="2"/>
+<text x="83" y="579" font-size="12">shakayami/ACL-for-python / PyPy 3.11.13</text>
+<line x1="552" y1="575" x2="583" y2="575" stroke="#0891b2" stroke-width="2.5"/>
+<circle cx="567.00" cy="575.00" r="3.8" fill="white" stroke="#0891b2" stroke-width="2"/>
+<text x="593" y="579" font-size="12">tatyam-prime/acl-cpp-python (C++) / PyPy 3.11.13</text>
+<line x1="42" y1="609" x2="73" y2="609" stroke="#475569" stroke-width="2.5" stroke-dasharray="7 5"/>
+<rect x="53.20" y="605.20" width="7.6" height="7.6" fill="white" stroke="#475569" stroke-width="2"/>
+<text x="83" y="613" font-size="12">C++ ACL（参考用） / C++ 17</text>
 </g></svg>
