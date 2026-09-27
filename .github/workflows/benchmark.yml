@@ -89,6 +89,21 @@ jobs:
             PYTHONPATH="$native_path" "$python" -m unittest discover -s tests -p test_acl_hpy.py
             HPY=debug PYTHONPATH="$native_path" "$python" -m unittest discover -s tests -p test_acl_hpy.py
           done
+      - name: Build and test the standalone C++ reference
+        env:
+          PYTHON: ${{ steps.runtimes.outputs.cpython }}
+        run: |
+          binary=$("$PYTHON" -c 'from benchkit.cpp_reference import build; print(build()[0])')
+          ACL_CPP_REFERENCE_BINARY="$binary" "$PYTHON" -m unittest discover -s tests -p test_cpp_reference.py
+      - name: Validate harurun adapters on both runtimes
+        env:
+          CPYTHON: ${{ steps.runtimes.outputs.cpython }}
+          PYPY: ${{ steps.runtimes.outputs.pypy }}
+        run: |
+          source_path=$("$CPYTHON" -m benchkit build --source harurun --print-path)
+          for python in "$CPYTHON" "$PYPY"; do
+            ACL_HARURUN_SOURCE="$source_path" "$python" -m unittest discover -s tests -p test_harurun.py
+          done
       - name: Restore the last published measurements
         env:
           PYTHON: ${{ steps.runtimes.outputs.cpython }}
@@ -107,6 +122,7 @@ jobs:
           fi
           "$CPYTHON" -m benchkit run --results results "${args[@]}"
           "$PYPY" -m benchkit run --results results "${args[@]}"
+          "$CPYTHON" -m benchkit cpp-reference --results results "${args[@]}"
       - uses: actions/upload-artifact@v7
         with:
           name: benchmark-results

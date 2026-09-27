@@ -1,4 +1,8 @@
 {
+  "harurun": {
+    "url": "https://github.com/lif4635/harurun-s-library.git",
+    "rev": "7c94b7bb0c9d4f6ed0ffa44853febee1e7971ff9"
+  },
   "not522": {
     "url": "https://github.com/not522/ac-library-python.git",
     "rev": "27fdbb71cd0d566bdeb12746db59c9d908c6b5d5"
@@ -15,6 +19,10 @@
       "scikit-build-core==0.11.2",
       "nanobind==2.7.0"
     ]
+  },
+  "cpp": {
+    "url": "https://github.com/atcoder/ac-library.git",
+    "rev": "864245a00b00dd008d1abfdc239618fdb7d139da"
   },
   "hpy": {
     "url": "https://github.com/atcoder/ac-library.git",

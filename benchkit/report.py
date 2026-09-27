@@ -15,6 +15,12 @@ from urllib.parse import quote, urlsplit
 
 
 COLORS = ("#2563eb", "#dc2626", "#059669", "#9333ea", "#d97706", "#0891b2", "#db2777", "#475569")
+REFERENCE_NOTE = "参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。"
+
+
+def _references(record):
+    # A reference is an overlay on PyPy, never another Python implementation.
+    return record.get("references", []) if record.get("runtime", {}).get("id") == "pypy" else []
 
 
 def _escape(value: object) -> str:
@@ -102,18 +108,31 @@ def _marker(x: float, y: float, color: str, index: int) -> str:
 def _chart(records: list[dict], title: str) -> str:
     lines = []
     for record in records:
-        for series in record.get("series", []):
+        entries = [(series, _runtime_name(record), False) for series in record.get("series", [])]
+        entries += [(ref, _runtime_name(ref), True) for ref in _references(record)]
+        for series, runtime, reference in entries:
             points = [_point(point) for point in series.get("points", [])]
             points = sorted((point for point in points if point is not None), key=lambda point: point["size"])
             if points:
-                lines.append({"id": str(series["id"]), "label": str(series.get("label", series["id"])), "runtime": _runtime_name(record), "points": points})
+                label = str(series.get("label", series["id"]))
+                if reference and "参考用" not in label:
+                    label += "（参考用）"
+                lines.append({"id": str(series["id"]), "label": label, "runtime": runtime,
+                              "points": points, "reference": reference})
     if not lines:
         return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 220" role="img">'
                 f'<title>{_escape(title)}</title><rect width="1040" height="220" fill="white"/>'
                 '<text x="520" y="110" text-anchor="middle" font-family="sans-serif" fill="#64748b">No measurements available</text></svg>')
 
-    library_ids = sorted({line["id"] for line in lines})
-    runtime_ids = sorted({line["runtime"] for line in lines})
+    library_ids = sorted({line["id"] for line in lines if not line["reference"]})
+    runtime_ids = sorted({line["runtime"] for line in lines if not line["reference"]})
+
+    def style(line):
+        if line["reference"]:
+            return "#475569", 1, ' stroke-dasharray="7 5"'
+        index = runtime_ids.index(line["runtime"])
+        return (COLORS[library_ids.index(line["id"]) % len(COLORS)], index,
+                ('', ' stroke-dasharray="7 4"', ' stroke-dasharray="2 4"')[index % 3])
     legend = [textwrap.wrap(f'{line["label"]} / {line["runtime"]}', width=55, break_long_words=True) for line in lines]
     legend_rows = []
     for offset in range(0, len(legend), 2):
@@ -131,6 +150,8 @@ def _chart(records: list[dict], title: str) -> str:
            '<g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" fill="#0f172a">',
            f'<text x="40" y="36" font-size="23" font-weight="700">{_escape(title)}</text>',
            '<text x="40" y="61" font-size="13" fill="#64748b">Lower is faster · median line · observed min–max range</text>']
+    if any(line["reference"] for line in lines):
+        svg.append(f'<text x="40" y="81" font-size="11" fill="#475569">{_escape(REFERENCE_NOTE)}</text>')
     for tick in x_ticks:
         position = x(tick)
         svg.extend((f'<line x1="{position:.2f}" y1="94" x2="{position:.2f}" y2="406" stroke="#e2e8f0"/>',
@@ -143,9 +164,7 @@ def _chart(records: list[dict], title: str) -> str:
                 f'<text x="549" y="461" font-size="14" text-anchor="middle">Input size n ({x_mode} scale)</text>',
                 f'<text transform="translate(25 250) rotate(-90)" font-size="14" text-anchor="middle">Elapsed time [{unit}] ({y_mode} scale)</text>'))
     for line in lines:
-        color = COLORS[library_ids.index(line["id"]) % len(COLORS)]
-        runtime_index = runtime_ids.index(line["runtime"])
-        dash = ('', ' stroke-dasharray="7 4"', ' stroke-dasharray="2 4"')[runtime_index % 3]
+        color, runtime_index, dash = style(line)
         points = line["points"]
         upper = [(x(point["size"]), y(point["max"] * multiplier)) for point in points]
         lower = [(x(point["size"]), y(point["min"] * multiplier)) for point in reversed(points)]
@@ -163,9 +182,7 @@ def _chart(records: list[dict], title: str) -> str:
         if index and index % 2 == 0:
             legend_y += legend_rows[index // 2 - 1]
         legend_x = 42 + index % 2 * 510
-        color = COLORS[library_ids.index(line["id"]) % len(COLORS)]
-        runtime_index = runtime_ids.index(line["runtime"])
-        dash = ('', ' stroke-dasharray="7 4"', ' stroke-dasharray="2 4"')[runtime_index % 3]
+        color, runtime_index, dash = style(line)
         svg.append(f'<line x1="{legend_x}" y1="{legend_y - 4}" x2="{legend_x + 31}" y2="{legend_y - 4}" stroke="{color}" stroke-width="2.5"{dash}/>')
         svg.append(_marker(legend_x + 15, legend_y - 4, color, runtime_index))
         for row, label in enumerate(legend[index]):
@@ -189,6 +206,8 @@ def _provenance_html(record: dict) -> str:
     runtime, settings = record.get("runtime", {}), record.get("settings", {})
     coverage = ", ".join(str(size) for size in settings.get("sizes", [])) or "?"
     mode = ' <span class="badge">quick</span>' if settings.get("quick") else ""
+    if record.get("reference"):
+        mode += ' <span class="badge">参考用</span>'
     return (f'<tr><td><strong>{_escape(_runtime_name(record))}</strong>{mode}<br><span class="muted">{_escape(runtime.get("build") or runtime.get("id", ""))}</span></td>'
             f'<td>{_escape(record.get("measured_at", "unknown"))}<br><code>{_escape(record.get("commit") or "unknown")}</code></td>'
             f'<td>{_escape(runtime.get("cpu") or "unknown CPU")}<br><span class="muted">{_escape(runtime.get("platform", ""))}<br>image: {_escape(runtime.get("runner_image", "unknown"))} / {_escape(runtime.get("runner_image_version", "unknown"))}</span></td>'
@@ -265,6 +284,7 @@ def render(results_dir: Path, output_dir: Path) -> None:
         markdown.extend([f"## {_markdown(title)}", "", _markdown(description), ""])
         for runtime_id, runtime_entries in sorted(runtime_groups.items()):
             runtime_records = [entry["record"] for entry in runtime_entries]
+            references = [ref for record in runtime_records for ref in _references(record)]
             runtime_label = ", ".join(sorted({_runtime_name(record) for record in runtime_records}))
             chart_title = f"{title} / {runtime_label}"
             chart_href = f"charts/{slug}/{_slug(runtime_id)}.svg"
@@ -272,14 +292,29 @@ def render(results_dir: Path, output_dir: Path) -> None:
             downloads = [f'<a href="{chart_href}" download>SVG を保存</a>']
             for entry in runtime_entries:
                 downloads.append(f'<a href="{_escape(entry["href"])}" download>{_escape(_runtime_name(entry["record"]))} JSON</a>')
+            reference_notice = ""
+            if references:
+                timeout_count = sum(len(ref.get("timeouts", [])) for ref in references)
+                reference_notice = (f'<p class="downloads">{_escape(REFERENCE_NOTE)} '
+                                    f'参考系列のタイムアウト: {timeout_count} 点（グラフから除外）。</p>')
             runtime_charts.append(f'<div class="runtime-chart"><h3>{_escape(runtime_label)}</h3>'
+                                  + reference_notice +
                                   f'<div class="chart-wrap"><img class="chart" src="{chart_href}" alt="{_escape(chart_title)} の入力サイズ別実行時間" loading="lazy"></div>'
                                   f'<div class="downloads">{"".join(downloads)}</div></div>')
             markdown.extend([f"### {_markdown(runtime_label)}", "", f"![{_markdown(chart_title)}]({chart_href})", "", f"[SVG を保存]({chart_href})", ""])
+            if references:
+                markdown.extend(["**" + REFERENCE_NOTE + "**", ""])
+                for ref in references:
+                    markdown.append("- C++ ACL（参考用）: " + _markdown(ref.get("measured_at", "unknown"))
+                                    + "; " + _markdown(ref.get("runtime", {}).get("build", ""))
+                                    + "; timeout n=" + _markdown([p["size"] for p in ref.get("timeouts", [])]))
+                markdown.append("")
         sections.append(f'<section class="card" id="{slug}"><div class="card-head"><h2>{_escape(title)}</h2><p class="description">{_escape(description)}</p>{quick_notice}</div>'
                         + "".join(runtime_charts) + '<details><summary>計測環境・ソース・計測日時</summary><div class="table-wrap">'
                         '<table><thead><tr><th>ランタイム</th><th>計測日時 / commit</th><th>CPU / OS</th><th>設定</th><th>ソース / revision</th></tr></thead><tbody>'
-                        + "".join(_provenance_html(record) for record in case_records) + '</tbody></table></div></details></section>')
+                        + "".join(_provenance_html(record) for record in case_records)
+                        + "".join(_provenance_html(ref) for record in case_records for ref in _references(record))
+                        + '</tbody></table></div></details></section>')
         navigation.append(f'<a href="#{slug}">{_escape(title)}</a>')
         markdown.extend(["### 計測情報", "", "| ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |", "| --- | --- | --- | --- | --- |"])
         for entry in entries:
@@ -305,8 +340,11 @@ def render(results_dir: Path, output_dir: Path) -> None:
         sections.append('<section class="card empty"><h2>計測結果はまだありません</h2><p class="muted">ベンチマークを実行すると、ここにグラフと計測情報が表示されます。</p></section>')
         markdown.extend(["計測結果はまだありません。ベンチマークを実行するとグラフが表示されます。", ""])
     runtime_count = len({_runtime_name(record) for record in records})
-    point_count = sum(len(series.get("points", [])) for record in records for series in record.get("series", []))
-    timestamps = [str(record.get("measured_at", "")) for record in records if record.get("measured_at")]
+    point_count = sum(len(series.get("points", [])) for record in records
+                      for series in record.get("series", []) + _references(record))
+    dated_records = [entry for record in records
+                     for entry in [record] + record.get("series", []) + _references(record)]
+    timestamps = [str(record["measured_at"]) for record in dated_records if record.get("measured_at")]
     last_updated = max(timestamps) if timestamps else "—"
     caution = "CI の CPU・負荷・ランタイムのバージョンによって実行時間は変動します。増分計測ではケースやランタイムごとに計測日時が異なります。各グラフの計測情報と JSON を併せて確認してください。"
     page = ('<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'

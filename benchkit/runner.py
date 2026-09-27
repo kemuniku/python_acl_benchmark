@@ -80,7 +80,7 @@ def discover(root=ROOT):
             value = config.setdefault(key, default)
             if type(value) is not int or value < minimum:
                 raise ValueError("%s: invalid %s" % (config_path, key))
-        for key, default, minimum in (("timeout", 120, 0.01), ("warmup_seconds", 0.25, 0), ("sample_seconds", 0.025, 0)):
+        for key, default, minimum in (("timeout", 4, 0.01), ("warmup_seconds", 0.25, 0), ("sample_seconds", 0.025, 0)):
             value = config.setdefault(key, default)
             if type(value) not in (int, float) or not minimum <= value < float("inf"):
                 raise ValueError("%s: invalid %s" % (config_path, key))

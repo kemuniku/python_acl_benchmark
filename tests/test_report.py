@@ -129,6 +129,44 @@ class ReportTests(unittest.TestCase):
             render(self.results, self.results)
         self.assertTrue(source.exists())
 
+    def test_cpp_reference_overlays_only_pypy_and_is_explicitly_marked(self):
+        cpython = self.result()
+        pypy = self.result("pypy")
+        render(self.results, self.site)
+        original_cpython = (self.site / "charts/dsu/cpython.svg").read_bytes()
+        reference = {
+            "id": "cpp_acl", "label": "C++ ACL", "reference": True,
+            "runtime": {"id": "cpp", "implementation": "C++", "version": "17", "build": "g++ -O3"},
+            "measured_at": "2026-09-27T10:00:00Z", "sources": {"cpp": {"rev": "native-sha"}},
+            "points": [{"size": 100, "median": 0.0001}, {"size": 1000, "median": 0.0002}],
+            "timeouts": [{"size": 10000}],
+        }
+        for path in (cpython, pypy):
+            record = json.loads(path.read_text())
+            record["references"] = [reference]
+            path.write_text(json.dumps(record))
+        render(self.results, self.site)
+        self.assertEqual(original_cpython, (self.site / "charts/dsu/cpython.svg").read_bytes())
+        chart = ET.parse(self.site / "charts/dsu/pypy.svg")
+        text = " ".join(chart.getroot().itertext())
+        self.assertIn("C++ ACL（参考用）", text)
+        self.assertIn("C++ 17", text)
+        self.assertIn("Pythonとの値変換", text)
+        lines = chart.findall(".//{http://www.w3.org/2000/svg}polyline")
+        self.assertEqual(len(lines), 2)
+        self.assertEqual(lines[0].get("stroke"), "#2563eb")
+        self.assertIsNone(lines[0].get("stroke-dasharray"))
+        self.assertEqual(lines[1].get("stroke-dasharray"), "7 5")
+        self.assertEqual(lines[1].get("stroke"), "#475569")
+        self.assertFalse((self.site / "charts/dsu/cpp.svg").exists())
+        page = (self.site / "index.html").read_text()
+        self.assertIn("参考系列のタイムアウト: 1 点", page)
+        self.assertIn("native-sha", page)
+        self.assertIn("g++ -O3", page)
+        self.assertIn("<strong>2</strong><span>ランタイム", page)
+        self.assertIn("参考用", (self.site / "README.md").read_text())
+        self.assertEqual(pypy.read_bytes(), (self.site / "data/pypy/dsu.json").read_bytes())
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -8,9 +8,12 @@ Python 向け AtCoder Library を **CPython / PyPy × 入力サイズ** で比�
 - [not522/ac-library-python](https://github.com/not522/ac-library-python)
 - [shakayami/ACL-for-python](https://github.com/shakayami/ACL-for-python)
 - [tatyam-prime/acl-cpp-python](https://github.com/tatyam-prime/acl-cpp-python)
+- [lif4635/harurun-s-library](https://github.com/lif4635/harurun-s-library)（現行の `library_codex`、[対応API](docs/harurun.md)）
 - [ローカル CFFI 実装](acl_cffi/README.md)（公式 C++ ACL のバインディング）
 - [ローカル HPy 実装](acl_hpy/README.md)（公式 C++ ACL、HPy Universal ABI）
 - 各フォルダに追加した自作実装
+
+PyPy のグラフには、[公式 C++ ACL の単体実行](acl_cpp/README.md)も **「C++ ACL（参考用）」** として灰色の破線で重ねます。全14ケースが対象です。
 
 外部ライブラリの取得先と commit SHA は [sources.lock.json](sources.lock.json) に固定しています。
 上流のコードは `.cache/` に取得し、このリポジトリには再配布しません。各ライブラリのライセンスは上流の LICENSE を参照してください。
@@ -40,35 +43,35 @@ CI が `gh-pages` に書き込めるよう、組織のポリシーでも workflo
 
 ## 比較する内容
 
-| フォルダ | 処理 | not522 | shakayami | tatyam | CFFI | HPy |
-| --- | --- | :---: | :---: | :---: | :---: | :---: |
-| `dsu` | Union-Find の merge / same | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `fenwicktree` | 点加算 / 区間和 | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `segtree` | 点更新 / 区間和 | ✓ | ✓ | — | — | — |
-| `lazysegtree` | 区間加算 / 区間和 | ✓ | ✓ | — | — | — |
-| `convolution` | mod 998244353 の畳み込み | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `suffix_array` | 接尾辞配列 | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `lcp_array` | LCP 配列 | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `z_algorithm` | Z-algorithm | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `scc` | 強連結成分分解 | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `two_sat` | 2-SAT | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `maxflow` | 最大流 | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `mincostflow` | 最小費用流 | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `floor_sum` | floor_sum の反復 | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `crt` | 中国剰余定理の反復 | ✓ | ✓ | ✓ | ✓ | ✓ |
+| フォルダ | 処理 | not522 | shakayami | tatyam | CFFI | HPy | harurun |
+| --- | --- | :---: | :---: | :---: | :---: | :---: | :---: |
+| `dsu` | Union-Find の merge / same | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `fenwicktree` | 点加算 / 区間和 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `segtree` | 点更新 / 区間和 | ✓ | ✓ | — | — | — | ✓ |
+| `lazysegtree` | 区間加算 / 区間和 | ✓ | ✓ | — | — | — | ✓ |
+| `convolution` | mod 998244353 の畳み込み | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `suffix_array` | 接尾辞配列 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `lcp_array` | LCP 配列 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `z_algorithm` | Z-algorithm | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `scc` | 強連結成分分解 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `two_sat` | 2-SAT | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `maxflow` | 最大流 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `mincostflow` | 最小費用流 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `floor_sum` | floor_sum の反復 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `crt` | 中国剰余定理の反復 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 CFFI 版は公式 ACL v1.6 を CFFI の API モードで呼び出します。DSU・グラフなどは Python 側から操作ごとに呼び出し、既存実装と同じループを計測します。Segment Tree / Lazy Segment Tree は対象外です。
 
 HPy 版も同じ12ケースを対象に、同じリビジョン・入力検査・数値型の C++ 処理を使います。Python / HPy 間の呼び出しと値変換を含めて計測し、CPython / PyPy ともに Universal ABI を使用します。
 
-固定した tatyam 版には Segment Tree / Lazy Segment Tree の Python API がないため、この 2 ケースは 2 実装で比較します。
+固定した tatyam 版には Segment Tree / Lazy Segment Tree の Python API がないため、この 2 ケースの Python 実装は not522・shakayami・harurun の3実装で比較します。
 グラフの `n` の意味、操作回数、計測に含める処理は各 `case.json` の `description` と `workload.py` に記載しています。
 例えば DSU は `n` 頂点と `4n` クエリ、畳み込みはそれぞれ長さ `n` の配列です。グラフはこのワークロードに対する結果です。
 
 線形・準線形の処理を比較する 12 ケース（最大流・最小費用流を除く）は、**`n = 500,000` まで**計測します。
 通常は `128, 512, 2048, 8192, 32768, 131072, 500000`、畳み込みは `64, 256, 1024, 4096, 16384, 65536, 131072, 500000` です。
 `floor_sum` / `crt` の `n` は固定範囲の引数に対する呼び出し回数です。最大流は従来どおり `n = 2,048`、最小費用流は `n = 128` まで計測します。
-大規模な CPython の畳み込み・遅延セグメント木では反復計測に時間がかかるため、実装 × 入力サイズの時間上限は最大 2,400 秒、CI の計測ジョブ全体は 180 分に設定しています。
+実装 × 入力サイズごとの時間上限は **4 秒**です。ウォームアップ・反復計測を含む子プロセス全体が上限を超えると、そのプロセスを終了します。CI の計測ジョブ全体の上限は 180 分です。
 
 SCC は最大 32 頂点の強連結成分を持つグラフ、2-SAT は最大 32 変数の独立ブロックからなる充足可能な式を使います。
 2-SAT の充足不能な入力は計測前の正解チェックで検証します。最大流・最小費用流は容量 1 の疎な二部グラフで、始点・終点を含めた総頂点数は `2n+2`、重複辺も含みます。
@@ -144,13 +147,13 @@ def run(data):
   "warmup": 3,
   "warmup_seconds": 0.25,
   "sample_seconds": 0.025,
-  "timeout": 300
+  "timeout": 4
 }
 ```
 
 `sizes` は昇順の正整数です。`warmup` と `warmup_seconds` は両方の条件を満たすまでウォームアップします。
 `sample_seconds` を目安に 1 サンプル内の呼び出し回数を校正し、**1 回の `run(data)` あたりの秒数**を保存します。
-`timeout` は実装 × 入力サイズごとのプロセス全体に対する秒数です。
+`timeout` は実装 × 入力サイズごとのプロセス全体に対する秒数で、既定値は 4 秒です。プロセス起動・import・入力生成・正解チェック・ウォームアップ・全サンプルの反復計測を含みます。ソースの取得・拡張のビルドは含みません。
 
 ## 何が再計測されるか
 
@@ -162,6 +165,7 @@ def run(data):
 | `acl_cffi/` の Python | CFFI 版を利用する比較 |
 | `acl_cffi/native.cpp` / `cdef.h` | CFFI / HPy 版を利用する比較（共通の C++ 処理） |
 | `acl_hpy/` の Python / C++ | HPy 版を利用する比較（ネイティブ拡張も再ビルド） |
+| `acl_cpp/benchmark.cpp` / `benchkit/cpp_reference.py` / C++ コンパイラ | C++ の参考系列 |
 | 計測基盤、workflow、Python / PyPy、CPU、runner image | 影響する全比較 |
 | `benchkit/report.py` / ルート README | 計測を再利用してレポートを生成 |
 | 比較フォルダの削除 | 保存結果とグラフを削除 |
@@ -204,6 +208,7 @@ pypy3 -m venv .venv-pypy
 # 通常の計測: 並列にせず順番に実行する
 .venv-cpython/bin/python -m benchkit run
 .venv-pypy/bin/python -m benchkit run
+.venv-cpython/bin/python -m benchkit cpp-reference --results results
 .venv-cpython/bin/python -m benchkit report --results results --output site
 
 # site/index.html を直接開くか、ローカルサーバーで閲覧
@@ -215,10 +220,13 @@ pypy3 -m venv .venv-pypy
 ソースとネイティブビルドは `.cache/`、計測結果は `results/`、グラフは `site/` に作成します。いずれも Git の管理対象外です。
 `.cache/` 内のコードは直接編集せず、変更したい実装は比較フォルダに置いてください。
 
+保存済みの PyPy 結果に C++ の参考値だけを追加する場合も `cpp-reference` を使います。保存結果と同じ CPU・OS で、同じサイズ・seed・反復回数を使って計測し、元の Python の測定値・日時を保持します。`--case`、`--force` にも対応します。
+
 ## 計測方法と読み方
 
 - CPython / PyPy は **同じ GitHub runner 上で順番に** 実行します。各実装・各サイズには独立したプロセスを使います。
 - 計測対象は `run(data)` です。データ構造の初期化、API 呼び出し、Python と C++ の値変換、戻り値作成を含みます。import、ビルド、入力生成、計測前の正解チェック、プロセス起動は含みません。2-SAT では戻り値を共通化するため、得た解が全節を満たすかの確認も `run()` 内で行い、その時間を含みます。
+- **C++ ACL（参考用）** は、初期化・操作ループ・戻り値作成を C++ 内で実行します。Python との値変換、プロセス起動、入出力を計測値に含めないため、Python 実装とは計測条件が異なります。コンパイラ・最適化オプション・ACL の SHA を別途記録し、PyPy のグラフと凡例に参考用と明記します。
 - 同じ seed の入力を使い、小さい入力の独立した正解チェックと、全計測サイズでの実装間の出力チェックを行います。同じコード・設定の結果が揃ったランタイム間でも出力を照合します。
 - PyPy の JIT ウォームアップを行い、各サンプルの前に `gc.collect()` を実行します。計測中は GC を有効にしたままです。ウォームアップが十分かはケースによるため、必要に応じて設定を増やしてください。
 - グラフはケースごとに **CPython 用と PyPy 用を別々に** 生成し、それぞれの計測値に合わせて軸の範囲を調整します。中央値を線で、観測した最小値から最大値を帯とひげで表示します。帯は信頼区間ではありません。通常は両軸対数で、小さいほど高速です。
@@ -227,6 +235,7 @@ pypy3 -m venv .venv-pypy
 
 正解不一致、import / ビルド失敗、タイムアウトはエラーにし、その実行の結果を公開しません。
 成功した比較の結果は一時ファイルから置き換え、失敗時に不完全な JSON を保存しないようにしています。
+C++ の参考系列では、4秒を超えた子プロセスを終了して、そのサイズをタイムアウトとして記録し、残りのサイズを計測します。タイムアウトを計測値には置き換えません。C++ の上限には入出力・ウォームアップ・全サンプルを含み、親 Python プロセスでの入力生成は含みません。正解不一致やビルド失敗は参考系列でもエラーになります。
 
 ## 開発時の確認
 
