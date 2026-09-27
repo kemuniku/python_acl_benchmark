@@ -293,15 +293,25 @@ def render(results_dir: Path, output_dir: Path) -> None:
             for entry in runtime_entries:
                 downloads.append(f'<a href="{_escape(entry["href"])}" download>{_escape(_runtime_name(entry["record"]))} JSON</a>')
             reference_notice = ""
+            timed_out = [(series["id"], point["size"])
+                         for record in runtime_records for series in record.get("series", [])
+                         for point in series.get("timeouts", [])]
+            if timed_out:
+                reference_notice += (f'<p class="downloads">Python 実装のタイムアウト: {len(timed_out)} 点'
+                                     '（グラフから除外、詳細は JSON）。</p>')
             if references:
                 timeout_count = sum(len(ref.get("timeouts", [])) for ref in references)
-                reference_notice = (f'<p class="downloads">{_escape(REFERENCE_NOTE)} '
-                                    f'参考系列のタイムアウト: {timeout_count} 点（グラフから除外）。</p>')
+                reference_notice += (f'<p class="downloads">{_escape(REFERENCE_NOTE)} '
+                                     f'参考系列のタイムアウト: {timeout_count} 点（グラフから除外）。</p>')
             runtime_charts.append(f'<div class="runtime-chart"><h3>{_escape(runtime_label)}</h3>'
                                   + reference_notice +
                                   f'<div class="chart-wrap"><img class="chart" src="{chart_href}" alt="{_escape(chart_title)} の入力サイズ別実行時間" loading="lazy"></div>'
                                   f'<div class="downloads">{"".join(downloads)}</div></div>')
             markdown.extend([f"### {_markdown(runtime_label)}", "", f"![{_markdown(chart_title)}]({chart_href})", "", f"[SVG を保存]({chart_href})", ""])
+            if timed_out:
+                markdown.append("タイムアウト（グラフから除外）: " +
+                                ", ".join(f"{_markdown(adapter)} n={size}" for adapter, size in timed_out))
+                markdown.append("")
             if references:
                 markdown.extend(["**" + REFERENCE_NOTE + "**", ""])
                 for ref in references:

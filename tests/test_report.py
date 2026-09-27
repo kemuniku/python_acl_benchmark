@@ -123,6 +123,19 @@ class ReportTests(unittest.TestCase):
         self.assertEqual(list((self.site / "charts").rglob("*.svg")), [])
         self.assertFalse((self.site / "data/cpython/dsu.json").exists())
 
+    def test_python_timeout_is_reported_without_a_chart_point(self):
+        self.result(series=[{"id": "example", "label": "Example library", "points": [
+            {"size": 100, "median": 0.001}],
+            "timeouts": [{"size": 1000, "timeout_seconds": 4}]}])
+        render(self.results, self.site)
+        page = (self.site / "index.html").read_text()
+        markdown = (self.site / "README.md").read_text()
+        self.assertIn("Python 実装のタイムアウト: 1 点", page)
+        self.assertIn("example n=1000", markdown)
+        chart = ET.parse(self.site / "charts/dsu/cpython.svg")
+        line = chart.find(".//{http://www.w3.org/2000/svg}polyline")
+        self.assertEqual(len(line.get("points").split()), 1)
+
     def test_invalid_output_location_does_not_delete_results(self):
         source = self.result()
         with self.assertRaises(ValueError):
