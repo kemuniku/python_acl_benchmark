@@ -46,4 +46,6 @@ int acl_lcp_array(const int *values, int n, const int *sa, int *result);
 int acl_z_algorithm(const int *values, int n, int *result);
 int acl_z_algorithm_bytes(const char *values, int n, int *result);
 int acl_crt(const long long *residues, const long long *moduli, int n, long long *residue, long long *modulus);
+int acl_crt4(long long r0, long long r1, long long r2, long long r3,
+             long long m0, long long m1, long long m2, long long m3, long long *result);
 int acl_floor_sum(long long n, long long m, long long a, long long b, long long *result);

@@ -442,16 +442,38 @@ int acl_crt(const long long *residues, const long long *moduli, int n,
         for (int i = 0; i < n; ++i) {
             long long ri = residues[i] % moduli[i];
             if (ri < 0) ri += moduli[i];
-            long long gcd = std::gcd(m, moduli[i]);
-            if ((wide(ri) - r) % gcd != 0) { *residue = 0; *modulus = 0; return 0; }
-            if (wide(m / gcd) * moduli[i] > LLONG_MAX)
+            long long mi = moduli[i];
+            if (m < mi) {
+                std::swap(r, ri);
+                std::swap(m, mi);
+            }
+            if (m % mi == 0) {
+                if (r % mi != ri) { *residue = 0; *modulus = 0; return 0; }
+                continue;
+            }
+            auto [gcd, inverse] = atcoder::internal::inv_gcd(m, mi);
+            wide difference = wide(ri) - r;
+            if (difference % gcd != 0) { *residue = 0; *modulus = 0; return 0; }
+            long long quotient = mi / gcd;
+            wide next_modulus = wide(m) * quotient;
+            if (next_modulus > LLONG_MAX)
                 throw std::overflow_error("CRT least common multiple exceeds signed 64 bits");
-            auto combined = atcoder::crt({r, ri}, {m, moduli[i]});
-            r = combined.first; m = combined.second;
+            wide x = (difference / gcd % quotient) * inverse % quotient;
+            wide next_residue = (r + x * m) % next_modulus;
+            if (next_residue < 0) next_residue += next_modulus;
+            r = static_cast<long long>(next_residue);
+            m = static_cast<long long>(next_modulus);
         }
         *residue = r; *modulus = m;
         return 0;
     });
+}
+
+int acl_crt4(long long r0, long long r1, long long r2, long long r3,
+             long long m0, long long m1, long long m2, long long m3, long long *result) {
+    const long long residues[] = {r0, r1, r2, r3};
+    const long long moduli[] = {m0, m1, m2, m3};
+    return acl_crt(residues, moduli, 4, result, result ? result + 1 : nullptr);
 }
 
 int acl_floor_sum(long long n, long long m, long long a, long long b, long long *result) {

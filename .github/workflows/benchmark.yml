@@ -2,9 +2,8 @@ name: ACL benchmarks
 
 on:
   push:
-    branches-ignore: [gh-pages]
+    branches: [main]
     tags-ignore: ['**']
-  pull_request:
   workflow_dispatch:
     inputs:
       full:
@@ -15,14 +14,14 @@ on:
 permissions:
   contents: read
 
-# Keep restoration, measurement and publication ordered on each branch.
-# Default-branch publication must finish; newer feature-branch runs supersede older ones.
+# Keep restoration, measurement and publication ordered on main.
 concurrency:
   group: acl-benchmarks-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != format('refs/heads/{0}', github.event.repository.default_branch) }}
+  cancel-in-progress: false
 
 jobs:
   benchmark:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     # PyPy measurements include warmups and five samples at n=500000.
     timeout-minutes: 180
