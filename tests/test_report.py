@@ -74,7 +74,9 @@ class ReportTests(unittest.TestCase):
         markdown = (self.site / "README.md").read_text()
         for runtime in ("cpython", "pypy"):
             self.assertIn(f'src="charts/dsu/{runtime}.svg"', page)
+            self.assertIn(f'src="charts/dsu/{runtime}-max.svg"', page)
             self.assertRegex(markdown, rf"!\[[^\]]+\]\(charts/dsu/{runtime}\.svg\)")
+            self.assertIn(f"charts/dsu/{runtime}-max.svg", markdown)
         self.assertTrue((self.site / ".nojekyll").exists())
 
     def test_escapes_external_text_and_unsafe_source_links(self):
@@ -85,7 +87,7 @@ class ReportTests(unittest.TestCase):
                     series=[{"id": "external", "label": label, "points": [{"size": 10, "median": 0.01}]}])
         render(self.results, self.site)
         ET.parse(self.site / "charts/dsu/cpython.svg")
-        for filename in ("index.html", "charts/dsu/cpython.svg", "README.md"):
+        for filename in ("index.html", "charts/dsu/cpython.svg", "charts/dsu/cpython-max.svg", "README.md"):
             content = (self.site / filename).read_text()
             self.assertNotIn("<script>", content)
             self.assertNotIn("<img src=x", content)
@@ -107,7 +109,8 @@ class ReportTests(unittest.TestCase):
         self.assertIn("計測結果はまだありません", (self.site / "index.html").read_text())
         source = self.result()
         render(self.results, self.site)
-        self.assertEqual(sorted(path.name for path in (self.site / "charts/dsu").glob("*.svg")), ["cpython.svg"])
+        self.assertEqual(sorted(path.name for path in (self.site / "charts/dsu").glob("*.svg")),
+                         ["cpython-max.svg", "cpython.svg"])
         self.assertNotIn("charts/dsu/pypy.svg", (self.site / "index.html").read_text())
         self.assertNotIn("charts/dsu/pypy.svg", (self.site / "README.md").read_text())
         pypy = self.result("pypy")
@@ -122,6 +125,38 @@ class ReportTests(unittest.TestCase):
         render(self.results, self.site)
         self.assertEqual(list((self.site / "charts").rglob("*.svg")), [])
         self.assertFalse((self.site / "data/cpython/dsu.json").exists())
+
+    def test_maximum_size_bars_omit_timeouts_and_do_not_fall_back(self):
+        self.result("pypy", settings={"sizes": [100, 1000], "repeat": 5}, series=[
+            {"id": "fast", "label": "Fast", "points": [{"size": 1000, "median": 0.002}]},
+            {"id": "slow", "label": "Slow", "points": [{"size": 100, "median": 0.03}],
+             "timeouts": [{"size": 1000, "timeout_seconds": 4}]},
+            {"id": "ok", "label": "Okay", "points": [{"size": 1000, "median": 0.004}]},
+        ], references=[{"id": "cpp_acl", "label": "C++ ACL", "reference": True,
+                        "runtime": {"implementation": "C++", "version": "17"},
+                        "points": [{"size": 1000, "median": 0.001}]}])
+        render(self.results, self.site)
+        svg = ET.parse(self.site / "charts/dsu/pypy-max.svg")
+        text = " ".join(svg.getroot().itertext())
+        self.assertIn("n=1000", text)
+        self.assertIn("Fast", text)
+        self.assertIn("Okay", text)
+        self.assertIn("C++ ACL（参考用）", text)
+        self.assertNotIn("Slow", text)
+        bars = svg.findall(".//{http://www.w3.org/2000/svg}rect[@class='bar']")
+        self.assertEqual(len(bars), 3)
+        self.assertEqual([bar.get("fill") for bar in bars], ["#475569", "#2563eb", "#dc2626"])
+        self.assertIn("最大入力サイズ n=1000", (self.site / "index.html").read_text())
+
+        record = json.loads((self.results / "pypy/dsu.json").read_text())
+        record["series"] = [{"id": "slow", "label": "Slow", "points": [{"size": 100, "median": 0.03}],
+                             "timeouts": [{"size": 1000, "timeout_seconds": 4}]}]
+        record["references"] = []
+        (self.results / "pypy/dsu.json").write_text(json.dumps(record))
+        render(self.results, self.site)
+        svg = ET.parse(self.site / "charts/dsu/pypy-max.svg")
+        self.assertEqual(svg.findall(".//{http://www.w3.org/2000/svg}rect[@class='bar']"), [])
+        self.assertIn("最大入力サイズの計測値はありません", " ".join(svg.getroot().itertext()))
 
     def test_python_timeout_is_reported_without_a_chart_point(self):
         self.result(series=[{"id": "example", "label": "Example library", "points": [
