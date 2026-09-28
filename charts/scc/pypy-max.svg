@@ -8,48 +8,48 @@
 <line x1="410" y1="78" x2="410" y2="485" stroke="#e2e8f0"/>
 <text x="410" y="510" font-size="12" text-anchor="middle" fill="#475569">0</text>
 <line x1="538" y1="78" x2="538" y2="485" stroke="#e2e8f0"/>
-<text x="538" y="510" font-size="12" text-anchor="middle" fill="#475569">0.555</text>
+<text x="538" y="510" font-size="12" text-anchor="middle" fill="#475569">0.4</text>
 <line x1="666" y1="78" x2="666" y2="485" stroke="#e2e8f0"/>
-<text x="666" y="510" font-size="12" text-anchor="middle" fill="#475569">1.11</text>
+<text x="666" y="510" font-size="12" text-anchor="middle" fill="#475569">0.801</text>
 <line x1="794" y1="78" x2="794" y2="485" stroke="#e2e8f0"/>
-<text x="794" y="510" font-size="12" text-anchor="middle" fill="#475569">1.66</text>
+<text x="794" y="510" font-size="12" text-anchor="middle" fill="#475569">1.2</text>
 <line x1="922" y1="78" x2="922" y2="485" stroke="#e2e8f0"/>
-<text x="922" y="510" font-size="12" text-anchor="middle" fill="#475569">2.22</text>
+<text x="922" y="510" font-size="12" text-anchor="middle" fill="#475569">1.6</text>
 <text x="666" y="527" font-size="12" text-anchor="middle">実行時間 [s]</text>
 <text x="395" y="97" font-size="12" text-anchor="end">C++ ACL（参考用）</text>
 <text x="395" y="113" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
-<rect class="bar" x="410" y="87" width="19.64" height="24" rx="4" fill="#475569"/>
-<text x="436.64" y="104" font-size="12" fill="#334155">0.0852 s</text>
+<rect class="bar" x="410" y="87" width="13.07" height="24" rx="4" fill="#475569"/>
+<text x="430.07" y="104" font-size="12" fill="#334155">0.0409 s</text>
 <text x="395" y="141" font-size="12" text-anchor="end">local/acl-cffi (CFFI + C++)</text>
 <text x="395" y="157" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
-<rect class="bar" x="410" y="131" width="36.99" height="24" rx="4" fill="#2563eb"/>
-<text x="453.99" y="148" font-size="12" fill="#334155">0.16 s</text>
-<text x="395" y="185" font-size="12" text-anchor="end">shakayami/ACL-for-python</text>
+<rect class="bar" x="410" y="131" width="39.42" height="24" rx="4" fill="#2563eb"/>
+<text x="456.42" y="148" font-size="12" fill="#334155">0.123 s</text>
+<text x="395" y="185" font-size="12" text-anchor="end">local/acl-cffi (batched edges)</text>
 <text x="395" y="201" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
-<rect class="bar" x="410" y="175" width="48.03" height="24" rx="4" fill="#db2777"/>
-<text x="465.03" y="192" font-size="12" fill="#334155">0.208 s</text>
-<text x="395" y="229" font-size="12" text-anchor="end">local/acl-cffi (batched edges)</text>
+<rect class="bar" x="410" y="175" width="55.55" height="24" rx="4" fill="#dc2626"/>
+<text x="472.55" y="192" font-size="12" fill="#334155">0.174 s</text>
+<text x="395" y="229" font-size="12" text-anchor="end">shakayami/ACL-for-python</text>
 <text x="395" y="245" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
-<rect class="bar" x="410" y="219" width="57.05" height="24" rx="4" fill="#dc2626"/>
-<text x="474.05" y="236" font-size="12" fill="#334155">0.247 s</text>
-<text x="395" y="273" font-size="12" text-anchor="end">not522/ac-library-python</text>
+<rect class="bar" x="410" y="219" width="57.23" height="24" rx="4" fill="#db2777"/>
+<text x="474.23" y="236" font-size="12" fill="#334155">0.179 s</text>
+<text x="395" y="273" font-size="12" text-anchor="end">local/acl-hpy (HPy Universal + C++)</text>
 <text x="395" y="289" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
-<rect class="bar" x="410" y="263" width="77.65" height="24" rx="4" fill="#0891b2"/>
-<text x="494.65" y="280" font-size="12" fill="#334155">0.337 s</text>
-<text x="395" y="317" font-size="12" text-anchor="end">local/acl-hpy (HPy Universal + C++)</text>
+<rect class="bar" x="410" y="263" width="88.13" height="24" rx="4" fill="#d97706"/>
+<text x="505.13" y="280" font-size="12" fill="#334155">0.276 s</text>
+<text x="395" y="317" font-size="12" text-anchor="end">not522/ac-library-python</text>
 <text x="395" y="333" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
-<rect class="bar" x="410" y="307" width="82.56" height="24" rx="4" fill="#d97706"/>
-<text x="499.56" y="324" font-size="12" fill="#334155">0.358 s</text>
-<text x="395" y="361" font-size="12" text-anchor="end">lif4635/harurun-s-library (library)</text>
+<rect class="bar" x="410" y="307" width="104.17" height="24" rx="4" fill="#0891b2"/>
+<text x="521.17" y="324" font-size="12" fill="#334155">0.326 s</text>
+<text x="395" y="361" font-size="12" text-anchor="end">lif4635/harurun-s-library (library_codex)</text>
 <text x="395" y="377" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
-<rect class="bar" x="410" y="351" width="427.01" height="24" rx="4" fill="#9333ea"/>
-<text x="844.01" y="368" font-size="12" fill="#334155">1.85 s</text>
+<rect class="bar" x="410" y="351" width="448.43" height="24" rx="4" fill="#059669"/>
+<text x="865.43" y="368" font-size="12" fill="#334155">1.4 s</text>
 <text x="395" y="405" font-size="12" text-anchor="end">tatyam-prime/acl-cpp-python (C++)</text>
 <text x="395" y="421" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
-<rect class="bar" x="410" y="395" width="458.73" height="24" rx="4" fill="#475569"/>
-<text x="875.73" y="412" font-size="12" fill="#334155">1.99 s</text>
-<text x="395" y="449" font-size="12" text-anchor="end">lif4635/harurun-s-library (library_codex)</text>
+<rect class="bar" x="410" y="395" width="489.54" height="24" rx="4" fill="#475569"/>
+<text x="906.54" y="412" font-size="12" fill="#334155">1.53 s</text>
+<text x="395" y="449" font-size="12" text-anchor="end">lif4635/harurun-s-library (library)</text>
 <text x="395" y="465" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
-<rect class="bar" x="410" y="439" width="512.00" height="24" rx="4" fill="#059669"/>
-<text x="929.00" y="456" font-size="12" fill="#334155">2.22 s</text>
+<rect class="bar" x="410" y="439" width="512.00" height="24" rx="4" fill="#9333ea"/>
+<text x="929.00" y="456" font-size="12" fill="#334155">1.6 s</text>
 </g></svg>
