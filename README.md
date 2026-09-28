@@ -37,7 +37,7 @@ git push -u origin main
 結果は自動作成される **`gh-pages` ブランチ** にも保存されます。GitHub 上でそのブランチの `README.md` を開くだけで SVG グラフを閲覧できます。`data/` には全サンプルを含む JSON が残ります。
 Pages の設定をまだ行っていなくても、計測と `gh-pages` への保存が成功していれば、ブランチ上のグラフと Actions の `benchmark-site` artifact を利用できます。
 
-デフォルトブランチだけが結果を公開します。Pull Request / その他のブランチでは計測・グラフ生成まで実行し、`benchmark-results` / `benchmark-site` artifact として 14 日間保存します。
+ワークフローは main への push でのみ自動実行します。手動実行時も main 以外ではジョブを実行しません。Pull Request やその他のブランチでは計測しません。
 CI が `gh-pages` に書き込めるよう、組織のポリシーでも workflow の `contents: write` を許可してください。
 公開時の競合は通常の Git push で検出し、古い実行で新しい結果を上書きしません。
 

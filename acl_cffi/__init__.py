@@ -249,6 +249,11 @@ def crt(residues, moduli):
     residues, moduli = _sequence(residues), _sequence(moduli)
     if len(residues) != len(moduli):
         raise ValueError("residues and moduli must have the same length")
+    if len(residues) == 4:
+        result = ffi.new("long long[2]")
+        _check(lib.acl_crt4(residues[0], residues[1], residues[2], residues[3],
+                            moduli[0], moduli[1], moduli[2], moduli[3], result))
+        return result[0], result[1]
     rr, mm = ffi.new("long long[]", residues), ffi.new("long long[]", moduli)
     result, period = ffi.new("long long *"), ffi.new("long long *")
     _check(lib.acl_crt(rr, mm, len(residues), result, period))

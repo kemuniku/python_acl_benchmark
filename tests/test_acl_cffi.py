@@ -242,6 +242,28 @@ class ACLCFFITests(unittest.TestCase):
             expected = (solutions[0], common) if solutions else (0, 0)
             self.assertEqual(tuple(self.acl.crt(residues, moduli)), expected)
 
+    def test_crt_large_moduli_and_overflow(self):
+        rng = random.Random(941)
+        for _ in range(100):
+            moduli = [rng.randrange(1, 100000) for _ in range(4)]
+            residues = [rng.randrange(-100000, 100000) for _ in moduli]
+            expected_r, expected_m = 0, 1
+            for ri, mi in zip(residues, moduli):
+                gcd = math.gcd(expected_m, mi)
+                if (ri - expected_r) % gcd:
+                    expected_r, expected_m = 0, 0
+                    break
+                factor = mi // gcd
+                x = ((ri - expected_r) // gcd * pow(expected_m // gcd, -1, factor)) % factor if factor > 1 else 0
+                expected_r = (expected_r + expected_m * x) % (expected_m * factor)
+                expected_m *= factor
+            if expected_m <= (1 << 63) - 1:
+                self.assertEqual(self.acl.crt(residues, moduli), (expected_r, expected_m))
+        maximum = (1 << 63) - 1
+        self.assertEqual(self.acl.crt([maximum - 1, 0], [maximum, 1]), (maximum - 1, maximum))
+        with self.assertRaises(OverflowError):
+            self.acl.crt([maximum - 1, 0], [maximum, 2])
+
     def test_floor_sum_matches_python_integer_division(self):
         rng = random.Random(641)
         for _ in range(300):
