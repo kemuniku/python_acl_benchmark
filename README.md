@@ -1,6 +1,6 @@
 # Python ACL Benchmark
 
-Python 向け AtCoder Library を **CPython / PyPy × 入力サイズ** で比較するリポジトリです。
+Python 向け AtCoder Library を **PyPy × 入力サイズ** で比較するリポジトリです。CPython は検証・レポート生成に使用しますが、CI では計測しません。
 比較フォルダに実装を追加して push すると、GitHub Actions が影響のある比較だけを再計測し、SVG グラフと HTML レポートを更新します。
 
 比較対象:
@@ -98,7 +98,6 @@ benchmarks/
 
 ```bash
 cp examples/custom_dsu.py benchmarks/dsu/implementations/my_dsu.py
-python3 -m benchkit run --case dsu
 pypy3 -m benchkit run --case dsu
 python3 -m benchkit report
 ```
@@ -203,11 +202,9 @@ pypy3 -m venv .venv-pypy
 .venv-cpython/bin/python -m benchkit list
 
 # 動作確認: 各比較の最小サイズだけを短時間で測る
-.venv-cpython/bin/python -m benchkit run --quick
 .venv-pypy/bin/python -m benchkit run --quick
 
 # 通常の計測: 並列にせず順番に実行する
-.venv-cpython/bin/python -m benchkit run
 .venv-pypy/bin/python -m benchkit run
 .venv-cpython/bin/python -m benchkit cpp-reference --results results
 .venv-cpython/bin/python -m benchkit report --results results --output site
@@ -225,12 +222,12 @@ pypy3 -m venv .venv-pypy
 
 ## 計測方法と読み方
 
-- CPython / PyPy は **同じ GitHub runner 上で順番に** 実行します。各実装・各サイズには独立したプロセスを使います。
+- CI の計測は **PyPy のみ** です。各実装・各サイズには独立したプロセスを使います。以前の CPython 結果は復元時に除き、公開レポートには含めません。
 - 計測対象は `run(data)` です。データ構造の初期化、API 呼び出し、Python と C++ の値変換、戻り値作成を含みます。import、ビルド、入力生成、計測前の正解チェック、プロセス起動は含みません。2-SAT では戻り値を共通化するため、得た解が全節を満たすかの確認も `run()` 内で行い、その時間を含みます。
 - **C++ ACL（参考用）** は、初期化・操作ループ・戻り値作成を C++ 内で実行します。Python との値変換、プロセス起動、入出力を計測値に含めないため、Python 実装とは計測条件が異なります。コンパイラ・最適化オプション・ACL の SHA を別途記録し、PyPy のグラフと凡例に参考用と明記します。
-- 同じ seed の入力を使い、小さい入力の独立した正解チェックと、全計測サイズでの実装間の出力チェックを行います。同じコード・設定の結果が揃ったランタイム間でも出力を照合します。
+- 同じ seed の入力を使い、小さい入力の独立した正解チェックと、全計測サイズでの実装間の出力チェックを行います。
 - PyPy の JIT ウォームアップを行い、各サンプルの前に `gc.collect()` を実行します。計測中は GC を有効にしたままです。ウォームアップが十分かはケースによるため、必要に応じて設定を増やしてください。
-- グラフはケースごとに **CPython 用と PyPy 用を別々に** 生成し、それぞれの計測値に合わせて軸の範囲を調整します。中央値を線で、観測した最小値から最大値を帯とひげで表示します。帯は信頼区間ではありません。通常は両軸対数で、小さいほど高速です。
+- グラフはケースごとに PyPy の計測値に合わせて軸の範囲を調整します。中央値を線で、観測した最小値から最大値を帯とひげで表示します。帯は信頼区間ではありません。通常は両軸対数で、小さいほど高速です。
 - CPU、OS、Python のビルド、ライブラリ SHA、計測日時、全サンプル、バッチ回数を JSON に記録します。
 - GitHub の共有 runner には実行ごとの揺らぎがあります。小さな差を厳密な順位とみなさず、必要なら `--force` で再計測してください。CI 環境の結果であり、AtCoder の実行環境そのものの速度ではありません。
 

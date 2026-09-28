@@ -2,7 +2,7 @@
 
 [lif4635/harurun-s-library](https://github.com/lif4635/harurun-s-library) のうち、上流の `AGENTS.md` で現行版とされている `library_codex` を使用します。旧 `library` と Codon 向けの `library _codon` は対象に含めません。追加時のコミットは `7c94b7bb0c9d4f6ed0ffa44853febee1e7971ff9` で、取得先と SHA は `sources.lock.json` の `harurun` に固定しています。
 
-既存の14ケースすべてを CPython / PyPy で計測します。凡例は `lif4635/harurun-s-library (library_codex)` です。
+既存の14ケースすべてを PyPy で計測します。凡例は `lif4635/harurun-s-library (library_codex)` です。
 
 | ケース | `library_codex` 内のモジュール・API |
 | --- | --- |

@@ -277,6 +277,17 @@ class ACLCFFITests(unittest.TestCase):
                     expected_z.append(common)
                 self.assertEqual(self.acl.z_algorithm(value), expected_z)
 
+    def test_z_algorithm_large_ascii_and_bytes_inputs(self):
+        for value in ("a" * 10000, b"\x00" * 10000, "ab\x00" * 3000):
+            with self.subTest(kind=type(value), length=len(value)):
+                if len(set(value)) == 1:
+                    expected = [len(value) - i for i in range(len(value))]
+                else:
+                    expected = [len(value)] + [0] * (len(value) - 1)
+                    for i in range(3, len(value), 3):
+                        expected[i] = len(value) - i
+                self.assertEqual(self.acl.z_algorithm(value), expected)
+
     def test_native_handle_close_is_idempotent_and_context_manager_closes(self):
         for constructor, method, args in (
                 (self.acl.dsu, "groups", ()),

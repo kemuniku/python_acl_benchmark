@@ -16,6 +16,7 @@
 #include <new>
 #include <numeric>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 extern "C" {
@@ -414,6 +415,16 @@ int acl_lcp_array(const int *values, int n, const int *sa, int *result) {
 int acl_z_algorithm(const int *values, int n, int *result) {
     return checked([&] {
         auto input = vector_from(values, n); buffer_ok(result, n);
+        auto z = atcoder::z_algorithm(input);
+        if (!z.empty()) std::copy(z.begin(), z.end(), result);
+        return 0;
+    });
+}
+
+int acl_z_algorithm_bytes(const char *values, int n, int *result) {
+    return checked([&] {
+        size_ok(n); buffer_ok(values, n); buffer_ok(result, n);
+        std::string input(values ? values : "", n);
         auto z = atcoder::z_algorithm(input);
         if (!z.empty()) std::copy(z.begin(), z.end(), result);
         return 0;

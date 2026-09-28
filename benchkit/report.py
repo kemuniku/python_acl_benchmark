@@ -266,7 +266,7 @@ def render(results_dir: Path, output_dir: Path) -> None:
             shutil.copy2(entry["source"], target)
 
     sections, navigation = [], []
-    markdown = ["# Python ACL ベンチマーク", "", "各実装を CPython / PyPy で比較します。グラフはランタイムごとに分け、軸の範囲を個別に調整します。グラフは小さいほど高速です。線は中央値、帯・ひげは観測された最小値から最大値です。正の値には対数軸を使い、0 を含む軸には線形軸を使います。", "", "[HTML レポート](index.html) · [生データ](data/)", ""]
+    markdown = ["# Python ACL ベンチマーク", "", "各実装を PyPy で比較します。グラフはランタイムごとに分け、軸の範囲を個別に調整します。グラフは小さいほど高速です。線は中央値、帯・ひげは観測された最小値から最大値です。正の値には対数軸を使い、0 を含む軸には線形軸を使います。", "", "[HTML レポート](index.html) · [生データ](data/)", ""]
     for case, entries in sorted(grouped.items()):
         case_records = [entry["record"] for entry in entries]
         title = str(case_records[0].get("title", case))
@@ -359,7 +359,7 @@ def render(results_dir: Path, output_dir: Path) -> None:
     caution = "CI の CPU・負荷・ランタイムのバージョンによって実行時間は変動します。増分計測ではケースやランタイムごとに計測日時が異なります。各グラフの計測情報と JSON を併せて確認してください。"
     page = ('<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>Python ACL ベンチマーク</title><style>{CSS}</style></head><body><header><div class="eyebrow">PYTHON ACL BENCHMARKS</div>'
-            '<h1>実装とランタイムの性能を、入力サイズで比較。</h1><p>CPython と PyPy による AtCoder Library の実行時間。グラフはランタイムごとに分け、軸の範囲を個別に調整します。線は中央値、帯・ひげは最小値から最大値を示します。グラフは小さいほど高速です。</p>'
+            '<h1>実装の性能を、入力サイズで比較。</h1><p>PyPy による AtCoder Library の実行時間。線は中央値、帯・ひげは最小値から最大値を示します。グラフは小さいほど高速です。</p>'
             f'<div class="stats"><div class="stat"><strong>{len(grouped)}</strong><span>比較ケース</span></div><div class="stat"><strong>{runtime_count}</strong><span>ランタイム</span></div>'
             f'<div class="stat"><strong>{point_count}</strong><span>計測ポイント</span></div></div></header><main><nav aria-label="比較ケース">{"".join(navigation)}</nav>'
             + "".join(sections) + f'<footer><p>{caution}</p><p>最新の計測: {_escape(last_updated)} · <a href="README.md">Markdown</a> · 外部サービス不要の静的レポート</p></footer></main></body></html>\n')
