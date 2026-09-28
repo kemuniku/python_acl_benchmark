@@ -191,6 +191,69 @@ def _chart(records: list[dict], title: str) -> str:
     return "\n".join(svg) + "\n"
 
 
+def _max_size(record: dict) -> int | None:
+    sizes = record.get("settings", {}).get("sizes") or [
+        point["size"] for series in record.get("series", [])
+        for point in series.get("points", []) + series.get("timeouts", [])
+    ]
+    return max(sizes) if sizes else None
+
+
+def _max_bars(records: list[dict], title: str) -> tuple[str, int | None]:
+    """Compare only successful points at the configured maximum input size."""
+    sizes = [_max_size(record) for record in records]
+    maximum_size = max((size for size in sizes if size is not None), default=None)
+    bars = []
+    for record in records:
+        if _max_size(record) != maximum_size:
+            continue
+        entries = [(series, False) for series in record.get("series", [])]
+        entries += [(reference, True) for reference in _references(record)]
+        for series, reference in entries:
+            point = next((_point(point) for point in series.get("points", [])
+                          if point.get("size") == maximum_size), None)
+            if point is None:
+                continue
+            label = str(series.get("label", series["id"]))
+            if reference and "参考用" not in label:
+                label += "（参考用）"
+            bars.append((point["median"], str(series["id"]), label, reference))
+    bars.sort(key=lambda bar: (bar[0], bar[2]))
+    height = max(210, 135 + 38 * len(bars))
+    title = f"{title} / 最大入力サイズ n={maximum_size if maximum_size is not None else '?'}"
+    svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="{height}" viewBox="0 0 1040 {height}" role="img" aria-labelledby="bar-title bar-desc">',
+           f'<title id="bar-title">{_escape(title)}</title>',
+           '<desc id="bar-desc">Maximum input size, median elapsed time. Timed-out series are omitted. Lower is faster.</desc>',
+           '<rect width="100%" height="100%" rx="12" fill="white"/>',
+           '<g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" fill="#0f172a">',
+           f'<text x="40" y="36" font-size="22" font-weight="700">{_escape(title)}</text>',
+           '<text x="40" y="61" font-size="13" fill="#64748b">中央値 · 小さいほど高速 · タイムアウトは除外</text>']
+    if bars:
+        maximum_time = max(bar[0] for bar in bars)
+        unit, multiplier = (("ns", 1e9) if maximum_time < 1e-6 else
+                            ("µs", 1e6) if maximum_time < 1e-3 else
+                            ("ms", 1e3) if maximum_time < 1 else ("s", 1))
+        limit = maximum_time * multiplier or 1
+        library_ids = sorted({str(series["id"]) for record in records for series in record.get("series", [])
+                              if any(_point(point) is not None for point in series.get("points", []))})
+        for step in range(5):
+            x = 410 + step * 128
+            svg.extend((f'<line x1="{x}" y1="78" x2="{x}" y2="{height - 46}" stroke="#e2e8f0"/>',
+                        f'<text x="{x}" y="{height - 21}" font-size="12" text-anchor="middle" fill="#475569">{_number(limit * step / 4)}</text>'))
+        svg.append(f'<text x="666" y="{height - 4}" font-size="12" text-anchor="middle">実行時間 [{unit}]</text>')
+        for index, (median, identifier, label, reference) in enumerate(bars):
+            y = 84 + index * 38
+            width = 512 * median * multiplier / limit
+            color = "#475569" if reference else COLORS[library_ids.index(identifier) % len(COLORS)]
+            svg.extend((f'<text x="395" y="{y + 17}" font-size="12" text-anchor="end">{_escape(label)}</text>',
+                        f'<rect class="bar" x="410" y="{y}" width="{width:.2f}" height="24" rx="4" fill="{color}"/>',
+                        f'<text x="{min(932, 417 + width):.2f}" y="{y + 17}" font-size="12" fill="#334155">{_number(median * multiplier)} {unit}</text>'))
+    else:
+        svg.append('<text x="520" y="120" font-size="15" text-anchor="middle" fill="#64748b">最大入力サイズの計測値はありません</text>')
+    svg.append('</g></svg>')
+    return "\n".join(svg) + "\n", maximum_size
+
+
 def _source_html(sources: dict) -> str:
     entries = []
     for name, source in sorted(sources.items()):
@@ -223,10 +286,10 @@ header p{color:#cbd5e1;max-width:800px}.eyebrow{letter-spacing:.15em;font-size:1
 main{max-width:1208px;margin:auto;padding:28px 24px 48px}.stats{display:flex;gap:28px;flex-wrap:wrap;margin-top:24px}.stat strong{font-size:26px;display:block}.stat span{font-size:12px;color:#cbd5e1}
 nav{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 28px}nav a{background:white;border:1px solid var(--line);padding:6px 15px;border-radius:100px;color:#334155}
 .card{background:white;border:1px solid var(--line);border-radius:16px;margin-bottom:26px;overflow:hidden;box-shadow:0 4px 18px #0f172a04;scroll-margin-top:20px}.card-head{padding:24px 28px 8px}.description,.muted{color:var(--muted)}.chart{display:block;width:100%;height:auto}.downloads{display:flex;gap:16px;flex-wrap:wrap;padding:0 28px 20px;font-size:13px}
-.runtime-chart h3{margin:0;padding:16px 28px 0;font-size:18px}.runtime-chart+.runtime-chart{border-top:1px solid var(--line)}
+.runtime-chart h3{margin:0;padding:16px 28px 0;font-size:18px}.runtime-chart h4{margin:0;padding:8px 28px 0;font-size:15px}.runtime-chart+.runtime-chart{border-top:1px solid var(--line)}
 details{border-top:1px solid var(--line);padding:16px 28px}summary{cursor:pointer;font-size:13px;font-weight:600}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:12px;margin-top:14px}th,td{text-align:left;padding:10px 12px;vertical-align:top;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:600}code{font-family:ui-monospace,monospace;font-size:11px;overflow-wrap:anywhere}td{min-width:130px}footer{font-size:12px;color:var(--muted);padding:4px 2px}.empty{padding:32px}
 .badge{display:inline-block;border-radius:5px;background:#fef3c7;color:#92400e;padding:2px 7px;font-size:12px;font-weight:600}
-@media(max-width:640px){header{padding:32px 20px}main{padding:20px 10px}.card-head{padding:20px 16px 8px}.downloads,details,.runtime-chart h3{padding-left:16px;padding-right:16px}.chart{min-width:720px}.chart-wrap{overflow-x:auto}.stats{gap:22px}}
+@media(max-width:640px){header{padding:32px 20px}main{padding:20px 10px}.card-head{padding:20px 16px 8px}.downloads,details,.runtime-chart h3,.runtime-chart h4{padding-left:16px;padding-right:16px}.chart{min-width:720px}.chart-wrap{overflow-x:auto}.stats{gap:22px}}
 """
 
 
@@ -266,7 +329,7 @@ def render(results_dir: Path, output_dir: Path) -> None:
             shutil.copy2(entry["source"], target)
 
     sections, navigation = [], []
-    markdown = ["# Python ACL ベンチマーク", "", "各実装を PyPy で比較します。グラフはランタイムごとに分け、軸の範囲を個別に調整します。グラフは小さいほど高速です。線は中央値、帯・ひげは観測された最小値から最大値です。正の値には対数軸を使い、0 を含む軸には線形軸を使います。", "", "[HTML レポート](index.html) · [生データ](data/)", ""]
+    markdown = ["# Python ACL ベンチマーク", "", "各実装を PyPy で比較します。グラフはランタイムごとに分け、軸の範囲を個別に調整します。グラフは小さいほど高速です。線は中央値、帯・ひげは観測された最小値から最大値です。正の値には対数軸を使い、0 を含む軸には線形軸を使います。最大入力サイズの棒グラフにはタイムアウトした系列を表示しません。", "", "[HTML レポート](index.html) · [生データ](data/)", ""]
     for case, entries in sorted(grouped.items()):
         case_records = [entry["record"] for entry in entries]
         title = str(case_records[0].get("title", case))
@@ -288,8 +351,12 @@ def render(results_dir: Path, output_dir: Path) -> None:
             runtime_label = ", ".join(sorted({_runtime_name(record) for record in runtime_records}))
             chart_title = f"{title} / {runtime_label}"
             chart_href = f"charts/{slug}/{_slug(runtime_id)}.svg"
+            bars_href = f"charts/{slug}/{_slug(runtime_id)}-max.svg"
             (output_dir / chart_href).write_text(_chart(runtime_records, chart_title), encoding="utf-8")
-            downloads = [f'<a href="{chart_href}" download>SVG を保存</a>']
+            bars, maximum_size = _max_bars(runtime_records, chart_title)
+            (output_dir / bars_href).write_text(bars, encoding="utf-8")
+            downloads = [f'<a href="{chart_href}" download>折れ線 SVG を保存</a>',
+                         f'<a href="{bars_href}" download>最大ケース SVG を保存</a>']
             for entry in runtime_entries:
                 downloads.append(f'<a href="{_escape(entry["href"])}" download>{_escape(_runtime_name(entry["record"]))} JSON</a>')
             reference_notice = ""
@@ -306,8 +373,13 @@ def render(results_dir: Path, output_dir: Path) -> None:
             runtime_charts.append(f'<div class="runtime-chart"><h3>{_escape(runtime_label)}</h3>'
                                   + reference_notice +
                                   f'<div class="chart-wrap"><img class="chart" src="{chart_href}" alt="{_escape(chart_title)} の入力サイズ別実行時間" loading="lazy"></div>'
+                                  f'<h4>最大入力サイズ n={_escape(maximum_size if maximum_size is not None else "?")} の比較</h4>'
+                                  f'<div class="chart-wrap"><img class="chart" src="{bars_href}" alt="{_escape(chart_title)} の最大入力サイズの比較" loading="lazy"></div>'
                                   f'<div class="downloads">{"".join(downloads)}</div></div>')
-            markdown.extend([f"### {_markdown(runtime_label)}", "", f"![{_markdown(chart_title)}]({chart_href})", "", f"[SVG を保存]({chart_href})", ""])
+            markdown.extend([f"### {_markdown(runtime_label)}", "", f"![{_markdown(chart_title)}]({chart_href})", "",
+                             f"#### 最大入力サイズ n={_markdown(maximum_size if maximum_size is not None else '?')}（タイムアウトは除外）", "",
+                             f"![{_markdown(chart_title)} 最大ケース]({bars_href})", "",
+                             f"[折れ線 SVG を保存]({chart_href}) · [最大ケース SVG を保存]({bars_href})", ""])
             if timed_out:
                 markdown.append("タイムアウト（グラフから除外）: " +
                                 ", ".join(f"{_markdown(adapter)} n={size}" for adapter, size in timed_out))
