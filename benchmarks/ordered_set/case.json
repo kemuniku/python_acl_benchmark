@@ -1,0 +1,23 @@
+{
+  "title": "Ordered Set (Library Checker)",
+  "description": "公式の37入力。挿入・削除・1始まりのk番目・x以下の個数・前後要素。初期構築と全クエリを計測。横軸はケース番号。",
+  "fixture_source": "yosupo_ordered_set",
+  "sizes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37],
+  "case_names": [
+    "example_00", "example_01", "small_00", "small_01", "small_02",
+    "max_random_00", "max_random_01", "max_random_02", "max_random_03",
+    "max_random_04", "max_random_05", "max_random_06", "max_random_07",
+    "max_random_08", "max_random_09", "max_random_10", "max_random_11",
+    "max_random_12", "max_random_13", "max_random_14", "max_random_15",
+    "max_random_16", "max_random_17", "max_random_18", "max_random_19",
+    "max_random_20", "max_random_21", "max_random_22", "max_random_23",
+    "max_random_24", "max_random_25", "max_random_26", "max_random_27",
+    "max_random_28", "max_random_29", "max_random_30", "max_random_31"
+  ],
+  "seed": 42,
+  "repeat": 5,
+  "warmup": 1,
+  "warmup_seconds": 0.1,
+  "sample_seconds": 0.025,
+  "timeout": 60
+}

@@ -1,4 +1,17 @@
 {
+  "yosupo_ordered_set": {
+    "url": "https://github.com/yosupo06/library-checker-problems.git",
+    "rev": "1814c4e5205517e368bb57a8d1127eb961cfeaae"
+  },
+  "tatyam_sortedset": {
+    "url": "https://github.com/tatyam-prime/SortedSet.git",
+    "rev": "9a205c686c225c2b083c4852516da34a6ca1f4c2"
+  },
+  "sortedcontainers": {
+    "url": "https://github.com/grantjenks/python-sortedcontainers.git",
+    "rev": "3ac358631f58c1347f1d6d2d92784117db0f38ed",
+    "install": "pip"
+  },
   "harurun": {
     "url": "https://github.com/lif4635/harurun-s-library.git",
     "rev": "7c94b7bb0c9d4f6ed0ffa44853febee1e7971ff9"

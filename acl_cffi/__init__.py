@@ -20,7 +20,7 @@ except ImportError as exc:
 
 
 __all__ = [
-    "dsu", "fenwick_tree", "scc_graph", "two_sat", "mf_graph", "mcf_graph",
+    "dsu", "fenwick_tree", "scc_graph", "two_sat", "mf_graph", "mcf_graph", "ordered_set",
     "convolution998244353", "crt", "crt_many", "floor_sum", "suffix_array", "lcp_array",
     "z_algorithm",
 ]
@@ -112,6 +112,37 @@ class dsu(_Handle):
         answers = ffi.new("int[]", len(operations))
         count = _check(lib.acl_dsu_process(handle, packed, len(operations), answers))
         return [bool(value) for value in ffi.unpack(answers, count)]
+
+
+class ordered_set(_Handle):
+    """Nonnegative integer ordered set using a size-augmented native AVL tree."""
+
+    def __init__(self):
+        self._init(0, lib.acl_ordered_new, lib.acl_ordered_delete)
+
+    def add(self, key):
+        return bool(_check(lib.acl_ordered_add(self._handle(), key)))
+
+    def discard(self, key):
+        return bool(_check(lib.acl_ordered_discard(self._handle(), key)))
+
+    def count_leq(self, key):
+        return _check(lib.acl_ordered_count_leq(self._handle(), key))
+
+    def kth(self, one_based):
+        result = ffi.new("int *")
+        _check(lib.acl_ordered_kth(self._handle(), one_based, result))
+        return result[0]
+
+    def le(self, key):
+        result = ffi.new("int *")
+        _check(lib.acl_ordered_le(self._handle(), key, result))
+        return result[0]
+
+    def ge(self, key):
+        result = ffi.new("int *")
+        _check(lib.acl_ordered_ge(self._handle(), key, result))
+        return result[0]
 
 
 class fenwick_tree(_Handle):

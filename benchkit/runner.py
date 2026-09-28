@@ -84,6 +84,12 @@ def discover(root=ROOT):
             value = config.setdefault(key, default)
             if type(value) not in (int, float) or not minimum <= value < float("inf"):
                 raise ValueError("%s: invalid %s" % (config_path, key))
+        if "case_names" in config:
+            names = config["case_names"]
+            if (not isinstance(names, list) or len(names) != len(sizes)
+                    or any(not isinstance(name, str) or not re.fullmatch(r"[a-zA-Z0-9_-]+", name)
+                           for name in names)):
+                raise ValueError("%s: invalid case_names" % config_path)
         if not (config_path.parent / "workload.py").is_file():
             raise ValueError("Missing workload.py in " + name)
         adapters = [adapter_info(p) for p in sorted((config_path.parent / "implementations").glob("*.py")) if not p.name.startswith("_")]
@@ -96,9 +102,13 @@ def discover(root=ROOT):
 def settings_for(case, quick=False):
     config = case["config"]
     settings = {k: config[k] for k in ("sizes", "seed", "repeat", "warmup", "timeout", "warmup_seconds", "sample_seconds")}
+    if "case_names" in config:
+        settings["case_names"] = config["case_names"]
     settings["quick"] = bool(quick)
     if quick:
         settings.update(sizes=config["sizes"][:1], repeat=2, warmup=1, warmup_seconds=0, sample_seconds=0)
+        if "case_names" in settings:
+            settings["case_names"] = settings["case_names"][:1]
     return settings
 
 
@@ -172,6 +182,7 @@ def run_worker(case, adapter, size, settings, source_paths):
         "case_path": str(case["path"].resolve()),
         "adapter_path": str(adapter["path"].resolve()),
         "source_path": str(source_paths[adapter["source"]]) if adapter["source"] else None,
+        "fixture_path": str(source_paths[case["config"]["fixture_source"]]) if case["config"].get("fixture_source") else None,
         "size": size,
         "settings": settings,
     }
@@ -193,6 +204,7 @@ def run_worker(case, adapter, size, settings, source_paths):
 
 def run(results, selected=None, force=False, quick=False, root=ROOT):
     from .sources import prepare
+    from .worker import load_module
 
     root = Path(root)
     results = Path(results)
@@ -212,6 +224,8 @@ def run(results, selected=None, force=False, quick=False, root=ROOT):
     for name in sorted(selected):
         case = cases[name]
         source_ids = {a["source"] for a in case["adapters"] if a["source"]}
+        if case["config"].get("fixture_source"):
+            source_ids.add(case["config"]["fixture_source"])
         missing = source_ids - set(lock)
         if missing:
             raise ValueError("Unknown SOURCE in %s: %s" % (name, ", ".join(sorted(missing))))
@@ -225,6 +239,12 @@ def run(results, selected=None, force=False, quick=False, root=ROOT):
             pending.append((case, settings, sources, key, destination))
     source_ids = sorted({key for _, _, sources, _, _ in pending for key in sources})
     source_paths = prepare(root, source_ids) if source_ids else {}
+    for case, _, _, _, _ in pending:
+        fixture_source = case["config"].get("fixture_source")
+        if fixture_source:
+            workload = load_module(
+                "_prepare_" + case["name"], case["path"] / "workload.py")
+            workload.prepare_fixture(source_paths[fixture_source])
     revision = subprocess.run(["git", "rev-parse", "HEAD"], cwd=str(root), capture_output=True, text=True)
     commit = revision.stdout.strip() if revision.returncode == 0 else "uncommitted"
     for case, settings, sources, key, destination in pending:

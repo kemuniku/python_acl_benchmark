@@ -40,6 +40,37 @@ class ACLCFFITests(unittest.TestCase):
                             for x in labels}
                 self.assertEqual({frozenset(group) for group in graph.groups()}, expected)
 
+    def test_ordered_set_avl_rank_predecessor_and_reinsertion(self):
+        if not hasattr(self.acl, "ordered_set"):
+            self.skipTest("CFFI-only AVL ordered set")
+        import bisect
+        rng = random.Random(707)
+        with self.acl.ordered_set() as tree:
+            expected = []
+            for _ in range(2000):
+                x = rng.randrange(250)
+                index = bisect.bisect_left(expected, x)
+                if rng.randrange(2):
+                    added = index == len(expected) or expected[index] != x
+                    self.assertEqual(tree.add(x), added)
+                    if added:
+                        expected.insert(index, x)
+                else:
+                    removed = index < len(expected) and expected[index] == x
+                    self.assertEqual(tree.discard(x), removed)
+                    if removed:
+                        expected.pop(index)
+                self.assertEqual(tree.count_leq(x), bisect.bisect_right(expected, x))
+                self.assertEqual(tree.kth(len(expected) + 1), -1)
+                self.assertEqual(tree.kth(1), expected[0] if expected else -1)
+                self.assertEqual(tree.le(x), expected[bisect.bisect_right(expected, x) - 1]
+                                 if bisect.bisect_right(expected, x) else -1)
+                self.assertEqual(tree.ge(x), expected[index] if index < len(expected) else -1)
+            with self.assertRaises(ValueError):
+                tree.add(-1)
+        with self.assertRaises(RuntimeError):
+            tree.kth(1)
+
     def test_fenwick_matches_python_sums(self):
         rng = random.Random(953)
         for n in (0, 1, 3, 32):

@@ -56,6 +56,9 @@ jobs:
           "$pypy" -m pip install -r requirements-cffi.txt
           "$cpython" -m pip install -r requirements-hpy.txt
           "$pypy" -m pip install -r requirements-hpy.txt
+          # Library Checker uses toml to generate and verify ordered_set cases.
+          "$cpython" -m pip install -r requirements-ordered-set.txt
+          "$pypy" -m pip install -r requirements-ordered-set.txt
           # Import pip again in new processes so installation corruption fails early.
           "$cpython" -m pip --version
           "$pypy" -m pip --version
@@ -102,6 +105,23 @@ jobs:
           source_path=$("$CPYTHON" -m benchkit build --source harurun --print-path)
           for python in "$CPYTHON" "$PYPY"; do
             ACL_HARURUN_SOURCE="$source_path" "$python" -m unittest discover -s tests -p test_harurun.py
+          done
+      - name: Verify official ordered set cases and all adapters
+        env:
+          CPYTHON: ${{ steps.runtimes.outputs.cpython }}
+          PYPY: ${{ steps.runtimes.outputs.pypy }}
+          ACL_CFFI_REQUIRE_NATIVE: '1'
+          ACL_ORDERED_SET_REQUIRE: '1'
+        run: |
+          fixture=$("$CPYTHON" -m benchkit build --source yosupo_ordered_set --print-path)
+          "$CPYTHON" - "$fixture" <<'PY'
+          import sys
+          from benchkit.worker import load_module
+          load_module('official_ordered_set', 'benchmarks/ordered_set/workload.py').prepare_fixture(sys.argv[1])
+          PY
+          for python in "$CPYTHON" "$PYPY"; do
+            paths=$("$python" -m benchkit build --source cffi --source harurun --source tatyam_sortedset --source sortedcontainers --print-path)
+            ACL_ORDERED_SET_SOURCE="$fixture" PYTHONPATH="$paths" "$python" -m unittest discover -s tests -p test_ordered_set.py
           done
       - name: Restore the last published measurements
         env:

@@ -36,6 +36,7 @@ assert convolution998244353([1, 2], [3, 4]) == [3, 10, 8]
 | API | 内容 |
 | --- | --- |
 | `dsu(n)` | Union-Find |
+| `ordered_set()` | 部分木サイズ付き AVL 木で非負整数の集合を管理。`add` / `discard` / `kth`（1始まり）/ `count_leq` / `le` / `ge` |
 | `fenwick_tree(n)` | 点加算・半開区間 `[l, r)` の和 |
 | `scc_graph(n)` | 強連結成分分解 |
 | `two_sat(n)` | 2-SAT |
@@ -50,6 +51,7 @@ assert convolution998244353([1, 2], [3, 4]) == [3, 10, 8]
 | `z_algorithm(s)` | Z 配列 |
 
 `segtree` と `lazysegtree` は実装していません。任意の Python 演算を C++ 側に渡す抽象化は今回の対象外です。
+`ordered_set` は ACL のバインディングではなく、このリポジトリに追加した C++ AVL 木です。存在しない k 番目や前後要素は `-1` を返します。Library Checker の [比較方法](../docs/ordered_set.md) も参照してください。
 
 グラフ・木のインスタンスは `with` または `close()` でネイティブ領域を解放できます。`close()` は繰り返し呼び出せます。解放後の操作は `RuntimeError` になります。明示的に解放しなかった場合も CFFI のファイナライザで解放されますが、特に PyPy では GC の実行まで遅れるため、繰り返し作成する処理では `with` を使ってください。
 

@@ -126,9 +126,10 @@ class ReportTests(unittest.TestCase):
         self.assertEqual(list((self.site / "charts").rglob("*.svg")), [])
         self.assertFalse((self.site / "data/cpython/dsu.json").exists())
 
-    def test_maximum_size_bars_omit_timeouts_and_do_not_fall_back(self):
+    def test_bars_show_each_series_maximum_case_and_omit_any_timed_out_series(self):
         self.result("pypy", settings={"sizes": [100, 1000], "repeat": 5}, series=[
-            {"id": "fast", "label": "Fast", "points": [{"size": 1000, "median": 0.002}]},
+            {"id": "fast", "label": "Fast", "points": [{"size": 100, "median": 0.005},
+                                                        {"size": 1000, "median": 0.002}]},
             {"id": "slow", "label": "Slow", "points": [{"size": 100, "median": 0.03}],
              "timeouts": [{"size": 1000, "timeout_seconds": 60}]},
             {"id": "ok", "label": "Okay", "points": [{"size": 1000, "median": 0.004}]},
@@ -145,8 +146,8 @@ class ReportTests(unittest.TestCase):
         self.assertNotIn("Slow", text)
         bars = svg.findall(".//{http://www.w3.org/2000/svg}rect[@class='bar']")
         self.assertEqual(len(bars), 3)
-        self.assertEqual([bar.get("fill") for bar in bars], ["#475569", "#2563eb", "#dc2626"])
-        self.assertIn("最大入力サイズ n=1000", (self.site / "index.html").read_text())
+        self.assertEqual([bar.get("fill") for bar in bars], ["#475569", "#dc2626", "#2563eb"])
+        self.assertIn("全ケース中の最大中央値", (self.site / "index.html").read_text())
 
         record = json.loads((self.results / "pypy/dsu.json").read_text())
         record["series"] = [{"id": "slow", "label": "Slow", "points": [{"size": 100, "median": 0.03}],
@@ -156,7 +157,16 @@ class ReportTests(unittest.TestCase):
         render(self.results, self.site)
         svg = ET.parse(self.site / "charts/dsu/pypy-max.svg")
         self.assertEqual(svg.findall(".//{http://www.w3.org/2000/svg}rect[@class='bar']"), [])
-        self.assertIn("最大入力サイズの計測値はありません", " ".join(svg.getroot().itertext()))
+        self.assertIn("タイムアウトしていない系列の計測値はありません", " ".join(svg.getroot().itertext()))
+
+    def test_named_cases_appear_in_maximum_bar_labels(self):
+        self.result("pypy", settings={"sizes": [1, 2], "case_names": ["example_00", "max_random_07"]},
+                    series=[{"id": "ordered", "label": "Ordered", "points": [
+                        {"size": 1, "median": 0.04}, {"size": 2, "median": 0.01}]}])
+        render(self.results, self.site)
+        svg = ET.parse(self.site / "charts/dsu/pypy-max.svg")
+        self.assertIn("example_00", " ".join(svg.getroot().itertext()))
+        self.assertIn("Case index (linear scale)", " ".join(ET.parse(self.site / "charts/dsu/pypy.svg").getroot().itertext()))
 
     def test_python_timeout_is_reported_without_a_chart_point(self):
         self.result(series=[{"id": "example", "label": "Example library", "points": [

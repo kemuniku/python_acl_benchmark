@@ -124,6 +124,122 @@ struct acl_dsu {
     atcoder::dsu graph;
     explicit acl_dsu(int size) : n(size), graph(size) {}
 };
+// A size-augmented AVL tree. Index 0 is the empty child; index reuse keeps
+// alternating inserts/deletes from growing memory without bound.
+struct acl_ordered_set {
+    struct Node { int key, left, right, height, size; };
+    std::vector<Node> nodes = {{0, 0, 0, 0, 0}};
+    std::vector<int> free_nodes;
+    int root = 0;
+
+    int height(int p) const { return nodes[p].height; }
+    int size(int p) const { return nodes[p].size; }
+    void update(int p) {
+        nodes[p].height = 1 + std::max(height(nodes[p].left), height(nodes[p].right));
+        nodes[p].size = 1 + size(nodes[p].left) + size(nodes[p].right);
+    }
+    int rotate_left(int p) {
+        int q = nodes[p].right;
+        nodes[p].right = nodes[q].left;
+        nodes[q].left = p;
+        update(p); update(q);
+        return q;
+    }
+    int rotate_right(int p) {
+        int q = nodes[p].left;
+        nodes[p].left = nodes[q].right;
+        nodes[q].right = p;
+        update(p); update(q);
+        return q;
+    }
+    int balance(int p) {
+        update(p);
+        int diff = height(nodes[p].left) - height(nodes[p].right);
+        if (diff > 1) {
+            int q = nodes[p].left;
+            if (height(nodes[q].left) < height(nodes[q].right)) nodes[p].left = rotate_left(q);
+            return rotate_right(p);
+        }
+        if (diff < -1) {
+            int q = nodes[p].right;
+            if (height(nodes[q].right) < height(nodes[q].left)) nodes[p].right = rotate_right(q);
+            return rotate_left(p);
+        }
+        return p;
+    }
+    int create(int key) {
+        if (!free_nodes.empty()) {
+            int p = free_nodes.back(); free_nodes.pop_back();
+            nodes[p] = {key, 0, 0, 1, 1};
+            return p;
+        }
+        nodes.push_back({key, 0, 0, 1, 1});
+        return int(nodes.size()) - 1;
+    }
+    int insert(int p, int key, bool &added) {
+        if (!p) { added = true; return create(key); }
+        if (key < nodes[p].key) nodes[p].left = insert(nodes[p].left, key, added);
+        else if (key > nodes[p].key) nodes[p].right = insert(nodes[p].right, key, added);
+        return added ? balance(p) : p;
+    }
+    int erase(int p, int key, bool &removed) {
+        if (!p) return 0;
+        if (key < nodes[p].key) nodes[p].left = erase(nodes[p].left, key, removed);
+        else if (key > nodes[p].key) nodes[p].right = erase(nodes[p].right, key, removed);
+        else {
+            removed = true;
+            if (nodes[p].left && nodes[p].right) {
+                int q = nodes[p].right;
+                while (nodes[q].left) q = nodes[q].left;
+                nodes[p].key = nodes[q].key;
+                bool ignored = false;
+                nodes[p].right = erase(nodes[p].right, nodes[q].key, ignored);
+            } else {
+                int child = nodes[p].left ? nodes[p].left : nodes[p].right;
+                free_nodes.push_back(p);
+                return child;
+            }
+        }
+        return removed ? balance(p) : p;
+    }
+    int count_leq(int key) const {
+        int p = root, count = 0;
+        while (p) {
+            if (nodes[p].key <= key) {
+                count += 1 + size(nodes[p].left);
+                p = nodes[p].right;
+            } else p = nodes[p].left;
+        }
+        return count;
+    }
+    int kth(int k) const {
+        int p = root;
+        if (k < 1 || k > size(p)) return -1;
+        while (p) {
+            int left = size(nodes[p].left);
+            if (k == left + 1) return nodes[p].key;
+            if (k <= left) p = nodes[p].left;
+            else { k -= left + 1; p = nodes[p].right; }
+        }
+        return -1;
+    }
+    int le(int key) const {
+        int p = root, result = -1;
+        while (p) {
+            if (nodes[p].key <= key) { result = nodes[p].key; p = nodes[p].right; }
+            else p = nodes[p].left;
+        }
+        return result;
+    }
+    int ge(int key) const {
+        int p = root, result = -1;
+        while (p) {
+            if (nodes[p].key >= key) { result = nodes[p].key; p = nodes[p].left; }
+            else p = nodes[p].right;
+        }
+        return result;
+    }
+};
 struct acl_fenwick {
     int n;
     // Extra precision prevents signed-64 wrapping before a sum is returned.
@@ -165,6 +281,46 @@ struct acl_mcf {
 extern "C" {
 const char *acl_last_error(void) { return error_message; }
 int acl_error_code(void) { return error_code; }
+
+acl_ordered_set *acl_ordered_new(int unused) {
+    return checked_new<acl_ordered_set>([&] {
+        require(unused == 0, "ordered set constructor expects zero");
+        return new acl_ordered_set();
+    });
+}
+void acl_ordered_delete(acl_ordered_set *h) { delete h; }
+int acl_ordered_add(acl_ordered_set *h, int key) {
+    return checked([&] {
+        handle_ok(h); require(key >= 0, "ordered set keys must be nonnegative");
+        bool added = false; h->root = h->insert(h->root, key, added);
+        return int(added);
+    });
+}
+int acl_ordered_discard(acl_ordered_set *h, int key) {
+    return checked([&] {
+        handle_ok(h); require(key >= 0, "ordered set keys must be nonnegative");
+        bool removed = false; h->root = h->erase(h->root, key, removed);
+        return int(removed);
+    });
+}
+int acl_ordered_count_leq(acl_ordered_set *h, int key) {
+    return checked([&] { handle_ok(h); return h->count_leq(key); });
+}
+int acl_ordered_kth(acl_ordered_set *h, int k, int *answer) {
+    return checked([&] {
+        handle_ok(h); buffer_ok(answer, 1); *answer = h->kth(k); return 0;
+    });
+}
+int acl_ordered_le(acl_ordered_set *h, int key, int *answer) {
+    return checked([&] {
+        handle_ok(h); buffer_ok(answer, 1); *answer = h->le(key); return 0;
+    });
+}
+int acl_ordered_ge(acl_ordered_set *h, int key, int *answer) {
+    return checked([&] {
+        handle_ok(h); buffer_ok(answer, 1); *answer = h->ge(key); return 0;
+    });
+}
 
 acl_dsu *acl_dsu_new(int n) {
     return checked_new<acl_dsu>([&] { size_ok(n); return new acl_dsu(n); });
