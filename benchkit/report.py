@@ -336,12 +336,13 @@ def render(results_dir: Path, output_dir: Path) -> None:
             shutil.copy2(entry["source"], target)
 
     sections, navigation = [], []
-    markdown = ["# Python ACL ベンチマーク", "", "各実装を PyPy で比較します。グラフはランタイムごとに分け、軸の範囲を個別に調整します。グラフは小さいほど高速です。線は中央値、帯・ひげは観測された最小値から最大値です。正の値には対数軸を使い、0 を含む軸には線形軸を使います。棒グラフは各系列の全ケース中の最大中央値とケース名を示し、タイムアウトした系列は表示しません。", "", "[HTML レポート](index.html) · [生データ](data/)", ""]
+    markdown = ["# Python ACL ベンチマーク", "", "各実装を PyPy で比較します。グラフはランタイムごとに分け、軸の範囲を個別に調整します。グラフは小さいほど高速です。入力サイズ別の線は中央値、帯・ひげは観測された最小値から最大値です。Library Checker のケースは折れ線を表示しません。棒グラフは各系列の全ケース中の最大中央値とケース名を示し、タイムアウトした系列は表示しません。", "", "[HTML レポート](index.html) · [生データ](data/)", ""]
     for case, entries in sorted(grouped.items()):
         case_records = [entry["record"] for entry in entries]
         title = str(case_records[0].get("title", case))
         description = str(case_records[0].get("description", ""))
         quick = any(record.get("settings", {}).get("quick") for record in case_records)
+        named_cases = any(record.get("settings", {}).get("case_names") for record in case_records)
         quick_notice = '<p><span class="badge">動作確認用 (--quick) の結果を含みます</span></p>' if quick else ""
         slug = _slug(case)
         runtime_groups = defaultdict(list)
@@ -359,11 +360,12 @@ def render(results_dir: Path, output_dir: Path) -> None:
             chart_title = f"{title} / {runtime_label}"
             chart_href = f"charts/{slug}/{_slug(runtime_id)}.svg"
             bars_href = f"charts/{slug}/{_slug(runtime_id)}-max.svg"
-            (output_dir / chart_href).write_text(_chart(runtime_records, chart_title), encoding="utf-8")
+            if not named_cases:
+                (output_dir / chart_href).write_text(_chart(runtime_records, chart_title), encoding="utf-8")
             bars, maximum_size = _max_bars(runtime_records, chart_title)
             (output_dir / bars_href).write_text(bars, encoding="utf-8")
-            downloads = [f'<a href="{chart_href}" download>折れ線 SVG を保存</a>',
-                         f'<a href="{bars_href}" download>全ケースの最大値 SVG を保存</a>']
+            downloads = ([f'<a href="{chart_href}" download>折れ線 SVG を保存</a>'] if not named_cases else [])
+            downloads.append(f'<a href="{bars_href}" download>全ケースの最大値 SVG を保存</a>')
             for entry in runtime_entries:
                 downloads.append(f'<a href="{_escape(entry["href"])}" download>{_escape(_runtime_name(entry["record"]))} JSON</a>')
             reference_notice = ""
@@ -378,15 +380,17 @@ def render(results_dir: Path, output_dir: Path) -> None:
                 reference_notice += (f'<p class="downloads">{_escape(REFERENCE_NOTE)} '
                                      f'参考系列のタイムアウト: {timeout_count} 点（グラフから除外）。</p>')
             runtime_charts.append(f'<div class="runtime-chart"><h3>{_escape(runtime_label)}</h3>'
-                                  + reference_notice +
-                                  f'<div class="chart-wrap"><img class="chart" src="{chart_href}" alt="{_escape(chart_title)} の入力サイズ別実行時間" loading="lazy"></div>'
+                                  + reference_notice
+                                  + (f'<div class="chart-wrap"><img class="chart" src="{chart_href}" alt="{_escape(chart_title)} の入力サイズ別実行時間" loading="lazy"></div>' if not named_cases else '') +
                                   '<h4>各系列の全ケース中の最大中央値</h4>'
                                   f'<div class="chart-wrap"><img class="chart" src="{bars_href}" alt="{_escape(chart_title)} の全ケース中の最大中央値の比較" loading="lazy"></div>'
                                   f'<div class="downloads">{"".join(downloads)}</div></div>')
-            markdown.extend([f"### {_markdown(runtime_label)}", "", f"![{_markdown(chart_title)}]({chart_href})", "",
-                             "#### 全ケース中の最大中央値（タイムアウトした系列は除外）", "",
+            markdown.extend([f"### {_markdown(runtime_label)}", ""])
+            if not named_cases:
+                markdown.extend([f"![{_markdown(chart_title)}]({chart_href})", ""])
+            markdown.extend(["#### 全ケース中の最大中央値（タイムアウトした系列は除外）", "",
                              f"![{_markdown(chart_title)} 最大ケース]({bars_href})", "",
-                             f"[折れ線 SVG を保存]({chart_href}) · [全ケースの最大値 SVG を保存]({bars_href})", ""])
+                             (f"[折れ線 SVG を保存]({chart_href}) · " if not named_cases else "") + f"[全ケースの最大値 SVG を保存]({bars_href})", ""])
             if timed_out:
                 markdown.append("タイムアウト（グラフから除外）: " +
                                 ", ".join(f"{_markdown(adapter)} n={size}" for adapter, size in timed_out))

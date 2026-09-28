@@ -63,6 +63,17 @@ template <class F> int checked(F action) noexcept {
     }
 }
 
+// Ordered set lookups reserve -1 for a missing key, so errors use -2.
+template <class F> int checked_ordered_value(F action) noexcept {
+    set_error(0, "");
+    try {
+        return action();
+    } catch (...) {
+        record_exception();
+        return -2;
+    }
+}
+
 template <class T, class F> T *checked_new(F action) noexcept {
     set_error(0, "");
     try {
@@ -247,6 +258,89 @@ struct acl_fenwick {
     uwide magnitude = 0;
     explicit acl_fenwick(int size) : n(size), tree(size) {}
 };
+// Monoid operations are callbacks supplied by Python; the native side owns
+// the tree layout and traversal. No Python objects are kept in native memory.
+struct acl_segtree {
+    int n, base;
+    long long identity;
+    acl_seg_op op;
+    std::vector<long long> tree;
+    acl_segtree(const long long *values, int size, long long e, acl_seg_op callback)
+        : n(size), base(1), identity(e), op(callback) {
+        while (base < n) base *= 2;
+        tree.assign(2 * base, e);
+        for (int i = 0; i < n; ++i) tree[base + i] = values[i];
+        for (int i = base - 1; i; --i) tree[i] = op(tree[i * 2], tree[i * 2 + 1]);
+    }
+    void set(int index, long long value) {
+        int p = base + index;
+        tree[p] = value;
+        while (p > 1) { p /= 2; tree[p] = op(tree[p * 2], tree[p * 2 + 1]); }
+    }
+    long long prod(int left, int right) const {
+        long long a = identity, b = identity;
+        for (left += base, right += base; left < right; left /= 2, right /= 2) {
+            if (left & 1) a = op(a, tree[left++]);
+            if (right & 1) b = op(tree[--right], b);
+        }
+        return op(a, b);
+    }
+};
+struct acl_lazysegtree {
+    struct Node { long long value, length, lazy; bool pending; };
+    int n;
+    long long identity, id;
+    acl_lazy_op op;
+    acl_lazy_mapping mapping;
+    acl_lazy_composition composition;
+    std::vector<Node> tree;
+    acl_lazysegtree(const long long *values, const long long *lengths, int size,
+                    long long e, long long identity_action, acl_lazy_op operation,
+                    acl_lazy_mapping map, acl_lazy_composition compose)
+        : n(size), identity(e), id(identity_action), op(operation), mapping(map),
+          composition(compose), tree(4 * std::max(size, 1), {e, 0, identity_action, false}) {
+        if (n) build(1, 0, n, values, lengths);
+    }
+    void build(int p, int l, int r, const long long *values, const long long *lengths) {
+        if (l + 1 == r) { tree[p].value = values[l]; tree[p].length = lengths[l]; return; }
+        int m = l + (r - l) / 2;
+        build(p * 2, l, m, values, lengths); build(p * 2 + 1, m, r, values, lengths);
+        pull(p);
+    }
+    void pull(int p) {
+        const Node &a = tree[p * 2], &b = tree[p * 2 + 1];
+        tree[p].value = op(a.value, a.length, b.value, b.length);
+        tree[p].length = a.length + b.length;
+    }
+    void apply_node(int p, long long f) {
+        Node &node = tree[p];
+        node.value = mapping(f, node.value, node.length);
+        node.lazy = node.pending ? composition(f, node.lazy) : f;
+        node.pending = true;
+    }
+    void push(int p) {
+        if (tree[p].pending) {
+            apply_node(p * 2, tree[p].lazy); apply_node(p * 2 + 1, tree[p].lazy);
+            tree[p].pending = false; tree[p].lazy = id;
+        }
+    }
+    void apply(int p, int l, int r, int ql, int qr, long long f) {
+        if (qr <= l || r <= ql) return;
+        if (ql <= l && r <= qr) { apply_node(p, f); return; }
+        push(p);
+        int m = l + (r - l) / 2;
+        apply(p * 2, l, m, ql, qr, f); apply(p * 2 + 1, m, r, ql, qr, f);
+        pull(p);
+    }
+    Node prod(int p, int l, int r, int ql, int qr) {
+        if (qr <= l || r <= ql) return {identity, 0, id, false};
+        if (ql <= l && r <= qr) return tree[p];
+        push(p);
+        int m = l + (r - l) / 2;
+        Node a = prod(p * 2, l, m, ql, qr), b = prod(p * 2 + 1, m, r, ql, qr);
+        return {op(a.value, a.length, b.value, b.length), a.length + b.length, id, false};
+    }
+};
 struct acl_scc {
     int n;
     int edges = 0;
@@ -319,6 +413,60 @@ int acl_ordered_le(acl_ordered_set *h, int key, int *answer) {
 int acl_ordered_ge(acl_ordered_set *h, int key, int *answer) {
     return checked([&] {
         handle_ok(h); buffer_ok(answer, 1); *answer = h->ge(key); return 0;
+    });
+}
+// -1 is the missing-value sentinel; -2 signals an error to Python.
+int acl_ordered_kth_value(acl_ordered_set *h, int k) {
+    return checked_ordered_value([&] { handle_ok(h); return h->kth(k); });
+}
+int acl_ordered_le_value(acl_ordered_set *h, int key) {
+    return checked_ordered_value([&] { handle_ok(h); return h->le(key); });
+}
+int acl_ordered_ge_value(acl_ordered_set *h, int key) {
+    return checked_ordered_value([&] { handle_ok(h); return h->ge(key); });
+}
+
+acl_segtree *acl_seg_new(const long long *values, int n, long long identity, acl_seg_op op) {
+    return checked_new<acl_segtree>([&] {
+        size_ok(n); require(n <= INT_MAX / 8, "segment tree is too large");
+        buffer_ok(values, n); require(op != nullptr, "segment operation must be callable");
+        return new acl_segtree(values, n, identity, op);
+    });
+}
+void acl_seg_delete(acl_segtree *h) { delete h; }
+int acl_seg_set(acl_segtree *h, int index, long long value) {
+    return checked([&] { handle_ok(h); vertex(index, h->n); h->set(index, value); return 0; });
+}
+int acl_seg_prod(acl_segtree *h, int left, int right, long long *answer) {
+    return checked([&] {
+        handle_ok(h); require(0 <= left && left <= right && right <= h->n, "invalid segment interval");
+        buffer_ok(answer, 1); *answer = h->prod(left, right); return 0;
+    });
+}
+acl_lazysegtree *acl_lazy_new(const long long *values, const long long *lengths, int n,
+                              long long identity, long long id,
+                              acl_lazy_op op, acl_lazy_mapping mapping, acl_lazy_composition composition) {
+    return checked_new<acl_lazysegtree>([&] {
+        size_ok(n); require(n <= INT_MAX / 8, "lazy segment tree is too large");
+        buffer_ok(values, n); buffer_ok(lengths, n);
+        require(op && mapping && composition, "lazy segment callbacks must be callable");
+        return new acl_lazysegtree(values, lengths, n, identity, id, op, mapping, composition);
+    });
+}
+void acl_lazy_delete(acl_lazysegtree *h) { delete h; }
+int acl_lazy_apply(acl_lazysegtree *h, int left, int right, long long action) {
+    return checked([&] {
+        handle_ok(h); require(0 <= left && left <= right && right <= h->n, "invalid lazy segment interval");
+        if (left < right) h->apply(1, 0, h->n, left, right, action);
+        return 0;
+    });
+}
+int acl_lazy_prod(acl_lazysegtree *h, int left, int right, long long *answer) {
+    return checked([&] {
+        handle_ok(h); require(0 <= left && left <= right && right <= h->n, "invalid lazy segment interval");
+        buffer_ok(answer, 1);
+        *answer = left < right ? h->prod(1, 0, h->n, left, right).value : h->identity;
+        return 0;
     });
 }
 

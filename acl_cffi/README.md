@@ -37,6 +37,8 @@ assert convolution998244353([1, 2], [3, 4]) == [3, 10, 8]
 | --- | --- |
 | `dsu(n)` | Union-Find |
 | `ordered_set()` | 部分木サイズ付き AVL 木で非負整数の集合を管理。`add` / `discard` / `kth`（1始まり）/ `count_leq` / `le` / `ge` |
+| `segtree(op, identity, values)` | Python 定義の整数演算による点更新・区間積 |
+| `lazy_segtree(op, identity, mapping, composition, id_, values)` | Python 定義の演算による `(値, 長さ)` の区間作用・区間積 |
 | `fenwick_tree(n)` | 点加算・半開区間 `[l, r)` の和 |
 | `scc_graph(n)` | 強連結成分分解 |
 | `two_sat(n)` | 2-SAT |
@@ -50,8 +52,8 @@ assert convolution998244353([1, 2], [3, 4]) == [3, 10, 8]
 | `lcp_array(s, sa)` | 接尾辞配列に対応する隣接 LCP |
 | `z_algorithm(s)` | Z 配列 |
 
-`segtree` と `lazysegtree` は実装していません。任意の Python 演算を C++ 側に渡す抽象化は今回の対象外です。
-`ordered_set` は ACL のバインディングではなく、このリポジトリに追加した C++ AVL 木です。存在しない k 番目や前後要素は `-1` を返します。Library Checker の [比較方法](../docs/ordered_set.md) も参照してください。
+`segtree` と `lazy_segtree` は演算を Python で定義し、木の走査・保存を C++ で行う実験的実装です。値と作用は符号付き64 bit 整数で、遅延木の値は `(整数, 加算可能な長さ)` とし、`mapping` は長さを保持します。`lazy_segtree.prod` は値の第1成分を返します。各内部ノードで Python コールバックを実行するので、CFFI 呼び出しコストも計測に含まれます。これらは公式 ACL の C++ テンプレートのバインディングではありません。
+`ordered_set` も ACL のバインディングではなく、このリポジトリに追加した C++ AVL 木です。存在しない k 番目や前後要素は `-1` を返します。`kth` / `le` / `ge` は戻り値を直接受け取るため、呼び出しごとの出力用領域の確保を省いています。Library Checker の [比較方法](../docs/ordered_set.md) も参照してください。
 
 グラフ・木のインスタンスは `with` または `close()` でネイティブ領域を解放できます。`close()` は繰り返し呼び出せます。解放後の操作は `RuntimeError` になります。明示的に解放しなかった場合も CFFI のファイナライザで解放されますが、特に PyPy では GC の実行まで遅れるため、繰り返し作成する処理では `with` を使ってください。
 

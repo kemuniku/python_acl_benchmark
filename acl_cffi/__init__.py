@@ -20,7 +20,7 @@ except ImportError as exc:
 
 
 __all__ = [
-    "dsu", "fenwick_tree", "scc_graph", "two_sat", "mf_graph", "mcf_graph", "ordered_set",
+    "dsu", "fenwick_tree", "segtree", "lazy_segtree", "scc_graph", "two_sat", "mf_graph", "mcf_graph", "ordered_set",
     "convolution998244353", "crt", "crt_many", "floor_sum", "suffix_array", "lcp_array",
     "z_algorithm",
 ]
@@ -130,18 +130,110 @@ class ordered_set(_Handle):
         return _check(lib.acl_ordered_count_leq(self._handle(), key))
 
     def kth(self, one_based):
-        result = ffi.new("int *")
-        _check(lib.acl_ordered_kth(self._handle(), one_based, result))
-        return result[0]
+        result = lib.acl_ordered_kth_value(self._handle(), one_based)
+        if result == -2:
+            _error()
+        return result
 
     def le(self, key):
-        result = ffi.new("int *")
-        _check(lib.acl_ordered_le(self._handle(), key, result))
-        return result[0]
+        result = lib.acl_ordered_le_value(self._handle(), key)
+        if result == -2:
+            _error()
+        return result
 
     def ge(self, key):
-        result = ffi.new("int *")
-        _check(lib.acl_ordered_ge(self._handle(), key, result))
+        result = lib.acl_ordered_ge_value(self._handle(), key)
+        if result == -2:
+            _error()
+        return result
+
+
+class _CallbackTree(_Handle):
+    def _invoke(self, function, *args):
+        self._callback_error = None
+        result = function(self._handle(), *args)
+        if self._callback_error is not None:
+            raise self._callback_error
+        return _check(result)
+
+    def _capture(self, function, fallback):
+        def callback(*args):
+            if self._callback_error is not None:
+                return fallback
+            try:
+                return function(*args)
+            except Exception as exc:
+                self._callback_error = exc
+                return fallback
+        return callback
+
+
+class segtree(_CallbackTree):
+    """Native tree traversal with a Python-defined integer monoid operation."""
+
+    def __init__(self, op, identity, values):
+        values = _sequence(values)
+        packed = ffi.new("long long[]", values)
+        self._callback_error = None
+        self._op = ffi.callback("acl_seg_op", self._capture(op, identity))
+        self._init(len(values), lambda n: lib.acl_seg_new(packed, n, identity, self._op), lib.acl_seg_delete)
+        if self._callback_error is not None:
+            error = self._callback_error
+            self.close()
+            raise error
+
+    def set(self, index, value):
+        self._invoke(lib.acl_seg_set, index, value)
+
+    def prod(self, left, right):
+        result = ffi.new("long long *")
+        self._invoke(lib.acl_seg_prod, left, right, result)
+        return result[0]
+
+
+class lazy_segtree(_CallbackTree):
+    """Native lazy tree over (integer value, length), with Python-defined operations.
+
+    The second component is an additive segment length and mapping preserves it.
+    """
+
+    def __init__(self, op, identity, mapping, composition, id_, values):
+        values = _sequence(values)
+        packed = ffi.new("long long[]", [item[0] for item in values])
+        lengths = ffi.new("long long[]", [item[1] for item in values])
+        self._callback_error = None
+
+        def merge(a, alen, b, blen):
+            result = op((a, alen), (b, blen))
+            if result[1] != alen + blen:
+                raise ValueError("lazy segment length must be additive")
+            return result[0]
+
+        def apply(f, value, length):
+            result = mapping(f, (value, length))
+            if result[1] != length:
+                raise ValueError("mapping must preserve segment length")
+            return result[0]
+
+        self._callbacks = (
+            ffi.callback("acl_lazy_op", self._capture(merge, identity[0])),
+            ffi.callback("acl_lazy_mapping", self._capture(apply, identity[0])),
+            ffi.callback("acl_lazy_composition", self._capture(composition, id_)),
+        )
+        self._init(len(values), lambda n: lib.acl_lazy_new(packed, lengths, n, identity[0], id_, *self._callbacks), lib.acl_lazy_delete)
+        if self._callback_error is not None:
+            error = self._callback_error
+            self.close()
+            raise error
+
+    def apply(self, left, right, action):
+        self._invoke(lib.acl_lazy_apply, left, right, action)
+
+    def prod(self, left, right):
+        result = ffi.new("long long *")
+        self._invoke(lib.acl_lazy_prod, left, right, result)
+        # The benchmark consumes only the sum; callers needing the length can
+        # compute it from their initial weights when using the generic API.
         return result[0]
 
 
