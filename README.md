@@ -8,7 +8,7 @@ Python 向け AtCoder Library を **PyPy × 入力サイズ** で比較するリ
 - [not522/ac-library-python](https://github.com/not522/ac-library-python)
 - [shakayami/ACL-for-python](https://github.com/shakayami/ACL-for-python)
 - [tatyam-prime/acl-cpp-python](https://github.com/tatyam-prime/acl-cpp-python)
-- [lif4635/harurun-s-library](https://github.com/lif4635/harurun-s-library)（現行の `library_codex`、[対応API](docs/harurun.md)）
+- [lif4635/harurun-s-library](https://github.com/lif4635/harurun-s-library)（`library_codex` と旧 `library`、[対応API](docs/harurun.md)）
 - [ローカル CFFI 実装](acl_cffi/README.md)（公式 C++ ACL のバインディング）
 - [ローカル HPy 実装](acl_hpy/README.md)（公式 C++ ACL、HPy Universal ABI）
 - 各フォルダに追加した自作実装
@@ -43,29 +43,29 @@ CI が `gh-pages` に書き込めるよう、組織のポリシーでも workflo
 
 ## 比較する内容
 
-| フォルダ | 処理 | not522 | shakayami | tatyam | CFFI | HPy | harurun |
-| --- | --- | :---: | :---: | :---: | :---: | :---: | :---: |
-| `dsu` | Union-Find の merge / same | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `fenwicktree` | 点加算 / 区間和 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `segtree` | 点更新 / 区間和 | ✓ | ✓ | — | — | — | ✓ |
-| `lazysegtree` | 区間加算 / 区間和 | ✓ | ✓ | — | — | — | ✓ |
-| `convolution` | mod 998244353 の畳み込み | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `suffix_array` | 接尾辞配列 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `lcp_array` | LCP 配列 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `z_algorithm` | Z-algorithm | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `scc` | 強連結成分分解 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `two_sat` | 2-SAT | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `maxflow` | 最大流 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `mincostflow` | 最小費用流 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `floor_sum` | floor_sum の反復 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `crt` | 中国剰余定理の反復 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| フォルダ | 処理 | not522 | shakayami | tatyam | CFFI | HPy | harurun `library_codex` | harurun `library` |
+| --- | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `dsu` | Union-Find の merge / same | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `fenwicktree` | 点加算 / 区間和 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `segtree` | 点更新 / 区間和 | ✓ | ✓ | — | — | — | ✓ | ✓ |
+| `lazysegtree` | 区間加算 / 区間和 | ✓ | ✓ | — | — | — | ✓ | ✓ |
+| `convolution` | mod 998244353 の畳み込み | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `suffix_array` | 接尾辞配列 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `lcp_array` | LCP 配列 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `z_algorithm` | Z-algorithm | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `scc` | 強連結成分分解 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `two_sat` | 2-SAT | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `maxflow` | 最大流 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — |
+| `mincostflow` | 最小費用流 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — |
+| `floor_sum` | floor_sum の反復 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `crt` | 中国剰余定理の反復 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — |
 
 CFFI 版は公式 ACL v1.6 を CFFI の API モードで呼び出します。DSU・グラフなどは Python 側から操作ごとに呼び出し、既存実装と同じループを計測します。Segment Tree / Lazy Segment Tree は対象外です。
 CRT・DSU・Fenwick Tree・SCC には、呼び出し回数が多い場合の CFFI バッチ系列も併記します。入力をまとめて C++ に渡す時間と結果を Python に戻す時間を含め、操作単位の系列とは呼び出し条件が異なるため凡例で区別します。
 
 HPy 版も同じ12ケースを対象に、同じリビジョン・入力検査・数値型の C++ 処理を使います。Python / HPy 間の呼び出しと値変換を含めて計測し、CPython / PyPy ともに Universal ABI を使用します。
 
-固定した tatyam 版には Segment Tree / Lazy Segment Tree の Python API がないため、この 2 ケースの Python 実装は not522・shakayami・harurun の3実装で比較します。
+固定した tatyam 版には Segment Tree / Lazy Segment Tree の Python API がないため、この 2 ケースでは not522・shakayami・harurun の新旧2系列を比較します。harurun の旧 `library` には CRT・最大流・最小費用流の実装がありません。
 グラフの `n` の意味、操作回数、計測に含める処理は各 `case.json` の `description` と `workload.py` に記載しています。
 例えば DSU は `n` 頂点と `4n` クエリ、畳み込みはそれぞれ長さ `n` の配列です。グラフはこのワークロードに対する結果です。
 
