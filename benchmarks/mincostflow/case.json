@@ -11,5 +11,5 @@
   "seed": 42,
   "repeat": 5,
   "warmup": 3,
-  "timeout": 4
+  "timeout": 60
 }

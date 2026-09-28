@@ -22,7 +22,7 @@ class CPPReferenceTests(unittest.TestCase):
         self.case = self.root / "benchmarks" / "dsu"
         (self.case / "implementations").mkdir(parents=True)
         self.settings = dict(sizes=[2, 8], seed=42, repeat=2, warmup=0,
-                             warmup_seconds=0, sample_seconds=0, timeout=4, quick=False)
+                             warmup_seconds=0, sample_seconds=0, timeout=60, quick=False)
         (self.case / "case.json").write_text(json.dumps(self.settings))
         (self.case / "workload.py").write_text(
             "def make_input(size, seed): return list(range(size))\n"
@@ -62,7 +62,7 @@ class CPPReferenceTests(unittest.TestCase):
     def test_timeout_is_not_stored_as_a_timing_and_later_points_continue(self):
         def measure(binary, name, workload, size, settings):
             if size == 2:
-                raise subprocess.TimeoutExpired(["/binary"], 4)
+                raise subprocess.TimeoutExpired(["/binary"], settings["timeout"])
             return self.point(size)
         with patch("benchkit.cpp_reference.build", return_value=(Path("/binary"), self.info)), \
                 patch("benchkit.cpp_reference.validate"), \
@@ -71,7 +71,7 @@ class CPPReferenceTests(unittest.TestCase):
             attach(self.results, root=self.root)
         reference = json.loads(self.destination.read_text())["references"][0]
         self.assertEqual([p["size"] for p in reference["points"]], [8])
-        self.assertEqual(reference["timeouts"], [{"size": 2, "timeout_seconds": 4}])
+        self.assertEqual(reference["timeouts"], [{"size": 2, "timeout_seconds": 60}])
 
     def test_mismatch_does_not_overwrite_python_results(self):
         original = self.destination.read_bytes()

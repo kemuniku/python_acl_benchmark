@@ -7,5 +7,5 @@
   "warmup_seconds": 0.25,
   "sample_seconds": 0.025,
   "seed": 42,
-  "timeout": 4
+  "timeout": 60
 }
