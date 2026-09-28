@@ -285,6 +285,13 @@ def lcp_array(values, sa):
 
 def z_algorithm(values):
     """Return longest common prefix lengths against every suffix."""
+    if isinstance(values, str) and values.isascii():
+        values = values.encode("ascii")
+    if isinstance(values, bytes):
+        n = len(values)
+        result = ffi.new("int[]", n)
+        _check(lib.acl_z_algorithm_bytes(ffi.from_buffer("const char[]", values), n, result))
+        return ffi.unpack(result, n)
     array, n = _string_array(values)
     result = ffi.new("int[]", n)
     _check(lib.acl_z_algorithm(array, n, result))

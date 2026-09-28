@@ -24,7 +24,7 @@ concurrency:
 jobs:
   benchmark:
     runs-on: ubuntu-24.04
-    # Large CPython cases include warmups and five samples at n=500000.
+    # PyPy measurements include warmups and five samples at n=500000.
     timeout-minutes: 180
     steps:
       - uses: actions/checkout@v7
@@ -108,8 +108,11 @@ jobs:
         env:
           PYTHON: ${{ steps.runtimes.outputs.cpython }}
           GITHUB_TOKEN: ${{ github.token }}
-        run: '"$PYTHON" scripts/publish.py restore --results results'
-      - name: Measure CPython and PyPy sequentially on the same machine
+        run: |
+          "$PYTHON" scripts/publish.py restore --results results
+          # Do not carry old CPython measurements into the PyPy-only report.
+          "$PYTHON" -c 'import shutil; shutil.rmtree("results/cpython", ignore_errors=True)'
+      - name: Measure PyPy and C++ reference
         env:
           CPYTHON: ${{ steps.runtimes.outputs.cpython }}
           PYPY: ${{ steps.runtimes.outputs.pypy }}
@@ -120,7 +123,6 @@ jobs:
           if [[ "$FULL" == "true" ]]; then
             args+=(--force)
           fi
-          "$CPYTHON" -m benchkit run --results results "${args[@]}"
           "$PYPY" -m benchkit run --results results "${args[@]}"
           "$CPYTHON" -m benchkit cpp-reference --results results "${args[@]}"
       - uses: actions/upload-artifact@v7
