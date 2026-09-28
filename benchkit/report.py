@@ -65,10 +65,10 @@ def _number(value: float) -> str:
     return f"{value:.3g}"
 
 
-def _scale(values: list[float], start: float, end: float) -> tuple:
+def _scale(values: list[float], start: float, end: float, force_linear: bool = False) -> tuple:
     """Return a coordinate function, ticks, and scale name; zero uses linear."""
     low, high = min(values), max(values)
-    logarithmic = low > 0
+    logarithmic = low > 0 and not force_linear
     if logarithmic:
         lower, upper = math.log10(low), math.log10(high)
         padding = max((upper - lower) * 0.06, 0.08)
@@ -106,6 +106,7 @@ def _marker(x: float, y: float, color: str, index: int) -> str:
 
 
 def _chart(records: list[dict], title: str) -> str:
+    named_cases = any(record.get("settings", {}).get("case_names") for record in records)
     lines = []
     for record in records:
         entries = [(series, _runtime_name(record), False) for series in record.get("series", [])]
@@ -139,7 +140,7 @@ def _chart(records: list[dict], title: str) -> str:
         legend_rows.append(max(len(entry) for entry in legend[offset:offset + 2]) * 18 + 16)
     height = 500 + sum(legend_rows)
     all_points = [point for line in lines for point in line["points"]]
-    x, x_ticks, x_mode = _scale([point["size"] for point in all_points], 100, 998)
+    x, x_ticks, x_mode = _scale([point["size"] for point in all_points], 100, 998, force_linear=named_cases)
     max_time = max(point["max"] for point in all_points)
     unit, multiplier = ("ns", 1e9) if max_time < 1e-6 else (("µs", 1e6) if max_time < 1e-3 else (("ms", 1e3) if max_time < 1 else ("s", 1)))
     y, y_ticks, y_mode = _scale([point[key] * multiplier for point in all_points for key in ("min", "max")], 406, 94)
@@ -161,7 +162,7 @@ def _chart(records: list[dict], title: str) -> str:
         svg.extend((f'<line x1="100" y1="{position:.2f}" x2="998" y2="{position:.2f}" stroke="#e2e8f0"/>',
                     f'<text x="87" y="{position + 4:.2f}" font-size="12" text-anchor="end" fill="#475569">{_number(tick)}</text>'))
     svg.extend(('<path d="M100 94 V406 H998" fill="none" stroke="#94a3b8"/>',
-                f'<text x="549" y="461" font-size="14" text-anchor="middle">Input size n ({x_mode} scale)</text>',
+                f'<text x="549" y="461" font-size="14" text-anchor="middle">{("Case index" if named_cases else "Input size n")} ({x_mode} scale)</text>',
                 f'<text transform="translate(25 250) rotate(-90)" font-size="14" text-anchor="middle">Elapsed time [{unit}] ({y_mode} scale)</text>'))
     for line in lines:
         color, runtime_index, dash = style(line)
@@ -200,34 +201,39 @@ def _max_size(record: dict) -> int | None:
 
 
 def _max_bars(records: list[dict], title: str) -> tuple[str, int | None]:
-    """Compare only successful points at the configured maximum input size."""
+    """Compare each series' slowest successful case, omitting timed-out series."""
     sizes = [_max_size(record) for record in records]
     maximum_size = max((size for size in sizes if size is not None), default=None)
     bars = []
     for record in records:
-        if _max_size(record) != maximum_size:
-            continue
         entries = [(series, False) for series in record.get("series", [])]
         entries += [(reference, True) for reference in _references(record)]
         for series, reference in entries:
-            point = next((_point(point) for point in series.get("points", [])
-                          if point.get("size") == maximum_size), None)
-            if point is None:
+            if series.get("timeouts"):
                 continue
+            points = [(raw, point) for raw in series.get("points", [])
+                      if (point := _point(raw)) is not None]
+            if not points:
+                continue
+            raw, point = max(points, key=lambda entry: (entry[1]["median"], entry[1]["size"]))
             label = str(series.get("label", series["id"]))
             if reference and "参考用" not in label:
                 label += "（参考用）"
-            bars.append((point["median"], str(series["id"]), label, reference))
+            sizes = record.get("settings", {}).get("sizes", [])
+            names = record.get("settings", {}).get("case_names", [])
+            case = (names[sizes.index(raw["size"])] if names and raw["size"] in sizes
+                    else "n=" + str(raw["size"]))
+            bars.append((point["median"], str(series["id"]), label, reference, case))
     bars.sort(key=lambda bar: (bar[0], bar[2]))
-    height = max(210, 135 + 38 * len(bars))
-    title = f"{title} / 最大入力サイズ n={maximum_size if maximum_size is not None else '?'}"
+    height = max(210, 135 + 44 * len(bars))
+    title = f"{title} / 全ケースの最大中央値"
     svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="{height}" viewBox="0 0 1040 {height}" role="img" aria-labelledby="bar-title bar-desc">',
            f'<title id="bar-title">{_escape(title)}</title>',
-           '<desc id="bar-desc">Maximum input size, median elapsed time. Timed-out series are omitted. Lower is faster.</desc>',
+           '<desc id="bar-desc">Largest median over all cases per series, with case names. Series with any timeout are omitted. Lower is faster.</desc>',
            '<rect width="100%" height="100%" rx="12" fill="white"/>',
            '<g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" fill="#0f172a">',
            f'<text x="40" y="36" font-size="22" font-weight="700">{_escape(title)}</text>',
-           '<text x="40" y="61" font-size="13" fill="#64748b">中央値 · 小さいほど高速 · タイムアウトは除外</text>']
+           '<text x="40" y="61" font-size="13" fill="#64748b">全ケース中の最大中央値 · 小さいほど高速 · タイムアウトした系列は除外</text>']
     if bars:
         maximum_time = max(bar[0] for bar in bars)
         unit, multiplier = (("ns", 1e9) if maximum_time < 1e-6 else
@@ -241,15 +247,16 @@ def _max_bars(records: list[dict], title: str) -> tuple[str, int | None]:
             svg.extend((f'<line x1="{x}" y1="78" x2="{x}" y2="{height - 46}" stroke="#e2e8f0"/>',
                         f'<text x="{x}" y="{height - 21}" font-size="12" text-anchor="middle" fill="#475569">{_number(limit * step / 4)}</text>'))
         svg.append(f'<text x="666" y="{height - 4}" font-size="12" text-anchor="middle">実行時間 [{unit}]</text>')
-        for index, (median, identifier, label, reference) in enumerate(bars):
-            y = 84 + index * 38
+        for index, (median, identifier, label, reference, case) in enumerate(bars):
+            y = 84 + index * 44
             width = 512 * median * multiplier / limit
             color = "#475569" if reference else COLORS[library_ids.index(identifier) % len(COLORS)]
-            svg.extend((f'<text x="395" y="{y + 17}" font-size="12" text-anchor="end">{_escape(label)}</text>',
-                        f'<rect class="bar" x="410" y="{y}" width="{width:.2f}" height="24" rx="4" fill="{color}"/>',
-                        f'<text x="{min(932, 417 + width):.2f}" y="{y + 17}" font-size="12" fill="#334155">{_number(median * multiplier)} {unit}</text>'))
+            svg.extend((f'<text x="395" y="{y + 13}" font-size="12" text-anchor="end">{_escape(label)}</text>',
+                        f'<text x="395" y="{y + 29}" font-size="11" fill="#64748b" text-anchor="end">{_escape(case)}</text>',
+                        f'<rect class="bar" x="410" y="{y + 3}" width="{width:.2f}" height="24" rx="4" fill="{color}"/>',
+                        f'<text x="{min(932, 417 + width):.2f}" y="{y + 20}" font-size="12" fill="#334155">{_number(median * multiplier)} {unit}</text>'))
     else:
-        svg.append('<text x="520" y="120" font-size="15" text-anchor="middle" fill="#64748b">最大入力サイズの計測値はありません</text>')
+        svg.append('<text x="520" y="120" font-size="15" text-anchor="middle" fill="#64748b">タイムアウトしていない系列の計測値はありません</text>')
     svg.append('</g></svg>')
     return "\n".join(svg) + "\n", maximum_size
 
@@ -329,7 +336,7 @@ def render(results_dir: Path, output_dir: Path) -> None:
             shutil.copy2(entry["source"], target)
 
     sections, navigation = [], []
-    markdown = ["# Python ACL ベンチマーク", "", "各実装を PyPy で比較します。グラフはランタイムごとに分け、軸の範囲を個別に調整します。グラフは小さいほど高速です。線は中央値、帯・ひげは観測された最小値から最大値です。正の値には対数軸を使い、0 を含む軸には線形軸を使います。最大入力サイズの棒グラフにはタイムアウトした系列を表示しません。", "", "[HTML レポート](index.html) · [生データ](data/)", ""]
+    markdown = ["# Python ACL ベンチマーク", "", "各実装を PyPy で比較します。グラフはランタイムごとに分け、軸の範囲を個別に調整します。グラフは小さいほど高速です。線は中央値、帯・ひげは観測された最小値から最大値です。正の値には対数軸を使い、0 を含む軸には線形軸を使います。棒グラフは各系列の全ケース中の最大中央値とケース名を示し、タイムアウトした系列は表示しません。", "", "[HTML レポート](index.html) · [生データ](data/)", ""]
     for case, entries in sorted(grouped.items()):
         case_records = [entry["record"] for entry in entries]
         title = str(case_records[0].get("title", case))
@@ -356,7 +363,7 @@ def render(results_dir: Path, output_dir: Path) -> None:
             bars, maximum_size = _max_bars(runtime_records, chart_title)
             (output_dir / bars_href).write_text(bars, encoding="utf-8")
             downloads = [f'<a href="{chart_href}" download>折れ線 SVG を保存</a>',
-                         f'<a href="{bars_href}" download>最大ケース SVG を保存</a>']
+                         f'<a href="{bars_href}" download>全ケースの最大値 SVG を保存</a>']
             for entry in runtime_entries:
                 downloads.append(f'<a href="{_escape(entry["href"])}" download>{_escape(_runtime_name(entry["record"]))} JSON</a>')
             reference_notice = ""
@@ -373,13 +380,13 @@ def render(results_dir: Path, output_dir: Path) -> None:
             runtime_charts.append(f'<div class="runtime-chart"><h3>{_escape(runtime_label)}</h3>'
                                   + reference_notice +
                                   f'<div class="chart-wrap"><img class="chart" src="{chart_href}" alt="{_escape(chart_title)} の入力サイズ別実行時間" loading="lazy"></div>'
-                                  f'<h4>最大入力サイズ n={_escape(maximum_size if maximum_size is not None else "?")} の比較</h4>'
-                                  f'<div class="chart-wrap"><img class="chart" src="{bars_href}" alt="{_escape(chart_title)} の最大入力サイズの比較" loading="lazy"></div>'
+                                  '<h4>各系列の全ケース中の最大中央値</h4>'
+                                  f'<div class="chart-wrap"><img class="chart" src="{bars_href}" alt="{_escape(chart_title)} の全ケース中の最大中央値の比較" loading="lazy"></div>'
                                   f'<div class="downloads">{"".join(downloads)}</div></div>')
             markdown.extend([f"### {_markdown(runtime_label)}", "", f"![{_markdown(chart_title)}]({chart_href})", "",
-                             f"#### 最大入力サイズ n={_markdown(maximum_size if maximum_size is not None else '?')}（タイムアウトは除外）", "",
+                             "#### 全ケース中の最大中央値（タイムアウトした系列は除外）", "",
                              f"![{_markdown(chart_title)} 最大ケース]({bars_href})", "",
-                             f"[折れ線 SVG を保存]({chart_href}) · [最大ケース SVG を保存]({bars_href})", ""])
+                             f"[折れ線 SVG を保存]({chart_href}) · [全ケースの最大値 SVG を保存]({bars_href})", ""])
             if timed_out:
                 markdown.append("タイムアウト（グラフから除外）: " +
                                 ", ".join(f"{_markdown(adapter)} n={size}" for adapter, size in timed_out))

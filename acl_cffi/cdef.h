@@ -1,4 +1,13 @@
 typedef struct acl_dsu acl_dsu;
+typedef struct acl_ordered_set acl_ordered_set;
+acl_ordered_set *acl_ordered_new(int unused);
+void acl_ordered_delete(acl_ordered_set *handle);
+int acl_ordered_add(acl_ordered_set *handle, int key);
+int acl_ordered_discard(acl_ordered_set *handle, int key);
+int acl_ordered_count_leq(acl_ordered_set *handle, int key);
+int acl_ordered_kth(acl_ordered_set *handle, int one_based, int *answer);
+int acl_ordered_le(acl_ordered_set *handle, int key, int *answer);
+int acl_ordered_ge(acl_ordered_set *handle, int key, int *answer);
 typedef struct acl_fenwick acl_fenwick;
 typedef struct acl_scc acl_scc;
 typedef struct acl_twosat acl_twosat;

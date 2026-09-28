@@ -9,6 +9,7 @@ Python 向け AtCoder Library を **PyPy × 入力サイズ** で比較するリ
 - [shakayami/ACL-for-python](https://github.com/shakayami/ACL-for-python)
 - [tatyam-prime/acl-cpp-python](https://github.com/tatyam-prime/acl-cpp-python)
 - [lif4635/harurun-s-library](https://github.com/lif4635/harurun-s-library)（`library_codex` と旧 `library`、[対応API](docs/harurun.md)）
+- [tatyam-prime/SortedSet](https://github.com/tatyam-prime/SortedSet) と [sortedcontainers](https://github.com/grantjenks/python-sortedcontainers)（[Ordered Set の計測](docs/ordered_set.md)）
 - [ローカル CFFI 実装](acl_cffi/README.md)（公式 C++ ACL のバインディング）
 - [ローカル HPy 実装](acl_hpy/README.md)（公式 C++ ACL、HPy Universal ABI）
 - 各フォルダに追加した自作実装
@@ -43,22 +44,23 @@ CI が `gh-pages` に書き込めるよう、組織のポリシーでも workflo
 
 ## 比較する内容
 
-| フォルダ | 処理 | not522 | shakayami | tatyam | CFFI | HPy | harurun `library_codex` | harurun `library` |
-| --- | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `dsu` | Union-Find の merge / same | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `fenwicktree` | 点加算 / 区間和 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `segtree` | 点更新 / 区間和 | ✓ | ✓ | — | — | — | ✓ | ✓ |
-| `lazysegtree` | 区間加算 / 区間和 | ✓ | ✓ | — | — | — | ✓ | ✓ |
-| `convolution` | mod 998244353 の畳み込み | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `suffix_array` | 接尾辞配列 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `lcp_array` | LCP 配列 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `z_algorithm` | Z-algorithm | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `scc` | 強連結成分分解 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `two_sat` | 2-SAT | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `maxflow` | 最大流 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — |
-| `mincostflow` | 最小費用流 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — |
-| `floor_sum` | floor_sum の反復 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `crt` | 中国剰余定理の反復 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — |
+| フォルダ | 処理 | not522 | shakayami | tatyam | CFFI | HPy | harurun `library_codex` | harurun `library` | SortedSet | sortedcontainers |
+| --- | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `dsu` | Union-Find の merge / same | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | — |
+| `fenwicktree` | 点加算 / 区間和 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | — |
+| `segtree` | 点更新 / 区間和 | ✓ | ✓ | — | — | — | ✓ | ✓ | — | — |
+| `lazysegtree` | 区間加算 / 区間和 | ✓ | ✓ | — | — | — | ✓ | ✓ | — | — |
+| `convolution` | mod 998244353 の畳み込み | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | — |
+| `suffix_array` | 接尾辞配列 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | — |
+| `lcp_array` | LCP 配列 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | — |
+| `z_algorithm` | Z-algorithm | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | — |
+| `scc` | 強連結成分分解 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | — |
+| `two_sat` | 2-SAT | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | — |
+| `maxflow` | 最大流 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | — | — |
+| `mincostflow` | 最小費用流 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | — | — |
+| `floor_sum` | floor_sum の反復 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | — |
+| `crt` | 中国剰余定理の反復 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | — | — |
+| `ordered_set` | Library Checker 公式37ケース | — | — | — | ✓ | — | ✓ | ✓ | ✓ | ✓ |
 
 CFFI 版は公式 ACL v1.6 を CFFI の API モードで呼び出します。DSU・グラフなどは Python 側から操作ごとに呼び出し、既存実装と同じループを計測します。Segment Tree / Lazy Segment Tree は対象外です。
 CRT・DSU・Fenwick Tree・SCC には、呼び出し回数が多い場合の CFFI バッチ系列も併記します。入力をまとめて C++ に渡す時間と結果を Python に戻す時間を含め、操作単位の系列とは呼び出し条件が異なるため凡例で区別します。
@@ -72,6 +74,7 @@ HPy 版も同じ12ケースを対象に、同じリビジョン・入力検査�
 線形・準線形の処理を比較する 12 ケース（最大流・最小費用流を除く）は、**`n = 500,000` まで**計測します。
 通常は `128, 512, 2048, 8192, 32768, 131072, 500000`、畳み込みは `64, 256, 1024, 4096, 16384, 65536, 131072, 500000` です。
 `floor_sum` / `crt` の `n` は固定範囲の引数に対する呼び出し回数です。最大流は従来どおり `n = 2,048`、最小費用流は `n = 128` まで計測します。
+`ordered_set` の横軸は入力サイズでなく公式ケース番号（1～37）です。ケース名と規模は [計測方法](docs/ordered_set.md) に記載しています。
 実装 × 入力サイズごとの時間上限は **60 秒**です。ウォームアップ・反復計測を含む子プロセス全体が上限を超えると、そのプロセスを終了します。CI の計測ジョブ全体の上限は 360 分です。
 
 SCC は最大 32 頂点の強連結成分を持つグラフ、2-SAT は最大 32 変数の独立ブロックからなる充足可能な式を使います。
@@ -228,7 +231,7 @@ pypy3 -m venv .venv-pypy
 - **C++ ACL（参考用）** は、初期化・操作ループ・戻り値作成を C++ 内で実行します。Python との値変換、プロセス起動、入出力を計測値に含めないため、Python 実装とは計測条件が異なります。CFFI バッチ系列は入力と結果の変換を含みます。コンパイラ・最適化オプション・ACL の SHA を別途記録し、PyPy のグラフと凡例に参考用と明記します。
 - 同じ seed の入力を使い、小さい入力の独立した正解チェックと、全計測サイズでの実装間の出力チェックを行います。
 - PyPy の JIT ウォームアップを行い、各サンプルの前に `gc.collect()` を実行します。計測中は GC を有効にしたままです。ウォームアップが十分かはケースによるため、必要に応じて設定を増やしてください。
-- グラフはケースごとに PyPy の計測値に合わせて軸の範囲を調整します。中央値を線で、観測した最小値から最大値を帯とひげで表示します。帯は信頼区間ではありません。通常は両軸対数で、小さいほど高速です。同じケースの最大入力サイズについては中央値の棒グラフも表示し、そのサイズでタイムアウトした系列は棒グラフに含めません。
+- グラフはケースごとに PyPy の計測値に合わせて軸の範囲を調整します。中央値を線で、観測した最小値から最大値を帯とひげで表示します。帯は信頼区間ではありません。通常は両軸対数で、小さいほど高速です。棒グラフは各系列の全入力中の最大中央値と該当する入力名（通常は `n=`、Ordered Set は公式ケース名）を表示します。いずれかの入力でタイムアウトした系列は棒グラフから除外します。
 - CPU、OS、Python のビルド、ライブラリ SHA、計測日時、全サンプル、バッチ回数を JSON に記録します。
 - GitHub の共有 runner には実行ごとの揺らぎがあります。小さな差を厳密な順位とみなさず、必要なら `--force` で再計測してください。CI 環境の結果であり、AtCoder の実行環境そのものの速度ではありません。
 

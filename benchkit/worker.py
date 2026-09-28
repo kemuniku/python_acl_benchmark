@@ -5,6 +5,7 @@ import gc
 import hashlib
 import importlib.util
 import json
+import os
 import statistics
 import sys
 import tempfile
@@ -30,6 +31,8 @@ def measure(request):
     sys.path[:0] = [str(adapter_path.parent), str(case_path)]
     if request["source_path"]:
         sys.path.insert(0, request["source_path"])
+    if request.get("fixture_path"):
+        os.environ["ACL_BENCH_FIXTURES"] = request["fixture_path"]
     workload = load_module("_benchmark_workload", case_path / "workload.py")
     adapter = load_module("_benchmark_adapter", adapter_path)
     validation = list(workload.validation_cases())
@@ -44,6 +47,10 @@ def measure(request):
     input_checksum = checksum(data)
     function = adapter.run
     baseline = checksum(function(data))
+    if hasattr(workload, "expected_output"):
+        expected = workload.expected_output(request["size"])
+        if baseline != checksum(expected):
+            raise ValueError("Official test case output differs from benchmark result")
     warmed = 0
     warmup_start = time.perf_counter()
     while warmed < settings["warmup"] or time.perf_counter() - warmup_start < settings["warmup_seconds"]:
