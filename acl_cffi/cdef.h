@@ -15,13 +15,16 @@ int acl_dsu_same(acl_dsu *handle, int a, int b);
 int acl_dsu_leader(acl_dsu *handle, int a);
 int acl_dsu_size(acl_dsu *handle, int a);
 int acl_dsu_groups(acl_dsu *handle, int *vertices, int *offsets);
+int acl_dsu_process(acl_dsu *handle, const int operations[][3], int n, int *answers);
 acl_fenwick *acl_fenwick_new(int n);
 void acl_fenwick_delete(acl_fenwick *handle);
 int acl_fenwick_add(acl_fenwick *handle, int p, long long value);
 int acl_fenwick_sum(acl_fenwick *handle, int left, int right, long long *result);
+int acl_fenwick_process(acl_fenwick *handle, const long long operations[][3], int n, long long *answers);
 acl_scc *acl_scc_new(int n);
 void acl_scc_delete(acl_scc *handle);
 int acl_scc_add_edge(acl_scc *handle, int from, int to);
+int acl_scc_add_edges(acl_scc *handle, const int edges[][2], int n);
 int acl_scc_groups(acl_scc *handle, int *vertices, int *offsets);
 acl_twosat *acl_twosat_new(int n);
 void acl_twosat_delete(acl_twosat *handle);
@@ -48,4 +51,6 @@ int acl_z_algorithm_bytes(const char *values, int n, int *result);
 int acl_crt(const long long *residues, const long long *moduli, int n, long long *residue, long long *modulus);
 int acl_crt4(long long r0, long long r1, long long r2, long long r3,
              long long m0, long long m1, long long m2, long long m3, long long *result);
+int acl_crt4_batch(const long long residues[][4], const long long moduli[][4],
+                   int n, long long results[][2]);
 int acl_floor_sum(long long n, long long m, long long a, long long b, long long *result);
