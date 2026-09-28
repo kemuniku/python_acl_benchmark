@@ -24,7 +24,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     # PyPy measurements include warmups and five samples at n=500000.
-    timeout-minutes: 180
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v7
         with:

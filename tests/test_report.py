@@ -130,7 +130,7 @@ class ReportTests(unittest.TestCase):
         self.result("pypy", settings={"sizes": [100, 1000], "repeat": 5}, series=[
             {"id": "fast", "label": "Fast", "points": [{"size": 1000, "median": 0.002}]},
             {"id": "slow", "label": "Slow", "points": [{"size": 100, "median": 0.03}],
-             "timeouts": [{"size": 1000, "timeout_seconds": 4}]},
+             "timeouts": [{"size": 1000, "timeout_seconds": 60}]},
             {"id": "ok", "label": "Okay", "points": [{"size": 1000, "median": 0.004}]},
         ], references=[{"id": "cpp_acl", "label": "C++ ACL", "reference": True,
                         "runtime": {"implementation": "C++", "version": "17"},
@@ -150,7 +150,7 @@ class ReportTests(unittest.TestCase):
 
         record = json.loads((self.results / "pypy/dsu.json").read_text())
         record["series"] = [{"id": "slow", "label": "Slow", "points": [{"size": 100, "median": 0.03}],
-                             "timeouts": [{"size": 1000, "timeout_seconds": 4}]}]
+                             "timeouts": [{"size": 1000, "timeout_seconds": 60}]}]
         record["references"] = []
         (self.results / "pypy/dsu.json").write_text(json.dumps(record))
         render(self.results, self.site)
@@ -161,7 +161,7 @@ class ReportTests(unittest.TestCase):
     def test_python_timeout_is_reported_without_a_chart_point(self):
         self.result(series=[{"id": "example", "label": "Example library", "points": [
             {"size": 100, "median": 0.001}],
-            "timeouts": [{"size": 1000, "timeout_seconds": 4}]}])
+            "timeouts": [{"size": 1000, "timeout_seconds": 60}]}])
         render(self.results, self.site)
         page = (self.site / "index.html").read_text()
         markdown = (self.site / "README.md").read_text()

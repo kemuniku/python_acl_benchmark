@@ -42,6 +42,7 @@ class RunnerTests(unittest.TestCase):
         return self.results / runtime_info()["id"] / (name + ".json")
 
     def test_initial_unchanged_and_case_local_invalidation(self):
+        self.assertEqual(settings_for(discover(self.root)["one"])["timeout"], 60)
         self.assertEqual(self.execute(), 2)
         unchanged = self.result("two").read_bytes()
         self.assertEqual(self.execute(), 0)
