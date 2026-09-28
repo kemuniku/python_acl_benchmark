@@ -166,7 +166,9 @@ class ReportTests(unittest.TestCase):
         render(self.results, self.site)
         svg = ET.parse(self.site / "charts/dsu/pypy-max.svg")
         self.assertIn("example_00", " ".join(svg.getroot().itertext()))
-        self.assertIn("Case index (linear scale)", " ".join(ET.parse(self.site / "charts/dsu/pypy.svg").getroot().itertext()))
+        self.assertFalse((self.site / "charts/dsu/pypy.svg").exists())
+        self.assertNotIn('charts/dsu/pypy.svg', (self.site / "index.html").read_text())
+        self.assertNotIn('charts/dsu/pypy.svg', (self.site / "README.md").read_text())
 
     def test_python_timeout_is_reported_without_a_chart_point(self):
         self.result(series=[{"id": "example", "label": "Example library", "points": [

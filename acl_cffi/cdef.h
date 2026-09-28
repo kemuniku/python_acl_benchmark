@@ -8,7 +8,26 @@ int acl_ordered_count_leq(acl_ordered_set *handle, int key);
 int acl_ordered_kth(acl_ordered_set *handle, int one_based, int *answer);
 int acl_ordered_le(acl_ordered_set *handle, int key, int *answer);
 int acl_ordered_ge(acl_ordered_set *handle, int key, int *answer);
+int acl_ordered_kth_value(acl_ordered_set *handle, int one_based);
+int acl_ordered_le_value(acl_ordered_set *handle, int key);
+int acl_ordered_ge_value(acl_ordered_set *handle, int key);
 typedef struct acl_fenwick acl_fenwick;
+typedef struct acl_segtree acl_segtree;
+typedef struct acl_lazysegtree acl_lazysegtree;
+typedef long long (*acl_seg_op)(long long, long long);
+typedef long long (*acl_lazy_op)(long long, long long, long long, long long);
+typedef long long (*acl_lazy_mapping)(long long, long long, long long);
+typedef long long (*acl_lazy_composition)(long long, long long);
+acl_segtree *acl_seg_new(const long long *values, int n, long long identity, acl_seg_op op);
+void acl_seg_delete(acl_segtree *handle);
+int acl_seg_set(acl_segtree *handle, int index, long long value);
+int acl_seg_prod(acl_segtree *handle, int left, int right, long long *answer);
+acl_lazysegtree *acl_lazy_new(const long long *values, const long long *lengths, int n,
+                              long long identity, long long id,
+                              acl_lazy_op op, acl_lazy_mapping mapping, acl_lazy_composition composition);
+void acl_lazy_delete(acl_lazysegtree *handle);
+int acl_lazy_apply(acl_lazysegtree *handle, int left, int right, long long action);
+int acl_lazy_prod(acl_lazysegtree *handle, int left, int right, long long *answer);
 typedef struct acl_scc acl_scc;
 typedef struct acl_twosat acl_twosat;
 typedef struct acl_mf acl_mf;

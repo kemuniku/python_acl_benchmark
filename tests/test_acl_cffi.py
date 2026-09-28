@@ -71,6 +71,47 @@ class ACLCFFITests(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             tree.kth(1)
 
+    def test_ordered_set_adapter_matches_python_oracle(self):
+        if not hasattr(self.acl, "ordered_set"):
+            self.skipTest("CFFI-only ordered set")
+        from benchkit.worker import load_module
+        from pathlib import Path
+        root = Path(__file__).resolve().parents[1]
+        workload = load_module("ordered_set_operation_oracle", root / "benchmarks/ordered_set/workload.py")
+        adapter = load_module("ordered_set_operation_adapter", root / "benchmarks/ordered_set/implementations/cffi.py")
+        rng = random.Random(9921)
+        for _ in range(15):
+            initial = [rng.randrange(90) for _ in range(30)]
+            queries = [(kind := rng.randrange(6), rng.randrange(1, 110) if kind == 2 else rng.randrange(110))
+                       for _ in range(200)]
+            self.assertEqual(adapter.run((initial, queries)), workload.oracle((initial, queries)))
+
+    def test_callback_segment_trees_match_naive_ranges(self):
+        if not hasattr(self.acl, "segtree"):
+            self.skipTest("CFFI-only segment trees")
+        from operator import add
+        rng = random.Random(134)
+        for n in (0, 1, 5, 25):
+            values = [rng.randrange(-20, 20) for _ in range(n)]
+            with self.acl.segtree(add, 0, values) as tree:
+                for _ in range(80):
+                    if n and rng.randrange(2):
+                        i, v = rng.randrange(n), rng.randrange(-20, 20)
+                        values[i] = v
+                        tree.set(i, v)
+                    left, right = sorted((rng.randrange(n + 1), rng.randrange(n + 1)))
+                    self.assertEqual(tree.prod(left, right), sum(values[left:right]))
+            with self.acl.lazy_segtree(lambda a, b: (a[0] + b[0], a[1] + b[1]), (0, 0),
+                                       lambda f, v: (v[0] + f * v[1], v[1]), add, 0,
+                                       [(v, 1) for v in values]) as tree:
+                for _ in range(80):
+                    left, right = sorted((rng.randrange(n + 1), rng.randrange(n + 1)))
+                    if rng.randrange(2):
+                        delta = rng.randrange(-10, 10)
+                        tree.apply(left, right, delta)
+                        values[left:right] = [v + delta for v in values[left:right]]
+                    self.assertEqual(tree.prod(left, right), sum(values[left:right]))
+
     def test_fenwick_matches_python_sums(self):
         rng = random.Random(953)
         for n in (0, 1, 3, 32):

@@ -7,19 +7,21 @@ def run(data):
     initial, queries = data
     output = []
     with ordered_set() as tree:
+        add, discard, kth = tree.add, tree.discard, tree.kth
+        count_leq, le, ge = tree.count_leq, tree.le, tree.ge
         for value in initial:
-            tree.add(value)
+            add(value)
         for kind, x in queries:
             if kind == 0:
-                tree.add(x)
+                add(x)
             elif kind == 1:
-                tree.discard(x)
+                discard(x)
             elif kind == 2:
-                output.append(tree.kth(x))
+                output.append(kth(x))
             elif kind == 3:
-                output.append(tree.count_leq(x))
+                output.append(count_leq(x))
             elif kind == 4:
-                output.append(tree.le(x))
+                output.append(le(x))
             else:
-                output.append(tree.ge(x))
+                output.append(ge(x))
     return output
