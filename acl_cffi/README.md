@@ -43,6 +43,7 @@ assert convolution998244353([1, 2], [3, 4]) == [3, 10, 8]
 | `mcf_graph(n)` | 最小費用流 |
 | `convolution998244353(a, b)` | 法 998244353 の畳み込み |
 | `crt(remainders, moduli)` | 中国剰余定理 |
+| `crt_many(cases)` | 4合同式ずつの CRT をまとめて処理 |
 | `floor_sum(n, m, a, b)` | `sum((a * i + b) // m for i in range(n))` |
 | `suffix_array(s)` | 接尾辞配列 |
 | `lcp_array(s, sa)` | 接尾辞配列に対応する隣接 LCP |
@@ -67,6 +68,7 @@ assert convolution998244353([1, 2], [3, 4]) == [3, 10, 8]
 
 各比較フォルダの `implementations/cffi.py` がこの API を使用します。DSU の `merge`、Fenwick Tree の `add`、グラフの `add_edge` などは、他の Python 実装と同様に Python のループから 1 操作ずつ呼び出します。計測には Python / CFFI 間の呼び出しとデータ変換が含まれます。入力生成・ネイティブ拡張のコンパイルは計測時間に含まれません。
 CRT は1組ずつ呼び出す方式を保ったまま、4つの合同式の場合は一度の CFFI 呼び出しで整数を渡し、C++ 側の一時ベクトルを作らずに併合します。
+CRT・DSU・Fenwick Tree・SCC の `cffi_batch.py` は、入力を CFFI 配列へ変換してから一度に渡します。DSU と Fenwick Tree は `process(operations)`、SCC は `add_edges(edges)`、CRT は `crt_many(cases)` を使います。操作順と結果の順序は操作単位の API と同じです。バッチ系列はデータ変換と C++ 側の処理を計測に含みますが、CFFI 呼び出し回数が異なるため操作単位の系列と区別して表示します。
 
 比較には CFFI の呼び出し方式に加え、ACL のバージョン、入力チェック、数値型の違いも含まれます。Python から各実装の API を使う際の実行時間として比較してください。
 

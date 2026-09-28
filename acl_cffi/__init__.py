@@ -21,7 +21,7 @@ except ImportError as exc:
 
 __all__ = [
     "dsu", "fenwick_tree", "scc_graph", "two_sat", "mf_graph", "mcf_graph",
-    "convolution998244353", "crt", "floor_sum", "suffix_array", "lcp_array",
+    "convolution998244353", "crt", "crt_many", "floor_sum", "suffix_array", "lcp_array",
     "z_algorithm",
 ]
 
@@ -104,6 +104,15 @@ class dsu(_Handle):
     def groups(self):
         return self._groups(lib.acl_dsu_groups)
 
+    def process(self, operations):
+        """Process (merge=0 / same=1, a, b) operations in order."""
+        handle = self._handle()
+        operations = _sequence(operations)
+        packed = ffi.new("int[][3]", operations)
+        answers = ffi.new("int[]", len(operations))
+        count = _check(lib.acl_dsu_process(handle, packed, len(operations), answers))
+        return [bool(value) for value in ffi.unpack(answers, count)]
+
 
 class fenwick_tree(_Handle):
     """Point additions and half-open range sums, with checked int64 results."""
@@ -120,6 +129,15 @@ class fenwick_tree(_Handle):
         _check(lib.acl_fenwick_sum(handle, left, right, result))
         return result[0]
 
+    def process(self, operations):
+        """Process (add=0 / sum=1, first, value_or_end) operations in order."""
+        handle = self._handle()
+        operations = _sequence(operations)
+        packed = ffi.new("long long[][3]", operations)
+        answers = ffi.new("long long[]", len(operations))
+        count = _check(lib.acl_fenwick_process(handle, packed, len(operations), answers))
+        return ffi.unpack(answers, count)
+
 
 class scc_graph(_Handle):
     """Directed graph whose SCCs are returned in topological order."""
@@ -129,6 +147,13 @@ class scc_graph(_Handle):
 
     def add_edge(self, source, target):
         _check(lib.acl_scc_add_edge(self._handle(), source, target))
+
+    def add_edges(self, edges):
+        """Add an iterable of (source, target) edges in order."""
+        handle = self._handle()
+        edges = _sequence(edges)
+        packed = ffi.new("int[][2]", edges)
+        _check(lib.acl_scc_add_edges(handle, packed, len(edges)))
 
     def scc(self):
         return self._groups(lib.acl_scc_groups)
@@ -258,6 +283,17 @@ def crt(residues, moduli):
     result, period = ffi.new("long long *"), ffi.new("long long *")
     _check(lib.acl_crt(rr, mm, len(residues), result, period))
     return result[0], period[0]
+
+
+def crt_many(cases):
+    """Evaluate batches of four-congruence CRT problems in order."""
+    cases = _sequence(cases)
+    residues = ffi.new("long long[][4]", [item[0] for item in cases])
+    moduli = ffi.new("long long[][4]", [item[1] for item in cases])
+    results = ffi.new("long long[][2]", len(cases))
+    _check(lib.acl_crt4_batch(residues, moduli, len(cases), results))
+    flat = ffi.unpack(ffi.cast("long long *", results), 2 * len(cases))
+    return [flat[i:i + 2] for i in range(0, len(flat), 2)]
 
 
 def floor_sum(n, m, a, b):

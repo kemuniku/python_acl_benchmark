@@ -185,6 +185,20 @@ int acl_dsu_size(acl_dsu *h, int a) {
 int acl_dsu_groups(acl_dsu *h, int *vertices, int *offsets) {
     return checked([&] { handle_ok(h); return flatten(h->graph.groups(), h->n, vertices, offsets); });
 }
+int acl_dsu_process(acl_dsu *h, const int operations[][3], int n, int *answers) {
+    return checked([&] {
+        handle_ok(h); size_ok(n); buffer_ok(operations, n); buffer_ok(answers, n);
+        int count = 0;
+        for (int i = 0; i < n; ++i) {
+            int kind = operations[i][0], a = operations[i][1], b = operations[i][2];
+            require(kind == 0 || kind == 1, "invalid DSU operation");
+            vertex(a, h->n); vertex(b, h->n);
+            if (kind == 0) h->graph.merge(a, b);
+            else answers[count++] = h->graph.same(a, b);
+        }
+        return count;
+    });
+}
 
 acl_fenwick *acl_fenwick_new(int n) {
     return checked_new<acl_fenwick>([&] {
@@ -212,6 +226,27 @@ int acl_fenwick_sum(acl_fenwick *h, int left, int right, long long *result) {
         return 0;
     });
 }
+int acl_fenwick_process(acl_fenwick *h, const long long operations[][3], int n, long long *answers) {
+    return checked([&] {
+        handle_ok(h); size_ok(n); buffer_ok(operations, n); buffer_ok(answers, n);
+        int count = 0;
+        for (int i = 0; i < n; ++i) {
+            long long kind = operations[i][0], a = operations[i][1], b = operations[i][2];
+            require(kind == 0 || kind == 1, "invalid Fenwick operation");
+            if (kind == 0) {
+                if (a < 0 || a > INT_MAX) throw std::invalid_argument("vertex/index is out of range");
+                if (acl_fenwick_add(h, static_cast<int>(a), b) < 0) return -1;
+            } else {
+                if (a < 0 || a > INT_MAX || b < 0 || b > INT_MAX)
+                    throw std::invalid_argument("invalid sum interval");
+                if (acl_fenwick_sum(h, static_cast<int>(a), static_cast<int>(b), &answers[count]) < 0)
+                    return -1;
+                ++count;
+            }
+        }
+        return count;
+    });
+}
 
 acl_scc *acl_scc_new(int n) {
     return checked_new<acl_scc>([&] { size_ok(n); return new acl_scc(n); });
@@ -222,6 +257,14 @@ int acl_scc_add_edge(acl_scc *h, int from, int to) {
         handle_ok(h); vertex(from, h->n); vertex(to, h->n);
         if (h->edges == INT_MAX) throw std::overflow_error("too many edges");
         h->graph.add_edge(from, to); ++h->edges;
+        return 0;
+    });
+}
+int acl_scc_add_edges(acl_scc *h, const int edges[][2], int n) {
+    return checked([&] {
+        handle_ok(h); size_ok(n); buffer_ok(edges, n);
+        for (int i = 0; i < n; ++i)
+            if (acl_scc_add_edge(h, edges[i][0], edges[i][1]) < 0) return -1;
         return 0;
     });
 }
@@ -474,6 +517,16 @@ int acl_crt4(long long r0, long long r1, long long r2, long long r3,
     const long long residues[] = {r0, r1, r2, r3};
     const long long moduli[] = {m0, m1, m2, m3};
     return acl_crt(residues, moduli, 4, result, result ? result + 1 : nullptr);
+}
+int acl_crt4_batch(const long long residues[][4], const long long moduli[][4],
+                   int n, long long results[][2]) {
+    return checked([&] {
+        size_ok(n); buffer_ok(residues, n); buffer_ok(moduli, n); buffer_ok(results, n);
+        for (int i = 0; i < n; ++i)
+            if (acl_crt(residues[i], moduli[i], 4, &results[i][0], &results[i][1]) < 0)
+                return -1;
+        return 0;
+    });
 }
 
 int acl_floor_sum(long long n, long long m, long long a, long long b, long long *result) {
