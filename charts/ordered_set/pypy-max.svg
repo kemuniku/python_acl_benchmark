@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="355" viewBox="0 0 1040 355" role="img" aria-labelledby="bar-title bar-desc">
+<title id="bar-title">Ordered Set (Library Checker) / PyPy 3.11.13 / 全ケースの最大中央値</title>
+<desc id="bar-desc">Largest median over all cases per series, with case names. Series with any timeout are omitted. Lower is faster.</desc>
+<rect width="100%" height="100%" rx="12" fill="white"/>
+<g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" fill="#0f172a">
+<text x="40" y="36" font-size="22" font-weight="700">Ordered Set (Library Checker) / PyPy 3.11.13 / 全ケースの最大中央値</text>
+<text x="40" y="61" font-size="13" fill="#64748b">全ケース中の最大中央値 · 小さいほど高速 · タイムアウトした系列は除外</text>
+<line x1="410" y1="78" x2="410" y2="309" stroke="#e2e8f0"/>
+<text x="410" y="334" font-size="12" text-anchor="middle" fill="#475569">0</text>
+<line x1="538" y1="78" x2="538" y2="309" stroke="#e2e8f0"/>
+<text x="538" y="334" font-size="12" text-anchor="middle" fill="#475569">0.737</text>
+<line x1="666" y1="78" x2="666" y2="309" stroke="#e2e8f0"/>
+<text x="666" y="334" font-size="12" text-anchor="middle" fill="#475569">1.47</text>
+<line x1="794" y1="78" x2="794" y2="309" stroke="#e2e8f0"/>
+<text x="794" y="334" font-size="12" text-anchor="middle" fill="#475569">2.21</text>
+<line x1="922" y1="78" x2="922" y2="309" stroke="#e2e8f0"/>
+<text x="922" y="334" font-size="12" text-anchor="middle" fill="#475569">2.95</text>
+<text x="666" y="351" font-size="12" text-anchor="middle">実行時間 [s]</text>
+<text x="395" y="97" font-size="12" text-anchor="end">tatyam-prime/SortedSet</text>
+<text x="395" y="113" font-size="11" fill="#64748b" text-anchor="end">max_random_16</text>
+<rect class="bar" x="410" y="87" width="75.86" height="24" rx="4" fill="#d97706"/>
+<text x="492.86" y="104" font-size="12" fill="#334155">0.437 s</text>
+<text x="395" y="141" font-size="12" text-anchor="end">CFFI Ordered Set (AVL)</text>
+<text x="395" y="157" font-size="11" fill="#64748b" text-anchor="end">max_random_20</text>
+<rect class="bar" x="410" y="131" width="100.53" height="24" rx="4" fill="#2563eb"/>
+<text x="517.53" y="148" font-size="12" fill="#334155">0.579 s</text>
+<text x="395" y="185" font-size="12" text-anchor="end">sortedcontainers.SortedSet</text>
+<text x="395" y="201" font-size="11" fill="#64748b" text-anchor="end">max_random_30</text>
+<rect class="bar" x="410" y="175" width="106.80" height="24" rx="4" fill="#9333ea"/>
+<text x="523.80" y="192" font-size="12" fill="#334155">0.615 s</text>
+<text x="395" y="229" font-size="12" text-anchor="end">lif4635/harurun-s-library (library / BinaryTrie)</text>
+<text x="395" y="245" font-size="11" fill="#64748b" text-anchor="end">max_random_28</text>
+<rect class="bar" x="410" y="219" width="214.65" height="24" rx="4" fill="#059669"/>
+<text x="631.65" y="236" font-size="12" fill="#334155">1.24 s</text>
+<text x="395" y="273" font-size="12" text-anchor="end">lif4635/harurun-s-library (library_codex / TreapSet)</text>
+<text x="395" y="289" font-size="11" fill="#64748b" text-anchor="end">max_random_18</text>
+<rect class="bar" x="410" y="263" width="512.00" height="24" rx="4" fill="#dc2626"/>
+<text x="929.00" y="280" font-size="12" fill="#334155">2.95 s</text>
+</g></svg>

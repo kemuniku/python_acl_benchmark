@@ -1,43 +1,51 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="439" viewBox="0 0 1040 439" role="img" aria-labelledby="bar-title bar-desc">
-<title id="bar-title">Floor sum / PyPy 3.11.13 / 最大入力サイズ n=500000</title>
-<desc id="bar-desc">Maximum input size, median elapsed time. Timed-out series are omitted. Lower is faster.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="487" viewBox="0 0 1040 487" role="img" aria-labelledby="bar-title bar-desc">
+<title id="bar-title">Floor sum / PyPy 3.11.13 / 全ケースの最大中央値</title>
+<desc id="bar-desc">Largest median over all cases per series, with case names. Series with any timeout are omitted. Lower is faster.</desc>
 <rect width="100%" height="100%" rx="12" fill="white"/>
 <g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" fill="#0f172a">
-<text x="40" y="36" font-size="22" font-weight="700">Floor sum / PyPy 3.11.13 / 最大入力サイズ n=500000</text>
-<text x="40" y="61" font-size="13" fill="#64748b">中央値 · 小さいほど高速 · タイムアウトは除外</text>
-<line x1="410" y1="78" x2="410" y2="393" stroke="#e2e8f0"/>
-<text x="410" y="418" font-size="12" text-anchor="middle" fill="#475569">0</text>
-<line x1="538" y1="78" x2="538" y2="393" stroke="#e2e8f0"/>
-<text x="538" y="418" font-size="12" text-anchor="middle" fill="#475569">135</text>
-<line x1="666" y1="78" x2="666" y2="393" stroke="#e2e8f0"/>
-<text x="666" y="418" font-size="12" text-anchor="middle" fill="#475569">269</text>
-<line x1="794" y1="78" x2="794" y2="393" stroke="#e2e8f0"/>
-<text x="794" y="418" font-size="12" text-anchor="middle" fill="#475569">404</text>
-<line x1="922" y1="78" x2="922" y2="393" stroke="#e2e8f0"/>
-<text x="922" y="418" font-size="12" text-anchor="middle" fill="#475569">538</text>
-<text x="666" y="435" font-size="12" text-anchor="middle">実行時間 [ms]</text>
-<text x="395" y="101" font-size="12" text-anchor="end">C++ ACL（参考用）</text>
-<rect class="bar" x="410" y="84" width="58.68" height="24" rx="4" fill="#475569"/>
-<text x="475.68" y="101" font-size="12" fill="#334155">61.7 ms</text>
-<text x="395" y="139" font-size="12" text-anchor="end">local/acl-cffi (CFFI + C++)</text>
-<rect class="bar" x="410" y="122" width="86.98" height="24" rx="4" fill="#2563eb"/>
-<text x="503.98" y="139" font-size="12" fill="#334155">91.4 ms</text>
-<text x="395" y="177" font-size="12" text-anchor="end">lif4635/harurun-s-library (library_codex)</text>
-<rect class="bar" x="410" y="160" width="124.20" height="24" rx="4" fill="#dc2626"/>
-<text x="541.20" y="177" font-size="12" fill="#334155">131 ms</text>
-<text x="395" y="215" font-size="12" text-anchor="end">lif4635/harurun-s-library (library)</text>
-<rect class="bar" x="410" y="198" width="129.17" height="24" rx="4" fill="#059669"/>
-<text x="546.17" y="215" font-size="12" fill="#334155">136 ms</text>
-<text x="395" y="253" font-size="12" text-anchor="end">local/acl-hpy (HPy Universal + C++)</text>
-<rect class="bar" x="410" y="236" width="135.10" height="24" rx="4" fill="#9333ea"/>
-<text x="552.10" y="253" font-size="12" fill="#334155">142 ms</text>
-<text x="395" y="291" font-size="12" text-anchor="end">shakayami/ACL-for-python</text>
-<rect class="bar" x="410" y="274" width="135.87" height="24" rx="4" fill="#0891b2"/>
-<text x="552.87" y="291" font-size="12" fill="#334155">143 ms</text>
-<text x="395" y="329" font-size="12" text-anchor="end">not522/ac-library-python</text>
-<rect class="bar" x="410" y="312" width="155.01" height="24" rx="4" fill="#d97706"/>
-<text x="572.01" y="329" font-size="12" fill="#334155">163 ms</text>
-<text x="395" y="367" font-size="12" text-anchor="end">tatyam-prime/acl-cpp-python (C++)</text>
-<rect class="bar" x="410" y="350" width="512.00" height="24" rx="4" fill="#db2777"/>
-<text x="929.00" y="367" font-size="12" fill="#334155">538 ms</text>
+<text x="40" y="36" font-size="22" font-weight="700">Floor sum / PyPy 3.11.13 / 全ケースの最大中央値</text>
+<text x="40" y="61" font-size="13" fill="#64748b">全ケース中の最大中央値 · 小さいほど高速 · タイムアウトした系列は除外</text>
+<line x1="410" y1="78" x2="410" y2="441" stroke="#e2e8f0"/>
+<text x="410" y="466" font-size="12" text-anchor="middle" fill="#475569">0</text>
+<line x1="538" y1="78" x2="538" y2="441" stroke="#e2e8f0"/>
+<text x="538" y="466" font-size="12" text-anchor="middle" fill="#475569">111</text>
+<line x1="666" y1="78" x2="666" y2="441" stroke="#e2e8f0"/>
+<text x="666" y="466" font-size="12" text-anchor="middle" fill="#475569">221</text>
+<line x1="794" y1="78" x2="794" y2="441" stroke="#e2e8f0"/>
+<text x="794" y="466" font-size="12" text-anchor="middle" fill="#475569">332</text>
+<line x1="922" y1="78" x2="922" y2="441" stroke="#e2e8f0"/>
+<text x="922" y="466" font-size="12" text-anchor="middle" fill="#475569">443</text>
+<text x="666" y="483" font-size="12" text-anchor="middle">実行時間 [ms]</text>
+<text x="395" y="97" font-size="12" text-anchor="end">C++ ACL（参考用）</text>
+<text x="395" y="113" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
+<rect class="bar" x="410" y="87" width="55.34" height="24" rx="4" fill="#475569"/>
+<text x="472.34" y="104" font-size="12" fill="#334155">47.9 ms</text>
+<text x="395" y="141" font-size="12" text-anchor="end">local/acl-cffi (CFFI + C++)</text>
+<text x="395" y="157" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
+<rect class="bar" x="410" y="131" width="81.71" height="24" rx="4" fill="#2563eb"/>
+<text x="498.71" y="148" font-size="12" fill="#334155">70.7 ms</text>
+<text x="395" y="185" font-size="12" text-anchor="end">lif4635/harurun-s-library (library_codex)</text>
+<text x="395" y="201" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
+<rect class="bar" x="410" y="175" width="117.60" height="24" rx="4" fill="#dc2626"/>
+<text x="534.60" y="192" font-size="12" fill="#334155">102 ms</text>
+<text x="395" y="229" font-size="12" text-anchor="end">lif4635/harurun-s-library (library)</text>
+<text x="395" y="245" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
+<rect class="bar" x="410" y="219" width="122.10" height="24" rx="4" fill="#059669"/>
+<text x="539.10" y="236" font-size="12" fill="#334155">106 ms</text>
+<text x="395" y="273" font-size="12" text-anchor="end">local/acl-hpy (HPy Universal + C++)</text>
+<text x="395" y="289" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
+<rect class="bar" x="410" y="263" width="129.03" height="24" rx="4" fill="#9333ea"/>
+<text x="546.03" y="280" font-size="12" fill="#334155">112 ms</text>
+<text x="395" y="317" font-size="12" text-anchor="end">shakayami/ACL-for-python</text>
+<text x="395" y="333" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
+<rect class="bar" x="410" y="307" width="129.05" height="24" rx="4" fill="#0891b2"/>
+<text x="546.05" y="324" font-size="12" fill="#334155">112 ms</text>
+<text x="395" y="361" font-size="12" text-anchor="end">not522/ac-library-python</text>
+<text x="395" y="377" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
+<rect class="bar" x="410" y="351" width="146.70" height="24" rx="4" fill="#d97706"/>
+<text x="563.70" y="368" font-size="12" fill="#334155">127 ms</text>
+<text x="395" y="405" font-size="12" text-anchor="end">tatyam-prime/acl-cpp-python (C++)</text>
+<text x="395" y="421" font-size="11" fill="#64748b" text-anchor="end">n=500000</text>
+<rect class="bar" x="410" y="395" width="512.00" height="24" rx="4" fill="#db2777"/>
+<text x="929.00" y="412" font-size="12" fill="#334155">443 ms</text>
 </g></svg>
