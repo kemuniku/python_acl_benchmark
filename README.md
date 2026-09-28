@@ -18,15 +18,15 @@
 
 **参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。**
 
-- C++ ACL（参考用）: 2026-09-28T01:55:37.701057+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
+- C++ ACL（参考用）: 2026-09-28T02:11:10.938453+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
 
 ### 計測情報
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| PyPy 3.11.13 | 2026-09-28T01:45:11.650769+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/convolution.json) |
+| PyPy 3.11.13 | 2026-09-28T02:00:33.138895+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/convolution.json) |
 
-- PyPy 3.11.13: commit `67f4d84ad7fda428b743ebbd17c1d89b41e95fc8`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `792088987107c0a8e973f972c98edf33dc35c2d9`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[64, 256, 1024, 4096, 16384, 65536, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
@@ -50,15 +50,15 @@ n 組の合同式を処理。各組は 4 個の法、最小公倍数を 64 bit �
 
 **参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。**
 
-- C++ ACL（参考用）: 2026-09-28T01:55:44.500620+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
+- C++ ACL（参考用）: 2026-09-28T02:11:17.747362+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
 
 ### 計測情報
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| PyPy 3.11.13 | 2026-09-28T01:46:18.812999+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/crt.json) |
+| PyPy 3.11.13 | 2026-09-28T02:01:40.923115+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/crt.json) |
 
-- PyPy 3.11.13: commit `67f4d84ad7fda428b743ebbd17c1d89b41e95fc8`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `792088987107c0a8e973f972c98edf33dc35c2d9`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
@@ -82,15 +82,15 @@ n 頂点・4n 回の merge / same。初期化と全クエリを計測。
 
 **参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。**
 
-- C++ ACL（参考用）: 2026-09-28T01:55:50.428717+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
+- C++ ACL（参考用）: 2026-09-28T02:11:23.866233+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
 
 ### 計測情報
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| PyPy 3.11.13 | 2026-09-28T01:47:23.854406+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/dsu.json) |
+| PyPy 3.11.13 | 2026-09-28T02:02:46.810679+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/dsu.json) |
 
-- PyPy 3.11.13: commit `67f4d84ad7fda428b743ebbd17c1d89b41e95fc8`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `792088987107c0a8e973f972c98edf33dc35c2d9`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
@@ -114,15 +114,15 @@ n 要素・4n 回の一点加算 / 区間和。ゼロ初期化と全クエリを
 
 **参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。**
 
-- C++ ACL（参考用）: 2026-09-28T01:55:57.079188+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
+- C++ ACL（参考用）: 2026-09-28T02:11:30.640605+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
 
 ### 計測情報
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| PyPy 3.11.13 | 2026-09-28T01:48:29.062995+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/fenwicktree.json) |
+| PyPy 3.11.13 | 2026-09-28T02:03:52.765563+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/fenwicktree.json) |
 
-- PyPy 3.11.13: commit `67f4d84ad7fda428b743ebbd17c1d89b41e95fc8`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `792088987107c0a8e973f972c98edf33dc35c2d9`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
@@ -146,15 +146,15 @@ n 回の floor\_sum 呼び出し。引数 n,m は 1..999999、a,b は 0..999999�
 
 **参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。**
 
-- C++ ACL（参考用）: 2026-09-28T01:56:01.307195+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
+- C++ ACL（参考用）: 2026-09-28T02:11:34.894976+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
 
 ### 計測情報
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| PyPy 3.11.13 | 2026-09-28T01:49:20.914922+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/floor_sum.json) |
+| PyPy 3.11.13 | 2026-09-28T02:04:45.985360+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/floor_sum.json) |
 
-- PyPy 3.11.13: commit `67f4d84ad7fda428b743ebbd17c1d89b41e95fc8`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `792088987107c0a8e973f972c98edf33dc35c2d9`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
@@ -178,15 +178,15 @@ n 要素・2n 回の区間加算 / 区間和。\(合計, 要素数\) を保持�
 
 **参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。**
 
-- C++ ACL（参考用）: 2026-09-28T01:56:10.350157+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
+- C++ ACL（参考用）: 2026-09-28T02:11:44.372386+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
 
 ### 計測情報
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| PyPy 3.11.13 | 2026-09-28T01:49:58.372343+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/lazysegtree.json) |
+| PyPy 3.11.13 | 2026-09-28T02:05:23.799284+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/lazysegtree.json) |
 
-- PyPy 3.11.13: commit `67f4d84ad7fda428b743ebbd17c1d89b41e95fc8`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `792088987107c0a8e973f972c98edf33dc35c2d9`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - harurun: https://github.com/lif4635/harurun-s-library.git @ `7c94b7bb0c9d4f6ed0ffa44853febee1e7971ff9`
@@ -207,15 +207,15 @@ n 要素・2n 回の区間加算 / 区間和。\(合計, 要素数\) を保持�
 
 **参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。**
 
-- C++ ACL（参考用）: 2026-09-28T01:56:16.334392+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
+- C++ ACL（参考用）: 2026-09-28T02:11:50.935013+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
 
 ### 計測情報
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| PyPy 3.11.13 | 2026-09-28T01:50:46.120780+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/lcp_array.json) |
+| PyPy 3.11.13 | 2026-09-28T02:06:12.545832+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/lcp_array.json) |
 
-- PyPy 3.11.13: commit `67f4d84ad7fda428b743ebbd17c1d89b41e95fc8`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `792088987107c0a8e973f972c98edf33dc35c2d9`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
@@ -239,15 +239,15 @@ n 要素・2n 回の区間加算 / 区間和。\(合計, 要素数\) を保持�
 
 **参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。**
 
-- C++ ACL（参考用）: 2026-09-28T01:56:18.251356+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
+- C++ ACL（参考用）: 2026-09-28T02:11:52.852153+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
 
 ### 計測情報
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| PyPy 3.11.13 | 2026-09-28T01:51:08.980617+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/maxflow.json) |
+| PyPy 3.11.13 | 2026-09-28T02:06:35.838411+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/maxflow.json) |
 
-- PyPy 3.11.13: commit `67f4d84ad7fda428b743ebbd17c1d89b41e95fc8`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `792088987107c0a8e973f972c98edf33dc35c2d9`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[8, 32, 128, 512, 2048\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
@@ -269,15 +269,15 @@ n 要素・2n 回の区間加算 / 区間和。\(合計, 要素数\) を保持�
 
 **参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。**
 
-- C++ ACL（参考用）: 2026-09-28T01:56:20.148308+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
+- C++ ACL（参考用）: 2026-09-28T02:11:54.735080+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
 
 ### 計測情報
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| PyPy 3.11.13 | 2026-09-28T01:51:27.595251+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/mincostflow.json) |
+| PyPy 3.11.13 | 2026-09-28T02:06:55.129104+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/mincostflow.json) |
 
-- PyPy 3.11.13: commit `67f4d84ad7fda428b743ebbd17c1d89b41e95fc8`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `792088987107c0a8e973f972c98edf33dc35c2d9`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[8, 16, 32, 64, 128\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
@@ -301,15 +301,15 @@ n 頂点・4n 辺。小さいブロック内の辺と前方への辺を混在。
 
 **参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。**
 
-- C++ ACL（参考用）: 2026-09-28T01:56:27.687929+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
+- C++ ACL（参考用）: 2026-09-28T02:12:02.477436+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
 
 ### 計測情報
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| PyPy 3.11.13 | 2026-09-28T01:52:35.596788+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/scc.json) |
+| PyPy 3.11.13 | 2026-09-28T02:08:04.057424+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/scc.json) |
 
-- PyPy 3.11.13: commit `67f4d84ad7fda428b743ebbd17c1d89b41e95fc8`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `792088987107c0a8e973f972c98edf33dc35c2d9`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
@@ -333,15 +333,15 @@ n 要素・4n 回の一点更新 / 区間和。構築も計測。C++ 版には�
 
 **参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。**
 
-- C++ ACL（参考用）: 2026-09-28T01:56:35.403806+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
+- C++ ACL（参考用）: 2026-09-28T02:12:10.256768+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
 
 ### 計測情報
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| PyPy 3.11.13 | 2026-09-28T01:53:06.533608+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/segtree.json) |
+| PyPy 3.11.13 | 2026-09-28T02:08:35.325863+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/segtree.json) |
 
-- PyPy 3.11.13: commit `67f4d84ad7fda428b743ebbd17c1d89b41e95fc8`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `792088987107c0a8e973f972c98edf33dc35c2d9`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - harurun: https://github.com/lif4635/harurun-s-library.git @ `7c94b7bb0c9d4f6ed0ffa44853febee1e7971ff9`
@@ -360,15 +360,15 @@ n 要素・4n 回の一点更新 / 区間和。構築も計測。C++ 版には�
 
 **参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。**
 
-- C++ ACL（参考用）: 2026-09-28T01:56:38.480289+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
+- C++ ACL（参考用）: 2026-09-28T02:12:13.352186+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
 
 ### 計測情報
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| PyPy 3.11.13 | 2026-09-28T01:53:44.239067+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/suffix_array.json) |
+| PyPy 3.11.13 | 2026-09-28T02:09:14.911291+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/suffix_array.json) |
 
-- PyPy 3.11.13: commit `67f4d84ad7fda428b743ebbd17c1d89b41e95fc8`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `792088987107c0a8e973f972c98edf33dc35c2d9`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
@@ -392,15 +392,15 @@ n 変数・4n 節。充足可能なランダム式の構築と求解。返り値
 
 **参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。**
 
-- C++ ACL（参考用）: 2026-09-28T01:56:48.136954+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
+- C++ ACL（参考用）: 2026-09-28T02:12:23.139260+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
 
 ### 計測情報
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| PyPy 3.11.13 | 2026-09-28T01:55:00.694742+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/two_sat.json) |
+| PyPy 3.11.13 | 2026-09-28T02:10:32.768234+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/two_sat.json) |
 
-- PyPy 3.11.13: commit `67f4d84ad7fda428b743ebbd17c1d89b41e95fc8`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `792088987107c0a8e973f972c98edf33dc35c2d9`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
@@ -422,15 +422,15 @@ n 変数・4n 節。充足可能なランダム式の構築と求解。返り値
 
 **参考用：C++単体の実行時間（Pythonとの値変換・プロセス起動・入出力を除外）。**
 
-- C++ ACL（参考用）: 2026-09-28T01:56:50.941124+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
+- C++ ACL（参考用）: 2026-09-28T02:12:25.957469+00:00; g++ \(Ubuntu 13.3.0-6ubuntu2~24.04.1\) 13.3.0 \| -std=c++17 -O3 -DNDEBUG -march=native; timeout n=\[\]
 
 ### 計測情報
 
 | ランタイム | 計測日時 | CPU | repeat / warmup / seed | JSON |
 | --- | --- | --- | --- | --- |
-| PyPy 3.11.13 | 2026-09-28T01:55:33.434144+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/z_algorithm.json) |
+| PyPy 3.11.13 | 2026-09-28T02:11:06.631570+00:00 | AMD EPYC 7763 64-Core Processor | 5 / 3 / 42 | [data](data/pypy/z_algorithm.json) |
 
-- PyPy 3.11.13: commit `67f4d84ad7fda428b743ebbd17c1d89b41e95fc8`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
+- PyPy 3.11.13: commit `792088987107c0a8e973f972c98edf33dc35c2d9`; OS: Linux-6.17.0-1022-azure-x86\_64-with-glibc2.39
   - n=\[128, 512, 2048, 8192, 32768, 131072, 500000\]; warmup_seconds=0.25; sample_seconds=0.025
   - build: 3.11.13 \(413c9b7f57f5, Jul 03 2025, 18:03:56\) \[PyPy 7.3.20 with GCC 10.2.1 20210130 \(Red Hat 10.2.1-11\)\]
   - cffi: https://github.com/atcoder/ac-library.git @ `864245a00b00dd008d1abfdc239618fdb7d139da`
