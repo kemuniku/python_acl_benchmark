@@ -264,54 +264,6 @@ class ACLCFFITests(unittest.TestCase):
         with self.assertRaises(OverflowError):
             self.acl.crt([maximum - 1, 0], [maximum, 2])
 
-    def test_batch_operations_match_individual_calls_and_keep_state(self):
-        operations = [(0, 0, 1), (1, 0, 1), (1, 1, 2), (0, 2, 3), (1, 2, 3)]
-        with self.acl.dsu(4) as batched, self.acl.dsu(4) as individual:
-            expected = []
-            for kind, a, b in operations:
-                if kind == 0:
-                    individual.merge(a, b)
-                else:
-                    expected.append(individual.same(a, b))
-            self.assertEqual(batched.process(operations[:2]) + batched.process(operations[2:]), expected)
-            self.assertEqual(batched.groups(), individual.groups())
-            with self.assertRaises(ValueError):
-                batched.process([(2, 0, 1)])
-
-        operations = [(0, 0, 5), (0, 3, -2), (1, 0, 4), (1, 1, 3)]
-        with self.acl.fenwick_tree(4) as batched, self.acl.fenwick_tree(4) as individual:
-            expected = []
-            for kind, a, b in operations:
-                if kind == 0:
-                    individual.add(a, b)
-                else:
-                    expected.append(individual.sum(a, b))
-            self.assertEqual(batched.process(operations), expected)
-            self.assertEqual(batched.sum(0, 4), individual.sum(0, 4))
-            with self.assertRaises(ValueError):
-                batched.process([(0, 1 << 32, 1)])
-
-        edges = [(0, 1), (1, 0), (1, 2)]
-        with self.acl.scc_graph(3) as batched, self.acl.scc_graph(3) as individual:
-            batched.add_edges(edges)
-            for a, b in edges:
-                individual.add_edge(a, b)
-            self.assertEqual(batched.scc(), individual.scc())
-            with self.assertRaises(ValueError):
-                batched.add_edges([(0, 3)])
-
-    def test_crt_batch_matches_individual_calls_and_rejects_errors(self):
-        cases = [([0, 1, 2, 3], [2, 3, 5, 7]),
-                 ([-1, -2, -3, -4], [3, 5, 7, 11]),
-                 ([0, 1, 0, 1], [2, 2, 3, 3])]
-        self.assertEqual(self.acl.crt_many(cases),
-                         [list(self.acl.crt(r, m)) for r, m in cases])
-        self.assertEqual(self.acl.crt_many([]), [])
-        with self.assertRaises(ValueError):
-            self.acl.crt_many([([0] * 4, [2, 3, 0, 5])])
-        with self.assertRaises(OverflowError):
-            self.acl.crt_many([([0, 0, 0, 0], [(1 << 63) - 1, 2, 1, 1])])
-
     def test_floor_sum_matches_python_integer_division(self):
         rng = random.Random(641)
         for _ in range(300):
@@ -425,6 +377,68 @@ class ACLCFFITests(unittest.TestCase):
                      lambda: self.acl.lcp_array("abc", [0, 1])):
             with self.assertRaises(ValueError):
                 call()
+
+
+class ACLCFFIBatchTests(unittest.TestCase):
+    """Batch APIs are specific to CFFI and are not inherited by HPy tests."""
+
+    @classmethod
+    def setUpClass(cls):
+        try:
+            cls.acl = importlib.import_module("acl_cffi")
+            cls.acl.dsu(0).close()
+        except ImportError as error:
+            if os.environ.get("ACL_CFFI_REQUIRE_NATIVE") == "1":
+                raise
+            raise unittest.SkipTest("CFFI backend has not been built: %s" % error)
+
+    def test_batch_operations_match_individual_calls_and_keep_state(self):
+        operations = [(0, 0, 1), (1, 0, 1), (1, 1, 2), (0, 2, 3), (1, 2, 3)]
+        with self.acl.dsu(4) as batched, self.acl.dsu(4) as individual:
+            expected = []
+            for kind, a, b in operations:
+                if kind == 0:
+                    individual.merge(a, b)
+                else:
+                    expected.append(individual.same(a, b))
+            self.assertEqual(batched.process(operations[:2]) + batched.process(operations[2:]), expected)
+            self.assertEqual(batched.groups(), individual.groups())
+            with self.assertRaises(ValueError):
+                batched.process([(2, 0, 1)])
+
+        operations = [(0, 0, 5), (0, 3, -2), (1, 0, 4), (1, 1, 3)]
+        with self.acl.fenwick_tree(4) as batched, self.acl.fenwick_tree(4) as individual:
+            expected = []
+            for kind, a, b in operations:
+                if kind == 0:
+                    individual.add(a, b)
+                else:
+                    expected.append(individual.sum(a, b))
+            self.assertEqual(batched.process(operations), expected)
+            self.assertEqual(batched.sum(0, 4), individual.sum(0, 4))
+            with self.assertRaises(ValueError):
+                batched.process([(0, 1 << 32, 1)])
+
+        edges = [(0, 1), (1, 0), (1, 2)]
+        with self.acl.scc_graph(3) as batched, self.acl.scc_graph(3) as individual:
+            batched.add_edges(edges)
+            for a, b in edges:
+                individual.add_edge(a, b)
+            self.assertEqual(batched.scc(), individual.scc())
+            with self.assertRaises(ValueError):
+                batched.add_edges([(0, 3)])
+
+    def test_crt_batch_matches_individual_calls_and_rejects_errors(self):
+        cases = [([0, 1, 2, 3], [2, 3, 5, 7]),
+                 ([-1, -2, -3, -4], [3, 5, 7, 11]),
+                 ([0, 1, 0, 1], [2, 2, 3, 3])]
+        self.assertEqual(self.acl.crt_many(cases),
+                         [list(self.acl.crt(r, m)) for r, m in cases])
+        self.assertEqual(self.acl.crt_many([]), [])
+        with self.assertRaises(ValueError):
+            self.acl.crt_many([([0] * 4, [2, 3, 0, 5])])
+        with self.assertRaises(OverflowError):
+            self.acl.crt_many([([0, 0, 0, 0], [(1 << 63) - 1, 2, 1, 1])])
 
 
 if __name__ == "__main__":
